@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package laracom.demo.service;
+
+service DemoService {
+  rpc SayHello(DemoRequest) returns (DemoResponse) {}
+}
+
+message DemoRequest {
+    string name = 1;
+}
+
+message DemoResponse {
+    string text = 2;
+}
