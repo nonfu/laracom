@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package laracom.user.service;
+
+service UserService {
+    rpc Create(User) returns (Response) {}
+    rpc Get(User) returns (Response) {}
+    rpc GetAll(Request) returns (Response) {}
+}
+
+message User {
+    string id = 1;
+    string name = 2;
+    string email = 3;
+    string password = 4;
+    string status = 5;
+    string stripe_id = 6;
+    string card_brand = 7;
+    string card_last_four = 8;
+    string trial_ends_at = 9;
+    string deleted_at = 10;
+    string remember_token = 11;
+    string created_at = 12;
+    string updated_at = 13;
+}
+
+message Request {}
+
+message Response {
+    User user = 1;
+    repeated User users = 2;
+    repeated Error errors = 3;
+}
+
+message Error {
+    int32 code = 1;
+    string description = 2;
+}
