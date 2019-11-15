@@ -8,6 +8,7 @@ require (
 	github.com/jinzhu/gorm v1.9.11
 	github.com/jinzhu/now v1.1.1 // indirect
 	github.com/micro/go-micro v1.16.0
+	github.com/satori/go.uuid v1.2.0
 	golang.org/x/crypto v0.0.0-20191011191535-87dc89f01550
 	golang.org/x/net v0.0.0-20191011234655-491137f69257
 )

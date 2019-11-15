@@ -8,11 +8,11 @@ import (
 )
 
 type UserService struct {
-	repo repo.Repository
+	Repo repo.Repository
 }
 
 func (srv *UserService) Get(ctx context.Context, req *pb.User, res *pb.Response) error {
-	user, err := srv.repo.Get(req.Id)
+	user, err := srv.Repo.Get(req.Id)
 	if err != nil {
 		return err
 	}
@@ -21,7 +21,7 @@ func (srv *UserService) Get(ctx context.Context, req *pb.User, res *pb.Response)
 }
 
 func (srv *UserService) GetAll(ctx context.Context, req *pb.Request, res *pb.Response) error {
-	users, err := srv.repo.GetAll()
+	users, err := srv.Repo.GetAll()
 	if err != nil {
 		return err
 	}
@@ -37,7 +37,7 @@ func (srv *UserService) Create(ctx context.Context, req *pb.User, res *pb.Respon
 		return err
 	}
 	req.Password = string(hashedPass)
-	if err := srv.repo.Create(req); err != nil {
+	if err := srv.Repo.Create(req); err != nil {
 		return err
 	}
 	res.User = req

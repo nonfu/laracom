@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"github.com/micro/go-micro"
 	database "github.com/nonfu/laracom/user-service/db"
+	"github.com/nonfu/laracom/user-service/handler"
 	pb "github.com/nonfu/laracom/user-service/proto/user"
 	repository "github.com/nonfu/laracom/user-service/repo"
-	"github.com/nonfu/laracom/user-service/handler"
+	"log"
 )
 
 func main() {

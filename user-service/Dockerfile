@@ -42,4 +42,4 @@ WORKDIR /app
 COPY --from=builder /app/laracom-user-service/laracom-user-service .
 
 # 和之前一样通过 Supervisor 管理服务
-CMD ["./etc/laracom-user-service"]
+CMD ["./laracom-user-service"]
