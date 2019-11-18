@@ -2,6 +2,7 @@ package repo
 
 import (
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 	pb "github.com/nonfu/laracom/user-service/proto/user"
 )
 
