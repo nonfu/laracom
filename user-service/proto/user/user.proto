@@ -20,10 +20,9 @@ message User {
     string card_brand = 7;
     string card_last_four = 8;
     string trial_ends_at = 9;
-    string deleted_at = 10;
-    string remember_token = 11;
-    string created_at = 12;
-    string updated_at = 13;
+    string remember_token = 10;
+    string created_at = 11;
+    string updated_at = 12;
 }
 
 message Request {}
