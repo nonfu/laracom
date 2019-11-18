@@ -6,6 +6,8 @@ service UserService {
     rpc Create(User) returns (Response) {}
     rpc Get(User) returns (Response) {}
     rpc GetAll(Request) returns (Response) {}
+    rpc Auth(User) returns (Token) {}
+    rpc ValidateToken(Token) returns (Token) {}
 }
 
 message User {
@@ -29,6 +31,12 @@ message Request {}
 message Response {
     User user = 1;
     repeated User users = 2;
+    repeated Error errors = 3;
+}
+
+message Token {
+    string token = 1;
+    bool valid = 2;
     repeated Error errors = 3;
 }
 
