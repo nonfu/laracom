@@ -28,17 +28,31 @@ services:
       DB_NAME: "laracom_user"
       DB_USER: "test"
       DB_PASSWORD: "test"
+    networks:
+      - microservice
 
   laracom-user-cli:
     build: ./user-cli
     environment:
       MICRO_REGISTRY: "mdns"
 
+  laracom-micro-api:
+    image: microhq/micro:latest
+    container_name: laracom-micro-api
+    environment:
+      MICRO_REGISTRY: "mdns"
+    links:
+      - laracom-user-service
+    ports:
+      - 8080:8080
+    networks:
+      - microservice
+    command: api --handler=rpc --namespace=laracom.service
+
   laracom-user-db:
     image: mysql:5.7
-    container_name: laracom-user-db
     ports:
-      - 3306:3306
+      - 33061:3306
     volumes:
       - db_data:/var/lib/mysql
     restart: always
@@ -47,6 +61,12 @@ services:
       MYSQL_PASSWORD: "test"
       MYSQL_DATABASE: "laracom_user"
       MYSQL_ROOT_PASSWORD: "root"
+    networks:
+      - microservice
 
 volumes:
   db_data: {}
+
+networks:
+  microservice:
+      external: true

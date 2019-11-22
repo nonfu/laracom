@@ -1,4 +1,4 @@
-package laracom_user_service
+package laracom_service_user
 
 import (
 	"github.com/jinzhu/gorm"

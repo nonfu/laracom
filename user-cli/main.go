@@ -30,7 +30,7 @@ func main()  {
 	)
 
 	// 远程服务客户端调用句柄
-	client := pb.NewUserServiceClient("laracom.user.service", service.Client())
+	client := pb.NewUserServiceClient("laracom.service.user", service.Client())
 
 	// 运行客户端命令调用远程服务逻辑设置
 	service.Init(

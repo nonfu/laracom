@@ -18,7 +18,7 @@ func (s *DemoServiceHandler) SayHello(ctx context.Context, req *pb.DemoRequest, 
 
 func main()  {
 	// 注册服务名必须和 demo.proto 中的 package 声明一致
-	service := micro.NewService(micro.Name("laracom.demo.service"))
+	service := micro.NewService(micro.Name("laracom.service.demo"))
 	service.Init()
 
 	pb.RegisterDemoServiceHandler(service.Server(), &DemoServiceHandler{})

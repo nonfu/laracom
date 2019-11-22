@@ -7,7 +7,6 @@ import (
 	"github.com/nonfu/laracom/user-service/service"
 	"golang.org/x/crypto/bcrypt"
 	"golang.org/x/net/context"
-	"log"
 )
 
 type UserService struct {
@@ -16,7 +15,13 @@ type UserService struct {
 }
 
 func (srv *UserService) Get(ctx context.Context, req *pb.User, res *pb.Response) error {
-	user, err := srv.Repo.Get(req.Id)
+	var user *pb.User
+	var err error
+	if req.Id != "" {
+		user, err = srv.Repo.Get(req.Id)
+	} else if req.Email != "" {
+		user, err = srv.Repo.GetByEmail(req.Email)
+	}
 	if err != nil {
 		return err
 	}
@@ -49,10 +54,8 @@ func (srv *UserService) Create(ctx context.Context, req *pb.User, res *pb.Respon
 }
 
 func (srv *UserService) Auth(ctx context.Context, req *pb.User, res *pb.Token) error {
-	log.Println("Logging in with:", req.Email, req.Password)
 	// 获取用户信息
 	user, err := srv.Repo.GetByEmail(req.Email)
-	log.Println(user)
 	if err != nil {
 		return err
 	}
