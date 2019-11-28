@@ -8,6 +8,9 @@ service UserService {
     rpc GetAll(Request) returns (Response) {}
     rpc Auth(User) returns (Token) {}
     rpc ValidateToken(Token) returns (Token) {}
+    rpc Update(User) returns (Response) {}
+    rpc CreatePasswordReset(PasswordReset) returns (PasswordResetResponse) {}
+    rpc ValidatePasswordResetToken(Token) returns (Token) {}
 }
 
 message User {
@@ -42,4 +45,15 @@ message Token {
 message Error {
     int32 code = 1;
     string description = 2;
+}
+
+message PasswordReset {
+    string email = 1;
+    string token = 2;
+    string created_at = 3;
+}
+
+message PasswordResetResponse {
+    PasswordReset passwordReset = 1;
+    repeated Error errors = 2;
 }

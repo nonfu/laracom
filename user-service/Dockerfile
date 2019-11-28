@@ -11,7 +11,7 @@ ENV GOPROXY https://goproxy.cn
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 
 # 安装 git
-RUN apk --no-cache add git
+RUN apk update && apk add --no-cache git bash
 
 # 设置工作目录
 WORKDIR /app/laracom-user-service
