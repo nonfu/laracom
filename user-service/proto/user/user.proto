@@ -11,6 +11,7 @@ service UserService {
     rpc Update(User) returns (Response) {}
     rpc CreatePasswordReset(PasswordReset) returns (PasswordResetResponse) {}
     rpc ValidatePasswordResetToken(Token) returns (Token) {}
+    rpc DeletePasswordReset(PasswordReset) returns (PasswordResetResponse) {}
 }
 
 message User {

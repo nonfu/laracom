@@ -3,11 +3,13 @@ package handler
 import (
     "errors"
     "github.com/jinzhu/gorm"
+    "github.com/nonfu/laracom/user-service/model"
     pb "github.com/nonfu/laracom/user-service/proto/user"
     "github.com/nonfu/laracom/user-service/repo"
     "github.com/nonfu/laracom/user-service/service"
     "golang.org/x/crypto/bcrypt"
     "golang.org/x/net/context"
+    "strconv"
 )
 
 type UserService struct {
@@ -17,17 +19,20 @@ type UserService struct {
 }
 
 func (srv *UserService) Get(ctx context.Context, req *pb.User, res *pb.Response) error {
-    var user *pb.User
+    var userModel *model.User
     var err error
     if req.Id != "" {
-        user, err = srv.Repo.Get(req.Id)
+        id, _ := strconv.ParseUint(req.Id, 10, 64)
+        userModel, err = srv.Repo.Get(uint(id))
     } else if req.Email != "" {
-        user, err = srv.Repo.GetByEmail(req.Email)
+        userModel, err = srv.Repo.GetByEmail(req.Email)
     }
     if err != nil && err != gorm.ErrRecordNotFound {
         return err
     }
-    res.User = user
+    if userModel != nil {
+        res.User, _ = userModel.ToProtobuf()
+    }
     return nil
 }
 
@@ -36,7 +41,12 @@ func (srv *UserService) GetAll(ctx context.Context, req *pb.Request, res *pb.Res
     if err != nil && err != gorm.ErrRecordNotFound {
         return err
     }
-    res.Users = users
+    userItems := make([]*pb.User, len(users))
+    for index, user := range users {
+        userItem, _ := user.ToProtobuf()
+        userItems[index] = userItem
+    }
+    res.Users = userItems
     return nil
 }
 
@@ -47,17 +57,16 @@ func (srv *UserService) Create(ctx context.Context, req *pb.User, res *pb.Respon
         return err
     }
     req.Password = string(hashedPass)
-    if err := srv.Repo.Create(req); err != nil {
+    userModel := &model.User{}
+    user, _ := userModel.ToORM(req)
+    if err := srv.Repo.Create(user); err != nil {
         return err
     }
-    res.User = req
+    res.User, _ = user.ToProtobuf()
     return nil
 }
 
 func (srv *UserService) Update(ctx context.Context, req *pb.User, res *pb.Response) error {
-    if req.Id == "" {
-        return errors.New("用户 ID 不能为空")
-    }
     if req.Password != "" {
         // 如果密码字段不为空的话对密码进行哈希加密
         hashedPass, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
@@ -66,10 +75,15 @@ func (srv *UserService) Update(ctx context.Context, req *pb.User, res *pb.Respon
         }
         req.Password = string(hashedPass)
     }
-    if err := srv.Repo.Update(req); err != nil {
+    if req.Id == "" {
+        return errors.New("用户 ID 不能为空")
+    }
+    id, _ := strconv.ParseUint(req.Id, 10, 64)
+    user, _ := srv.Repo.Get(uint(id))
+    if err := srv.Repo.Update(user); err != nil {
         return err
     }
-    res.User = req
+    res.User, _ = user.ToProtobuf()
     return nil
 }
 
@@ -103,7 +117,7 @@ func (srv *UserService) ValidateToken(ctx context.Context, req *pb.Token, res *p
         return err
     }
 
-    if claims.User.Id == "" {
+    if claims.User.ID == 0 {
         return errors.New("无效的用户")
     }
 
@@ -116,10 +130,29 @@ func (srv *UserService) CreatePasswordReset(ctx context.Context, req *pb.Passwor
     if req.Email == "" {
         return errors.New("邮箱不能为空")
     }
-    if err := srv.ResetRepo.Create(req); err != nil {
+    resetModel := new(model.PasswordReset)
+    passwordReset, _ := resetModel.ToORM(req)
+    if err := srv.ResetRepo.Create(passwordReset); err != nil {
         return err
     }
-    res.PasswordReset = req
+    if passwordReset != nil {
+        res.PasswordReset, _ = passwordReset.ToProtobuf()
+    }
+    return nil
+}
+
+func (srv *UserService) DeletePasswordReset(ctx context.Context, req *pb.PasswordReset, res *pb.PasswordResetResponse) error {
+    if req.Email == "" {
+        return errors.New("邮箱不能为空")
+    }
+    reset, err := srv.ResetRepo.GetByEmail(req.Email)
+    if err != nil {
+        return errors.New("数据库查询出错")
+    }
+    if err := srv.ResetRepo.Delete(reset); err != nil {
+        return err
+    }
+    res.PasswordReset = nil
     return nil
 }
 

@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/dgrijalva/jwt-go"
-	pb "github.com/nonfu/laracom/user-service/proto/user"
+	"github.com/nonfu/laracom/user-service/model"
 	"github.com/nonfu/laracom/user-service/repo"
 	"time"
 )
@@ -18,13 +18,13 @@ var (
 // CustomClaims is our custom metadata, which will be hashed
 // and sent as the second segment in our JWT
 type CustomClaims struct {
-	User *pb.User
+	User *model.User
 	jwt.StandardClaims
 }
 
 type Authable interface {
 	Decode(token string) (*CustomClaims, error)
-	Encode(user *pb.User) (string, error)
+	Encode(user *model.User) (string, error)
 }
 
 type TokenService struct {
@@ -48,7 +48,7 @@ func (srv *TokenService) Decode(tokenString string) (*CustomClaims, error) {
 }
 
 // Encode a claim into a JWT
-func (srv *TokenService) Encode(user *pb.User) (string, error) {
+func (srv *TokenService) Encode(user *model.User) (string, error) {
 
 	expireToken := time.Now().Add(time.Hour * 72).Unix()
 
