@@ -1,21 +1,27 @@
 package handler
 
 import (
+    "encoding/json"
     "errors"
     "github.com/jinzhu/gorm"
+    "github.com/micro/go-micro/broker"
     "github.com/nonfu/laracom/user-service/model"
     pb "github.com/nonfu/laracom/user-service/proto/user"
     "github.com/nonfu/laracom/user-service/repo"
     "github.com/nonfu/laracom/user-service/service"
     "golang.org/x/crypto/bcrypt"
     "golang.org/x/net/context"
+    "log"
     "strconv"
 )
+
+const topic  = "password.reset"
 
 type UserService struct {
     Repo repo.Repository
     ResetRepo repo.PasswordResetInterface
     Token service.Authable
+    PubSub broker.Broker
 }
 
 func (srv *UserService) Get(ctx context.Context, req *pb.User, res *pb.Response) error {
@@ -136,7 +142,11 @@ func (srv *UserService) CreatePasswordReset(ctx context.Context, req *pb.Passwor
         return err
     }
     if passwordReset != nil {
-        res.PasswordReset, _ = passwordReset.ToProtobuf()
+        req, _ = passwordReset.ToProtobuf()
+        if err := srv.publishEvent(req); err != nil {
+            return err
+        }
+        res.PasswordReset = req
     }
     return nil
 }
@@ -171,6 +181,26 @@ func (srv *UserService) ValidatePasswordResetToken(ctx context.Context, req *pb.
         res.Valid = false
     } else {
         res.Valid = true
+    }
+    return nil
+}
+
+func (srv *UserService) publishEvent(reset *pb.PasswordReset) error {
+    // Marshal to JSON strings
+    body, err := json.Marshal(reset)
+    if err != nil {
+        return err
+    }
+    // Create a broker message
+    msg := &broker.Message{
+        Header: map[string]string{
+            "email": reset.Email,
+        },
+        Body: body,
+    }
+    // Publish message to broker
+    if err := srv.PubSub.Publish(topic, msg); err != nil {
+        log.Printf("[pub] failed: %v", err)
     }
     return nil
 }
