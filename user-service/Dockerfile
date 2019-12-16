@@ -6,11 +6,10 @@ FROM golang:alpine as builder
 # 启用 Go Modules 并设置 GOPROXY
 ENV GO111MODULE on
 
-# 更新安装源
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
-
-# 安装 git
-RUN apk update && apk add --no-cache git
+# 更新依赖软件
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && \
+	apk update && \
+	apk add --no-cache git
 
 # 设置工作目录
 WORKDIR /app/laracom-user-service
@@ -27,11 +26,10 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o laracom-user-serv
 # 下面是第二阶段的镜像构建，和之前保持一致
 FROM alpine:latest
 
-# 更新安装源
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
-
 # 安装相关软件
-RUN apk update && apk add --no-cache bash ca-certificates
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && \
+	apk update && \
+	apk add --no-cache bash ca-certificates
 
 # 和上个阶段一样设置工作目录
 RUN mkdir /app
