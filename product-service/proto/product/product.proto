@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package laracom.service.product;
+
+service ProductService {
+    rpc Create(Product) returns (Response) {}
+	rpc Delete(Product) returns (Response) {}
+	rpc Update(Product) returns (Response) {}
+    rpc Get(Product) returns (Response) {}
+    rpc GetAll(Request) returns (Response) {}
+}
+
+message Product {
+    uint32 id = 1;
+    uint32 brand_id = 2;
+    string sku = 3;
+    string name = 4;
+    string slug = 5;
+    string description = 6;
+    string cover = 7;
+    uint32 quantity = 8;
+    float price = 9;
+    float sale_price = 10;
+    uint32 status = 11;
+    float length = 12;
+    float width = 13;
+    float height = 14;
+    float weight = 15;
+    string distance_unit = 16;
+    string mass_unit = 17;
+    string created_at = 18;
+    string updated_at = 19;
+}
+
+message Request {}
+
+message Response {
+    Product product = 1;
+    repeated Product products = 2;
+    repeated Error errors = 3;
+}
+
+message Error {
+    int32 code = 1;
+    string description = 2;
+}
