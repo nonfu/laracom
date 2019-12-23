@@ -19,12 +19,14 @@ services:
     depends_on:
       - laracom-user-db
       - laracom-nats
+      - laracom-etcd
     build: ./user-service
     ports:
       - 9092:9091
     environment:
       MICRO_SERVER_ADDRESS: ":9091"
-      MICRO_REGISTRY: "mdns"
+      MICRO_REGISTRY: "etcd"
+      MICRO_REGISTRY_ADDRESS: "laracom-etcd:2379"
       MICRO_BROKER: "nats"
       MICRO_BROKER_ADDRESS: "laracom-nats:4222"
       DB_HOST: "laracom-user-db:3306"
@@ -37,29 +39,34 @@ services:
   laracom-product-service:
     depends_on:
       - laracom-product-db
+      - laracom-etcd
     build: ./product-service
     ports:
       - 9093:9091
     environment:
       MICRO_SERVER_ADDRESS: ":9091"
-      MICRO_REGISTRY: "mdns"
+      MICRO_REGISTRY: "etcd"
+      MICRO_REGISTRY_ADDRESS: "laracom-etcd:2379"
       DB_HOST: "laracom-product-db:3306"
       DB_NAME: "laracom_product"
       DB_USER: "product"
       DB_PASSWORD: "test"
+      MICRO_LOG_LEVEL: "debug"
     networks:
       - microservice
 
   laracom-user-cli:
     build: ./user-cli
     environment:
-      MICRO_REGISTRY: "mdns"
+      MICRO_REGISTRY: "etcd"
+      MICRO_REGISTRY_ADDRESS: "laracom-etcd:2379"
 
   laracom-micro-api:
     image: microhq/micro:latest
     container_name: laracom-micro-api
     environment:
-      MICRO_REGISTRY: "mdns"
+      MICRO_REGISTRY: "etcd"
+      MICRO_REGISTRY_ADDRESS: "laracom-etcd:2379"
     links:
       - laracom-user-service
       - laracom-product-service
@@ -68,6 +75,21 @@ services:
     networks:
       - microservice
     command: api --handler=rpc --namespace=laracom.service
+
+  laracom-web-dashboard:
+    image: microhq/micro:latest
+    container_name: laracom-web-dashboard
+    environment:
+      MICRO_REGISTRY: "etcd"
+      MICRO_REGISTRY_ADDRESS: "laracom-etcd:2379"
+    links:
+      - laracom-user-service
+      - laracom-product-service
+    ports:
+      - 8082:8082
+    networks:
+      - microservice
+    command: web
 
   laracom-user-db:
     image: mysql:5.7
@@ -106,6 +128,17 @@ services:
       - 8222:8222
       - 6222:6222
     restart: always
+    networks:
+      - microservice
+
+  laracom-etcd:
+    image: bitnami/etcd:latest
+    environment:
+      ALLOW_NONE_AUTHENTICATION: "yes"
+      ETCD_ADVERTISE_CLIENT_URLS: "http://laracom-etcd:2379"
+    ports:
+      - 2379:2379
+      - 2380:2380
     networks:
       - microservice
 

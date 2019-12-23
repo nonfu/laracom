@@ -27,28 +27,32 @@ var _ = math.Inf
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 type Product struct {
-	Id                   uint32   `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	BrandId              uint32   `protobuf:"varint,2,opt,name=brand_id,json=brandId,proto3" json:"brand_id,omitempty"`
-	Sku                  string   `protobuf:"bytes,3,opt,name=sku,proto3" json:"sku,omitempty"`
-	Name                 string   `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty"`
-	Slug                 string   `protobuf:"bytes,5,opt,name=slug,proto3" json:"slug,omitempty"`
-	Description          string   `protobuf:"bytes,6,opt,name=description,proto3" json:"description,omitempty"`
-	Cover                string   `protobuf:"bytes,7,opt,name=cover,proto3" json:"cover,omitempty"`
-	Quantity             uint32   `protobuf:"varint,8,opt,name=quantity,proto3" json:"quantity,omitempty"`
-	Price                float32  `protobuf:"fixed32,9,opt,name=price,proto3" json:"price,omitempty"`
-	SalePrice            float32  `protobuf:"fixed32,10,opt,name=sale_price,json=salePrice,proto3" json:"sale_price,omitempty"`
-	Status               uint32   `protobuf:"varint,11,opt,name=status,proto3" json:"status,omitempty"`
-	Length               float32  `protobuf:"fixed32,12,opt,name=length,proto3" json:"length,omitempty"`
-	Width                float32  `protobuf:"fixed32,13,opt,name=width,proto3" json:"width,omitempty"`
-	Height               float32  `protobuf:"fixed32,14,opt,name=height,proto3" json:"height,omitempty"`
-	Weight               float32  `protobuf:"fixed32,15,opt,name=weight,proto3" json:"weight,omitempty"`
-	DistanceUnit         string   `protobuf:"bytes,16,opt,name=distance_unit,json=distanceUnit,proto3" json:"distance_unit,omitempty"`
-	MassUnit             string   `protobuf:"bytes,17,opt,name=mass_unit,json=massUnit,proto3" json:"mass_unit,omitempty"`
-	CreatedAt            string   `protobuf:"bytes,18,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt            string   `protobuf:"bytes,19,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	Id                   uint32              `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	BrandId              uint32              `protobuf:"varint,2,opt,name=brand_id,json=brandId,proto3" json:"brand_id,omitempty"`
+	Sku                  string              `protobuf:"bytes,3,opt,name=sku,proto3" json:"sku,omitempty"`
+	Name                 string              `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty"`
+	Slug                 string              `protobuf:"bytes,5,opt,name=slug,proto3" json:"slug,omitempty"`
+	Description          string              `protobuf:"bytes,6,opt,name=description,proto3" json:"description,omitempty"`
+	Cover                string              `protobuf:"bytes,7,opt,name=cover,proto3" json:"cover,omitempty"`
+	Quantity             uint32              `protobuf:"varint,8,opt,name=quantity,proto3" json:"quantity,omitempty"`
+	Price                float32             `protobuf:"fixed32,9,opt,name=price,proto3" json:"price,omitempty"`
+	SalePrice            float32             `protobuf:"fixed32,10,opt,name=sale_price,json=salePrice,proto3" json:"sale_price,omitempty"`
+	Status               uint32              `protobuf:"varint,11,opt,name=status,proto3" json:"status,omitempty"`
+	Length               float32             `protobuf:"fixed32,12,opt,name=length,proto3" json:"length,omitempty"`
+	Width                float32             `protobuf:"fixed32,13,opt,name=width,proto3" json:"width,omitempty"`
+	Height               float32             `protobuf:"fixed32,14,opt,name=height,proto3" json:"height,omitempty"`
+	Weight               float32             `protobuf:"fixed32,15,opt,name=weight,proto3" json:"weight,omitempty"`
+	DistanceUnit         string              `protobuf:"bytes,16,opt,name=distance_unit,json=distanceUnit,proto3" json:"distance_unit,omitempty"`
+	MassUnit             string              `protobuf:"bytes,17,opt,name=mass_unit,json=massUnit,proto3" json:"mass_unit,omitempty"`
+	CreatedAt            string              `protobuf:"bytes,18,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt            string              `protobuf:"bytes,19,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	Images               []*ProductImage     `protobuf:"bytes,20,rep,name=images,proto3" json:"images,omitempty"`
+	Brand                *Brand              `protobuf:"bytes,21,opt,name=brand,proto3" json:"brand,omitempty"`
+	Categories           []*Category         `protobuf:"bytes,22,rep,name=categories,proto3" json:"categories,omitempty"`
+	Attributes           []*ProductAttribute `protobuf:"bytes,23,rep,name=attributes,proto3" json:"attributes,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}            `json:"-"`
+	XXX_unrecognized     []byte              `json:"-"`
+	XXX_sizecache        int32               `json:"-"`
 }
 
 func (m *Product) Reset()         { *m = Product{} }
@@ -209,6 +213,34 @@ func (m *Product) GetUpdatedAt() string {
 	return ""
 }
 
+func (m *Product) GetImages() []*ProductImage {
+	if m != nil {
+		return m.Images
+	}
+	return nil
+}
+
+func (m *Product) GetBrand() *Brand {
+	if m != nil {
+		return m.Brand
+	}
+	return nil
+}
+
+func (m *Product) GetCategories() []*Category {
+	if m != nil {
+		return m.Categories
+	}
+	return nil
+}
+
+func (m *Product) GetAttributes() []*ProductAttribute {
+	if m != nil {
+		return m.Attributes
+	}
+	return nil
+}
+
 type Request struct {
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
@@ -342,49 +374,961 @@ func (m *Error) GetDescription() string {
 	return ""
 }
 
+type ProductImage struct {
+	Id                   uint32   `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ProductId            uint32   `protobuf:"varint,2,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
+	Src                  string   `protobuf:"bytes,3,opt,name=src,proto3" json:"src,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ProductImage) Reset()         { *m = ProductImage{} }
+func (m *ProductImage) String() string { return proto.CompactTextString(m) }
+func (*ProductImage) ProtoMessage()    {}
+func (*ProductImage) Descriptor() ([]byte, []int) {
+	return fileDescriptor_14fbc13de7c38f78, []int{4}
+}
+
+func (m *ProductImage) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ProductImage.Unmarshal(m, b)
+}
+func (m *ProductImage) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ProductImage.Marshal(b, m, deterministic)
+}
+func (m *ProductImage) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ProductImage.Merge(m, src)
+}
+func (m *ProductImage) XXX_Size() int {
+	return xxx_messageInfo_ProductImage.Size(m)
+}
+func (m *ProductImage) XXX_DiscardUnknown() {
+	xxx_messageInfo_ProductImage.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ProductImage proto.InternalMessageInfo
+
+func (m *ProductImage) GetId() uint32 {
+	if m != nil {
+		return m.Id
+	}
+	return 0
+}
+
+func (m *ProductImage) GetProductId() uint32 {
+	if m != nil {
+		return m.ProductId
+	}
+	return 0
+}
+
+func (m *ProductImage) GetSrc() string {
+	if m != nil {
+		return m.Src
+	}
+	return ""
+}
+
+type ImageResponse struct {
+	Image                *ProductImage   `protobuf:"bytes,1,opt,name=image,proto3" json:"image,omitempty"`
+	Images               []*ProductImage `protobuf:"bytes,2,rep,name=images,proto3" json:"images,omitempty"`
+	Errors               []*Error        `protobuf:"bytes,3,rep,name=errors,proto3" json:"errors,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}        `json:"-"`
+	XXX_unrecognized     []byte          `json:"-"`
+	XXX_sizecache        int32           `json:"-"`
+}
+
+func (m *ImageResponse) Reset()         { *m = ImageResponse{} }
+func (m *ImageResponse) String() string { return proto.CompactTextString(m) }
+func (*ImageResponse) ProtoMessage()    {}
+func (*ImageResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_14fbc13de7c38f78, []int{5}
+}
+
+func (m *ImageResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ImageResponse.Unmarshal(m, b)
+}
+func (m *ImageResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ImageResponse.Marshal(b, m, deterministic)
+}
+func (m *ImageResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ImageResponse.Merge(m, src)
+}
+func (m *ImageResponse) XXX_Size() int {
+	return xxx_messageInfo_ImageResponse.Size(m)
+}
+func (m *ImageResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ImageResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ImageResponse proto.InternalMessageInfo
+
+func (m *ImageResponse) GetImage() *ProductImage {
+	if m != nil {
+		return m.Image
+	}
+	return nil
+}
+
+func (m *ImageResponse) GetImages() []*ProductImage {
+	if m != nil {
+		return m.Images
+	}
+	return nil
+}
+
+func (m *ImageResponse) GetErrors() []*Error {
+	if m != nil {
+		return m.Errors
+	}
+	return nil
+}
+
+type Brand struct {
+	Id                   uint32     `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name                 string     `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	CreatedAt            string     `protobuf:"bytes,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt            string     `protobuf:"bytes,4,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	Products             []*Product `protobuf:"bytes,5,rep,name=products,proto3" json:"products,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}   `json:"-"`
+	XXX_unrecognized     []byte     `json:"-"`
+	XXX_sizecache        int32      `json:"-"`
+}
+
+func (m *Brand) Reset()         { *m = Brand{} }
+func (m *Brand) String() string { return proto.CompactTextString(m) }
+func (*Brand) ProtoMessage()    {}
+func (*Brand) Descriptor() ([]byte, []int) {
+	return fileDescriptor_14fbc13de7c38f78, []int{6}
+}
+
+func (m *Brand) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Brand.Unmarshal(m, b)
+}
+func (m *Brand) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Brand.Marshal(b, m, deterministic)
+}
+func (m *Brand) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Brand.Merge(m, src)
+}
+func (m *Brand) XXX_Size() int {
+	return xxx_messageInfo_Brand.Size(m)
+}
+func (m *Brand) XXX_DiscardUnknown() {
+	xxx_messageInfo_Brand.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Brand proto.InternalMessageInfo
+
+func (m *Brand) GetId() uint32 {
+	if m != nil {
+		return m.Id
+	}
+	return 0
+}
+
+func (m *Brand) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+func (m *Brand) GetCreatedAt() string {
+	if m != nil {
+		return m.CreatedAt
+	}
+	return ""
+}
+
+func (m *Brand) GetUpdatedAt() string {
+	if m != nil {
+		return m.UpdatedAt
+	}
+	return ""
+}
+
+func (m *Brand) GetProducts() []*Product {
+	if m != nil {
+		return m.Products
+	}
+	return nil
+}
+
+type BrandResponse struct {
+	Brand                *Brand   `protobuf:"bytes,1,opt,name=brand,proto3" json:"brand,omitempty"`
+	Brands               []*Brand `protobuf:"bytes,2,rep,name=brands,proto3" json:"brands,omitempty"`
+	Errors               []*Error `protobuf:"bytes,3,rep,name=errors,proto3" json:"errors,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *BrandResponse) Reset()         { *m = BrandResponse{} }
+func (m *BrandResponse) String() string { return proto.CompactTextString(m) }
+func (*BrandResponse) ProtoMessage()    {}
+func (*BrandResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_14fbc13de7c38f78, []int{7}
+}
+
+func (m *BrandResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_BrandResponse.Unmarshal(m, b)
+}
+func (m *BrandResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_BrandResponse.Marshal(b, m, deterministic)
+}
+func (m *BrandResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_BrandResponse.Merge(m, src)
+}
+func (m *BrandResponse) XXX_Size() int {
+	return xxx_messageInfo_BrandResponse.Size(m)
+}
+func (m *BrandResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_BrandResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_BrandResponse proto.InternalMessageInfo
+
+func (m *BrandResponse) GetBrand() *Brand {
+	if m != nil {
+		return m.Brand
+	}
+	return nil
+}
+
+func (m *BrandResponse) GetBrands() []*Brand {
+	if m != nil {
+		return m.Brands
+	}
+	return nil
+}
+
+func (m *BrandResponse) GetErrors() []*Error {
+	if m != nil {
+		return m.Errors
+	}
+	return nil
+}
+
+type Category struct {
+	Id                   uint32     `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name                 string     `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Slug                 string     `protobuf:"bytes,3,opt,name=slug,proto3" json:"slug,omitempty"`
+	Description          string     `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	Cover                string     `protobuf:"bytes,5,opt,name=cover,proto3" json:"cover,omitempty"`
+	Status               uint32     `protobuf:"varint,6,opt,name=status,proto3" json:"status,omitempty"`
+	ParentId             uint32     `protobuf:"varint,7,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`
+	Lft                  uint32     `protobuf:"varint,8,opt,name=lft,proto3" json:"lft,omitempty"`
+	Rgt                  uint32     `protobuf:"varint,9,opt,name=rgt,proto3" json:"rgt,omitempty"`
+	CreatedAt            string     `protobuf:"bytes,10,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt            string     `protobuf:"bytes,11,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	Products             []*Product `protobuf:"bytes,12,rep,name=products,proto3" json:"products,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}   `json:"-"`
+	XXX_unrecognized     []byte     `json:"-"`
+	XXX_sizecache        int32      `json:"-"`
+}
+
+func (m *Category) Reset()         { *m = Category{} }
+func (m *Category) String() string { return proto.CompactTextString(m) }
+func (*Category) ProtoMessage()    {}
+func (*Category) Descriptor() ([]byte, []int) {
+	return fileDescriptor_14fbc13de7c38f78, []int{8}
+}
+
+func (m *Category) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Category.Unmarshal(m, b)
+}
+func (m *Category) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Category.Marshal(b, m, deterministic)
+}
+func (m *Category) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Category.Merge(m, src)
+}
+func (m *Category) XXX_Size() int {
+	return xxx_messageInfo_Category.Size(m)
+}
+func (m *Category) XXX_DiscardUnknown() {
+	xxx_messageInfo_Category.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Category proto.InternalMessageInfo
+
+func (m *Category) GetId() uint32 {
+	if m != nil {
+		return m.Id
+	}
+	return 0
+}
+
+func (m *Category) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+func (m *Category) GetSlug() string {
+	if m != nil {
+		return m.Slug
+	}
+	return ""
+}
+
+func (m *Category) GetDescription() string {
+	if m != nil {
+		return m.Description
+	}
+	return ""
+}
+
+func (m *Category) GetCover() string {
+	if m != nil {
+		return m.Cover
+	}
+	return ""
+}
+
+func (m *Category) GetStatus() uint32 {
+	if m != nil {
+		return m.Status
+	}
+	return 0
+}
+
+func (m *Category) GetParentId() uint32 {
+	if m != nil {
+		return m.ParentId
+	}
+	return 0
+}
+
+func (m *Category) GetLft() uint32 {
+	if m != nil {
+		return m.Lft
+	}
+	return 0
+}
+
+func (m *Category) GetRgt() uint32 {
+	if m != nil {
+		return m.Rgt
+	}
+	return 0
+}
+
+func (m *Category) GetCreatedAt() string {
+	if m != nil {
+		return m.CreatedAt
+	}
+	return ""
+}
+
+func (m *Category) GetUpdatedAt() string {
+	if m != nil {
+		return m.UpdatedAt
+	}
+	return ""
+}
+
+func (m *Category) GetProducts() []*Product {
+	if m != nil {
+		return m.Products
+	}
+	return nil
+}
+
+type CategoryResponse struct {
+	Category             *Category   `protobuf:"bytes,1,opt,name=category,proto3" json:"category,omitempty"`
+	Categories           []*Category `protobuf:"bytes,2,rep,name=categories,proto3" json:"categories,omitempty"`
+	Errors               []*Error    `protobuf:"bytes,3,rep,name=errors,proto3" json:"errors,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
+	XXX_unrecognized     []byte      `json:"-"`
+	XXX_sizecache        int32       `json:"-"`
+}
+
+func (m *CategoryResponse) Reset()         { *m = CategoryResponse{} }
+func (m *CategoryResponse) String() string { return proto.CompactTextString(m) }
+func (*CategoryResponse) ProtoMessage()    {}
+func (*CategoryResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_14fbc13de7c38f78, []int{9}
+}
+
+func (m *CategoryResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CategoryResponse.Unmarshal(m, b)
+}
+func (m *CategoryResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CategoryResponse.Marshal(b, m, deterministic)
+}
+func (m *CategoryResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CategoryResponse.Merge(m, src)
+}
+func (m *CategoryResponse) XXX_Size() int {
+	return xxx_messageInfo_CategoryResponse.Size(m)
+}
+func (m *CategoryResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_CategoryResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CategoryResponse proto.InternalMessageInfo
+
+func (m *CategoryResponse) GetCategory() *Category {
+	if m != nil {
+		return m.Category
+	}
+	return nil
+}
+
+func (m *CategoryResponse) GetCategories() []*Category {
+	if m != nil {
+		return m.Categories
+	}
+	return nil
+}
+
+func (m *CategoryResponse) GetErrors() []*Error {
+	if m != nil {
+		return m.Errors
+	}
+	return nil
+}
+
+type Attribute struct {
+	Id                   uint32            `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name                 string            `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	CreatedAt            string            `protobuf:"bytes,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt            string            `protobuf:"bytes,4,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	Values               []*AttributeValue `protobuf:"bytes,5,rep,name=values,proto3" json:"values,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
+	XXX_unrecognized     []byte            `json:"-"`
+	XXX_sizecache        int32             `json:"-"`
+}
+
+func (m *Attribute) Reset()         { *m = Attribute{} }
+func (m *Attribute) String() string { return proto.CompactTextString(m) }
+func (*Attribute) ProtoMessage()    {}
+func (*Attribute) Descriptor() ([]byte, []int) {
+	return fileDescriptor_14fbc13de7c38f78, []int{10}
+}
+
+func (m *Attribute) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Attribute.Unmarshal(m, b)
+}
+func (m *Attribute) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Attribute.Marshal(b, m, deterministic)
+}
+func (m *Attribute) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Attribute.Merge(m, src)
+}
+func (m *Attribute) XXX_Size() int {
+	return xxx_messageInfo_Attribute.Size(m)
+}
+func (m *Attribute) XXX_DiscardUnknown() {
+	xxx_messageInfo_Attribute.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Attribute proto.InternalMessageInfo
+
+func (m *Attribute) GetId() uint32 {
+	if m != nil {
+		return m.Id
+	}
+	return 0
+}
+
+func (m *Attribute) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+func (m *Attribute) GetCreatedAt() string {
+	if m != nil {
+		return m.CreatedAt
+	}
+	return ""
+}
+
+func (m *Attribute) GetUpdatedAt() string {
+	if m != nil {
+		return m.UpdatedAt
+	}
+	return ""
+}
+
+func (m *Attribute) GetValues() []*AttributeValue {
+	if m != nil {
+		return m.Values
+	}
+	return nil
+}
+
+type AttributeValue struct {
+	Id                   uint32              `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Value                string              `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
+	AttributeId          uint32              `protobuf:"varint,3,opt,name=attribute_id,json=attributeId,proto3" json:"attribute_id,omitempty"`
+	CreatedAt            string              `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt            string              `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	Attribute            *Attribute          `protobuf:"bytes,6,opt,name=attribute,proto3" json:"attribute,omitempty"`
+	ProductAttributes    []*ProductAttribute `protobuf:"bytes,7,rep,name=product_attributes,json=productAttributes,proto3" json:"product_attributes,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}            `json:"-"`
+	XXX_unrecognized     []byte              `json:"-"`
+	XXX_sizecache        int32               `json:"-"`
+}
+
+func (m *AttributeValue) Reset()         { *m = AttributeValue{} }
+func (m *AttributeValue) String() string { return proto.CompactTextString(m) }
+func (*AttributeValue) ProtoMessage()    {}
+func (*AttributeValue) Descriptor() ([]byte, []int) {
+	return fileDescriptor_14fbc13de7c38f78, []int{11}
+}
+
+func (m *AttributeValue) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_AttributeValue.Unmarshal(m, b)
+}
+func (m *AttributeValue) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_AttributeValue.Marshal(b, m, deterministic)
+}
+func (m *AttributeValue) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AttributeValue.Merge(m, src)
+}
+func (m *AttributeValue) XXX_Size() int {
+	return xxx_messageInfo_AttributeValue.Size(m)
+}
+func (m *AttributeValue) XXX_DiscardUnknown() {
+	xxx_messageInfo_AttributeValue.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_AttributeValue proto.InternalMessageInfo
+
+func (m *AttributeValue) GetId() uint32 {
+	if m != nil {
+		return m.Id
+	}
+	return 0
+}
+
+func (m *AttributeValue) GetValue() string {
+	if m != nil {
+		return m.Value
+	}
+	return ""
+}
+
+func (m *AttributeValue) GetAttributeId() uint32 {
+	if m != nil {
+		return m.AttributeId
+	}
+	return 0
+}
+
+func (m *AttributeValue) GetCreatedAt() string {
+	if m != nil {
+		return m.CreatedAt
+	}
+	return ""
+}
+
+func (m *AttributeValue) GetUpdatedAt() string {
+	if m != nil {
+		return m.UpdatedAt
+	}
+	return ""
+}
+
+func (m *AttributeValue) GetAttribute() *Attribute {
+	if m != nil {
+		return m.Attribute
+	}
+	return nil
+}
+
+func (m *AttributeValue) GetProductAttributes() []*ProductAttribute {
+	if m != nil {
+		return m.ProductAttributes
+	}
+	return nil
+}
+
+type ProductAttribute struct {
+	Id                   uint32            `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ProductId            uint32            `protobuf:"varint,2,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
+	Quantity             uint32            `protobuf:"varint,3,opt,name=quantity,proto3" json:"quantity,omitempty"`
+	Price                float32           `protobuf:"fixed32,4,opt,name=price,proto3" json:"price,omitempty"`
+	SalePrice            float32           `protobuf:"fixed32,5,opt,name=sale_price,json=salePrice,proto3" json:"sale_price,omitempty"`
+	Default              uint32            `protobuf:"varint,6,opt,name=default,proto3" json:"default,omitempty"`
+	CreatedAt            string            `protobuf:"bytes,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt            string            `protobuf:"bytes,8,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	AttributeValues      []*AttributeValue `protobuf:"bytes,9,rep,name=attribute_values,json=attributeValues,proto3" json:"attribute_values,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
+	XXX_unrecognized     []byte            `json:"-"`
+	XXX_sizecache        int32             `json:"-"`
+}
+
+func (m *ProductAttribute) Reset()         { *m = ProductAttribute{} }
+func (m *ProductAttribute) String() string { return proto.CompactTextString(m) }
+func (*ProductAttribute) ProtoMessage()    {}
+func (*ProductAttribute) Descriptor() ([]byte, []int) {
+	return fileDescriptor_14fbc13de7c38f78, []int{12}
+}
+
+func (m *ProductAttribute) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ProductAttribute.Unmarshal(m, b)
+}
+func (m *ProductAttribute) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ProductAttribute.Marshal(b, m, deterministic)
+}
+func (m *ProductAttribute) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ProductAttribute.Merge(m, src)
+}
+func (m *ProductAttribute) XXX_Size() int {
+	return xxx_messageInfo_ProductAttribute.Size(m)
+}
+func (m *ProductAttribute) XXX_DiscardUnknown() {
+	xxx_messageInfo_ProductAttribute.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ProductAttribute proto.InternalMessageInfo
+
+func (m *ProductAttribute) GetId() uint32 {
+	if m != nil {
+		return m.Id
+	}
+	return 0
+}
+
+func (m *ProductAttribute) GetProductId() uint32 {
+	if m != nil {
+		return m.ProductId
+	}
+	return 0
+}
+
+func (m *ProductAttribute) GetQuantity() uint32 {
+	if m != nil {
+		return m.Quantity
+	}
+	return 0
+}
+
+func (m *ProductAttribute) GetPrice() float32 {
+	if m != nil {
+		return m.Price
+	}
+	return 0
+}
+
+func (m *ProductAttribute) GetSalePrice() float32 {
+	if m != nil {
+		return m.SalePrice
+	}
+	return 0
+}
+
+func (m *ProductAttribute) GetDefault() uint32 {
+	if m != nil {
+		return m.Default
+	}
+	return 0
+}
+
+func (m *ProductAttribute) GetCreatedAt() string {
+	if m != nil {
+		return m.CreatedAt
+	}
+	return ""
+}
+
+func (m *ProductAttribute) GetUpdatedAt() string {
+	if m != nil {
+		return m.UpdatedAt
+	}
+	return ""
+}
+
+func (m *ProductAttribute) GetAttributeValues() []*AttributeValue {
+	if m != nil {
+		return m.AttributeValues
+	}
+	return nil
+}
+
+type AttributeResponse struct {
+	Attribute            *Attribute   `protobuf:"bytes,1,opt,name=attribute,proto3" json:"attribute,omitempty"`
+	Attributes           []*Attribute `protobuf:"bytes,2,rep,name=attributes,proto3" json:"attributes,omitempty"`
+	Errors               []*Error     `protobuf:"bytes,3,rep,name=errors,proto3" json:"errors,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
+	XXX_unrecognized     []byte       `json:"-"`
+	XXX_sizecache        int32        `json:"-"`
+}
+
+func (m *AttributeResponse) Reset()         { *m = AttributeResponse{} }
+func (m *AttributeResponse) String() string { return proto.CompactTextString(m) }
+func (*AttributeResponse) ProtoMessage()    {}
+func (*AttributeResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_14fbc13de7c38f78, []int{13}
+}
+
+func (m *AttributeResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_AttributeResponse.Unmarshal(m, b)
+}
+func (m *AttributeResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_AttributeResponse.Marshal(b, m, deterministic)
+}
+func (m *AttributeResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AttributeResponse.Merge(m, src)
+}
+func (m *AttributeResponse) XXX_Size() int {
+	return xxx_messageInfo_AttributeResponse.Size(m)
+}
+func (m *AttributeResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_AttributeResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_AttributeResponse proto.InternalMessageInfo
+
+func (m *AttributeResponse) GetAttribute() *Attribute {
+	if m != nil {
+		return m.Attribute
+	}
+	return nil
+}
+
+func (m *AttributeResponse) GetAttributes() []*Attribute {
+	if m != nil {
+		return m.Attributes
+	}
+	return nil
+}
+
+func (m *AttributeResponse) GetErrors() []*Error {
+	if m != nil {
+		return m.Errors
+	}
+	return nil
+}
+
+type AttributeValueResponse struct {
+	Value                *AttributeValue   `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
+	Values               []*AttributeValue `protobuf:"bytes,2,rep,name=values,proto3" json:"values,omitempty"`
+	Errors               []*Error          `protobuf:"bytes,3,rep,name=errors,proto3" json:"errors,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
+	XXX_unrecognized     []byte            `json:"-"`
+	XXX_sizecache        int32             `json:"-"`
+}
+
+func (m *AttributeValueResponse) Reset()         { *m = AttributeValueResponse{} }
+func (m *AttributeValueResponse) String() string { return proto.CompactTextString(m) }
+func (*AttributeValueResponse) ProtoMessage()    {}
+func (*AttributeValueResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_14fbc13de7c38f78, []int{14}
+}
+
+func (m *AttributeValueResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_AttributeValueResponse.Unmarshal(m, b)
+}
+func (m *AttributeValueResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_AttributeValueResponse.Marshal(b, m, deterministic)
+}
+func (m *AttributeValueResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AttributeValueResponse.Merge(m, src)
+}
+func (m *AttributeValueResponse) XXX_Size() int {
+	return xxx_messageInfo_AttributeValueResponse.Size(m)
+}
+func (m *AttributeValueResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_AttributeValueResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_AttributeValueResponse proto.InternalMessageInfo
+
+func (m *AttributeValueResponse) GetValue() *AttributeValue {
+	if m != nil {
+		return m.Value
+	}
+	return nil
+}
+
+func (m *AttributeValueResponse) GetValues() []*AttributeValue {
+	if m != nil {
+		return m.Values
+	}
+	return nil
+}
+
+func (m *AttributeValueResponse) GetErrors() []*Error {
+	if m != nil {
+		return m.Errors
+	}
+	return nil
+}
+
+type ProductAttributeResponse struct {
+	ProductAttribute     *ProductAttribute   `protobuf:"bytes,1,opt,name=productAttribute,proto3" json:"productAttribute,omitempty"`
+	ProductAttributes    []*ProductAttribute `protobuf:"bytes,2,rep,name=productAttributes,proto3" json:"productAttributes,omitempty"`
+	Errors               []*Error            `protobuf:"bytes,3,rep,name=errors,proto3" json:"errors,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}            `json:"-"`
+	XXX_unrecognized     []byte              `json:"-"`
+	XXX_sizecache        int32               `json:"-"`
+}
+
+func (m *ProductAttributeResponse) Reset()         { *m = ProductAttributeResponse{} }
+func (m *ProductAttributeResponse) String() string { return proto.CompactTextString(m) }
+func (*ProductAttributeResponse) ProtoMessage()    {}
+func (*ProductAttributeResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_14fbc13de7c38f78, []int{15}
+}
+
+func (m *ProductAttributeResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ProductAttributeResponse.Unmarshal(m, b)
+}
+func (m *ProductAttributeResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ProductAttributeResponse.Marshal(b, m, deterministic)
+}
+func (m *ProductAttributeResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ProductAttributeResponse.Merge(m, src)
+}
+func (m *ProductAttributeResponse) XXX_Size() int {
+	return xxx_messageInfo_ProductAttributeResponse.Size(m)
+}
+func (m *ProductAttributeResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ProductAttributeResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ProductAttributeResponse proto.InternalMessageInfo
+
+func (m *ProductAttributeResponse) GetProductAttribute() *ProductAttribute {
+	if m != nil {
+		return m.ProductAttribute
+	}
+	return nil
+}
+
+func (m *ProductAttributeResponse) GetProductAttributes() []*ProductAttribute {
+	if m != nil {
+		return m.ProductAttributes
+	}
+	return nil
+}
+
+func (m *ProductAttributeResponse) GetErrors() []*Error {
+	if m != nil {
+		return m.Errors
+	}
+	return nil
+}
+
 func init() {
 	proto.RegisterType((*Product)(nil), "laracom.service.product.Product")
 	proto.RegisterType((*Request)(nil), "laracom.service.product.Request")
 	proto.RegisterType((*Response)(nil), "laracom.service.product.Response")
 	proto.RegisterType((*Error)(nil), "laracom.service.product.Error")
+	proto.RegisterType((*ProductImage)(nil), "laracom.service.product.ProductImage")
+	proto.RegisterType((*ImageResponse)(nil), "laracom.service.product.ImageResponse")
+	proto.RegisterType((*Brand)(nil), "laracom.service.product.Brand")
+	proto.RegisterType((*BrandResponse)(nil), "laracom.service.product.BrandResponse")
+	proto.RegisterType((*Category)(nil), "laracom.service.product.Category")
+	proto.RegisterType((*CategoryResponse)(nil), "laracom.service.product.CategoryResponse")
+	proto.RegisterType((*Attribute)(nil), "laracom.service.product.Attribute")
+	proto.RegisterType((*AttributeValue)(nil), "laracom.service.product.AttributeValue")
+	proto.RegisterType((*ProductAttribute)(nil), "laracom.service.product.ProductAttribute")
+	proto.RegisterType((*AttributeResponse)(nil), "laracom.service.product.AttributeResponse")
+	proto.RegisterType((*AttributeValueResponse)(nil), "laracom.service.product.AttributeValueResponse")
+	proto.RegisterType((*ProductAttributeResponse)(nil), "laracom.service.product.ProductAttributeResponse")
 }
 
 func init() { proto.RegisterFile("proto/product/product.proto", fileDescriptor_14fbc13de7c38f78) }
 
 var fileDescriptor_14fbc13de7c38f78 = []byte{
-	// 508 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x94, 0xc1, 0x6e, 0xd3, 0x40,
-	0x10, 0x86, 0x89, 0xdd, 0x24, 0xf6, 0xa4, 0x09, 0x65, 0x41, 0xb0, 0xb4, 0x2a, 0x32, 0xe1, 0x92,
-	0x53, 0x90, 0x8a, 0xc4, 0x01, 0xc1, 0x21, 0x02, 0x54, 0x21, 0x21, 0x51, 0x19, 0xf5, 0x1c, 0x6d,
-	0xbd, 0xa3, 0x64, 0x85, 0x63, 0xbb, 0xbb, 0xeb, 0x56, 0xbc, 0x0e, 0xcf, 0xc1, 0x2b, 0xf1, 0x0e,
-	0x68, 0x67, 0xd7, 0x15, 0x02, 0x85, 0xf6, 0x90, 0x93, 0xe7, 0xff, 0xfe, 0x99, 0xd9, 0xf1, 0x7a,
-	0x64, 0x38, 0x6a, 0x74, 0x6d, 0xeb, 0x97, 0x8d, 0xae, 0x65, 0x5b, 0xd8, 0xee, 0x39, 0x27, 0xca,
-	0x9e, 0x94, 0x42, 0x8b, 0xa2, 0xde, 0xcc, 0x0d, 0xea, 0x2b, 0x55, 0xe0, 0x3c, 0xd8, 0xd3, 0x5f,
-	0x31, 0x0c, 0xcf, 0x7c, 0xcc, 0x26, 0x10, 0x29, 0xc9, 0x7b, 0x59, 0x6f, 0x36, 0xce, 0x23, 0x25,
-	0xd9, 0x53, 0x48, 0x2e, 0xb4, 0xa8, 0xe4, 0x52, 0x49, 0x1e, 0x11, 0x1d, 0x92, 0xfe, 0x24, 0xd9,
-	0x01, 0xc4, 0xe6, 0x5b, 0xcb, 0xe3, 0xac, 0x37, 0x4b, 0x73, 0x17, 0x32, 0x06, 0x7b, 0x95, 0xd8,
-	0x20, 0xdf, 0x23, 0x44, 0xb1, 0x63, 0xa6, 0x6c, 0x57, 0xbc, 0xef, 0x99, 0x8b, 0x59, 0x06, 0x23,
-	0x89, 0xa6, 0xd0, 0xaa, 0xb1, 0xaa, 0xae, 0xf8, 0x80, 0xac, 0x3f, 0x11, 0x7b, 0x04, 0xfd, 0xa2,
-	0xbe, 0x42, 0xcd, 0x87, 0xe4, 0x79, 0xc1, 0x0e, 0x21, 0xb9, 0x6c, 0x45, 0x65, 0x95, 0xfd, 0xce,
-	0x13, 0x1a, 0xe6, 0x46, 0xbb, 0x8a, 0x46, 0xab, 0x02, 0x79, 0x9a, 0xf5, 0x66, 0x51, 0xee, 0x05,
-	0x3b, 0x06, 0x30, 0xa2, 0xc4, 0xa5, 0xb7, 0x80, 0xac, 0xd4, 0x91, 0x33, 0xb2, 0x1f, 0xc3, 0xc0,
-	0x58, 0x61, 0x5b, 0xc3, 0x47, 0xd4, 0x2e, 0x28, 0xc7, 0x4b, 0xac, 0x56, 0x76, 0xcd, 0xf7, 0xa9,
-	0x24, 0x28, 0x77, 0xc8, 0xb5, 0x92, 0x76, 0xcd, 0xc7, 0xfe, 0x10, 0x12, 0x2e, 0x7b, 0x8d, 0x6a,
-	0xb5, 0xb6, 0x7c, 0xe2, 0xb3, 0xbd, 0x72, 0xfc, 0xda, 0xf3, 0xfb, 0x9e, 0x7b, 0xc5, 0x5e, 0xc0,
-	0x58, 0x2a, 0x63, 0x45, 0x55, 0xe0, 0xb2, 0xad, 0x94, 0xe5, 0x07, 0xf4, 0x92, 0xfb, 0x1d, 0x3c,
-	0xaf, 0x94, 0x65, 0x47, 0x90, 0x6e, 0x84, 0x31, 0x3e, 0xe1, 0x01, 0x25, 0x24, 0x0e, 0x90, 0x79,
-	0x0c, 0x50, 0x68, 0x14, 0x16, 0xe5, 0x52, 0x58, 0xce, 0xc8, 0x4d, 0x03, 0x59, 0x90, 0xdd, 0x36,
-	0xb2, 0xb3, 0x1f, 0x7a, 0x3b, 0x90, 0x85, 0x9d, 0xa6, 0x30, 0xcc, 0xf1, 0xb2, 0x45, 0x63, 0xa7,
-	0x3f, 0x7b, 0x90, 0xe4, 0x68, 0x9a, 0xba, 0x32, 0xc8, 0xde, 0xc0, 0x30, 0xac, 0x04, 0x2d, 0xc0,
-	0xe8, 0x24, 0x9b, 0x6f, 0x59, 0x99, 0x79, 0x58, 0x97, 0xbc, 0x2b, 0x60, 0x6f, 0x21, 0x09, 0xa1,
-	0xe1, 0x51, 0x16, 0xdf, 0xa9, 0xf8, 0xa6, 0x82, 0xbd, 0x86, 0x01, 0x6a, 0x5d, 0x6b, 0xc3, 0x63,
-	0xaa, 0x7d, 0xb6, 0xb5, 0xf6, 0xa3, 0x4b, 0xcb, 0x43, 0xf6, 0xf4, 0x1d, 0xf4, 0x09, 0xb8, 0x2d,
-	0x2b, 0x6a, 0x89, 0x34, 0x77, 0x3f, 0xa7, 0xf8, 0xef, 0x2d, 0x8b, 0xfe, 0xd9, 0xb2, 0x93, 0x1f,
-	0x31, 0x4c, 0xc2, 0x30, 0x5f, 0xfd, 0x39, 0xec, 0x0b, 0x0c, 0xde, 0xd3, 0x3d, 0xb2, 0x5b, 0xe7,
-	0x3f, 0x7c, 0xbe, 0x35, 0xa3, 0xbb, 0xd2, 0xe9, 0x3d, 0xd7, 0xf0, 0x03, 0x96, 0xb8, 0xd3, 0x86,
-	0xe7, 0xf4, 0x29, 0x77, 0xd5, 0xf0, 0x33, 0xc4, 0xa7, 0x68, 0x77, 0x38, 0xde, 0x29, 0xda, 0x45,
-	0x59, 0xfe, 0xa7, 0x61, 0xd8, 0xbe, 0x3b, 0x35, 0xbc, 0x18, 0xd0, 0xdf, 0xeb, 0xd5, 0xef, 0x00,
-	0x00, 0x00, 0xff, 0xff, 0xd1, 0xb4, 0xbf, 0xf1, 0xdc, 0x04, 0x00, 0x00,
+	// 1399 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xc4, 0x59, 0x4f, 0x6f, 0xe3, 0x44,
+	0x14, 0x5f, 0x3b, 0x71, 0x12, 0xbf, 0x24, 0x4d, 0x76, 0xb6, 0x74, 0x87, 0xac, 0x8a, 0xb2, 0x46,
+	0x40, 0x97, 0x43, 0x57, 0x04, 0xb4, 0x07, 0xa0, 0x82, 0x76, 0x17, 0x45, 0x95, 0x90, 0x5a, 0x19,
+	0xba, 0x2d, 0x70, 0x28, 0xae, 0x3d, 0x4d, 0x2d, 0xd2, 0x24, 0x6b, 0x8f, 0xbb, 0xf4, 0xca, 0x07,
+	0xe0, 0x6b, 0x70, 0xe3, 0x00, 0xe2, 0x86, 0xb8, 0x70, 0x45, 0x02, 0xc4, 0x67, 0xe0, 0xce, 0x89,
+	0x33, 0xf2, 0xfc, 0x71, 0x1c, 0x87, 0x24, 0x8e, 0x71, 0xca, 0xa9, 0x9e, 0x37, 0xef, 0xcf, 0xcc,
+	0x9b, 0xdf, 0xef, 0xcd, 0x9b, 0x14, 0xee, 0x8d, 0xbc, 0x21, 0x1d, 0x3e, 0x1c, 0x79, 0x43, 0x27,
+	0xb0, 0xa9, 0xfc, 0xbb, 0xcd, 0xa4, 0xe8, 0x6e, 0xdf, 0xf2, 0x2c, 0x7b, 0x78, 0xb9, 0xed, 0x13,
+	0xef, 0xca, 0xb5, 0xc9, 0xb6, 0x98, 0x36, 0xfe, 0xd2, 0xa0, 0x7c, 0xc8, 0xbf, 0xd1, 0x1a, 0xa8,
+	0xae, 0x83, 0x95, 0xb6, 0xb2, 0x55, 0x37, 0x55, 0xd7, 0x41, 0x2f, 0x42, 0xe5, 0xcc, 0xb3, 0x06,
+	0xce, 0xa9, 0xeb, 0x60, 0x95, 0x49, 0xcb, 0x6c, 0xbc, 0xef, 0xa0, 0x26, 0x14, 0xfc, 0x2f, 0x02,
+	0x5c, 0x68, 0x2b, 0x5b, 0xba, 0x19, 0x7e, 0x22, 0x04, 0xc5, 0x81, 0x75, 0x49, 0x70, 0x91, 0x89,
+	0xd8, 0x77, 0x28, 0xf3, 0xfb, 0x41, 0x0f, 0x6b, 0x5c, 0x16, 0x7e, 0xa3, 0x36, 0x54, 0x1d, 0xe2,
+	0xdb, 0x9e, 0x3b, 0xa2, 0xee, 0x70, 0x80, 0x4b, 0x6c, 0x2a, 0x2e, 0x42, 0xeb, 0xa0, 0xd9, 0xc3,
+	0x2b, 0xe2, 0xe1, 0x32, 0x9b, 0xe3, 0x03, 0xd4, 0x82, 0xca, 0xb3, 0xc0, 0x1a, 0x50, 0x97, 0x5e,
+	0xe3, 0x0a, 0x5b, 0x4c, 0x34, 0x0e, 0x2d, 0x46, 0x9e, 0x6b, 0x13, 0xac, 0xb7, 0x95, 0x2d, 0xd5,
+	0xe4, 0x03, 0xb4, 0x09, 0xe0, 0x5b, 0x7d, 0x72, 0xca, 0xa7, 0x80, 0x4d, 0xe9, 0xa1, 0xe4, 0x90,
+	0x4d, 0x6f, 0x40, 0xc9, 0xa7, 0x16, 0x0d, 0x7c, 0x5c, 0x65, 0xee, 0xc4, 0x28, 0x94, 0xf7, 0xc9,
+	0xa0, 0x47, 0x2f, 0x70, 0x8d, 0x99, 0x88, 0x51, 0x18, 0xe4, 0xb9, 0xeb, 0xd0, 0x0b, 0x5c, 0xe7,
+	0x41, 0xd8, 0x20, 0xd4, 0xbe, 0x20, 0x6e, 0xef, 0x82, 0xe2, 0x35, 0xae, 0xcd, 0x47, 0xa1, 0xfc,
+	0x39, 0x97, 0x37, 0xb8, 0x9c, 0x8f, 0xd0, 0xcb, 0x50, 0x77, 0x5c, 0x9f, 0x5a, 0x03, 0x9b, 0x9c,
+	0x06, 0x03, 0x97, 0xe2, 0x26, 0xdb, 0x64, 0x4d, 0x0a, 0x8f, 0x06, 0x2e, 0x45, 0xf7, 0x40, 0xbf,
+	0xb4, 0x7c, 0x9f, 0x2b, 0xdc, 0x66, 0x0a, 0x95, 0x50, 0xc0, 0x26, 0x37, 0x01, 0x6c, 0x8f, 0x58,
+	0x94, 0x38, 0xa7, 0x16, 0xc5, 0x88, 0xcd, 0xea, 0x42, 0xb2, 0xcb, 0xa6, 0x83, 0x91, 0x23, 0xa7,
+	0xef, 0xf0, 0x69, 0x21, 0xd9, 0xa5, 0x68, 0x07, 0x4a, 0xee, 0xa5, 0xd5, 0x23, 0x3e, 0x5e, 0x6f,
+	0x17, 0xb6, 0xaa, 0x9d, 0x57, 0xb6, 0x67, 0x20, 0x63, 0x5b, 0xa0, 0x62, 0x3f, 0xd4, 0x36, 0x85,
+	0x11, 0x7a, 0x0b, 0x34, 0x06, 0x01, 0xfc, 0x42, 0x5b, 0xd9, 0xaa, 0x76, 0x5e, 0x9a, 0x69, 0xbd,
+	0x17, 0x6a, 0x99, 0x5c, 0x19, 0xed, 0x02, 0xd8, 0x16, 0x25, 0xbd, 0xa1, 0xe7, 0x12, 0x1f, 0x6f,
+	0xb0, 0xc0, 0xf7, 0x67, 0x9a, 0x3e, 0xe6, 0xaa, 0xd7, 0x66, 0xcc, 0x08, 0xed, 0x03, 0x58, 0x94,
+	0x7a, 0xee, 0x59, 0x40, 0x89, 0x8f, 0xef, 0x32, 0x17, 0x0f, 0x16, 0xad, 0x7d, 0x57, 0x5a, 0x98,
+	0x31, 0x63, 0x43, 0x87, 0xb2, 0x49, 0x9e, 0x05, 0xc4, 0xa7, 0xc6, 0x8f, 0x0a, 0x54, 0x4c, 0xe2,
+	0x8f, 0x86, 0x03, 0x9f, 0xa0, 0xb7, 0xa1, 0x2c, 0xec, 0x19, 0x07, 0xaa, 0x9d, 0xf6, 0x22, 0xff,
+	0xa6, 0x34, 0x40, 0xef, 0x42, 0x45, 0x7c, 0xfa, 0x58, 0x65, 0x8b, 0x5b, 0x6c, 0x1c, 0x59, 0xa0,
+	0x47, 0x50, 0x22, 0x9e, 0x37, 0xf4, 0x7c, 0x5c, 0x60, 0xb6, 0xb3, 0xd3, 0xfa, 0x41, 0xa8, 0x66,
+	0x0a, 0x6d, 0x63, 0x07, 0x34, 0x26, 0x08, 0x89, 0x66, 0x0f, 0x1d, 0xc2, 0xd6, 0xad, 0x99, 0xec,
+	0x3b, 0x49, 0x34, 0x75, 0x8a, 0x68, 0xc6, 0x01, 0xd4, 0xe2, 0x87, 0x3c, 0xc5, 0xff, 0x4d, 0x00,
+	0x11, 0x77, 0x5c, 0x01, 0x74, 0x21, 0x11, 0x35, 0xc0, 0xb3, 0xa3, 0x1a, 0xe0, 0xd9, 0xc6, 0xcf,
+	0x0a, 0xd4, 0x39, 0x5e, 0x64, 0x4e, 0xdf, 0x01, 0x8d, 0x21, 0x47, 0x64, 0x34, 0x25, 0xda, 0xb8,
+	0x4d, 0x0c, 0xab, 0x6a, 0x16, 0xac, 0x66, 0xcd, 0xea, 0x37, 0x0a, 0x68, 0x0c, 0xbe, 0x53, 0x09,
+	0x91, 0x35, 0x4e, 0x8d, 0xd5, 0xb8, 0x49, 0x3a, 0x16, 0xe6, 0xd3, 0xb1, 0x98, 0xa4, 0x63, 0x1c,
+	0x37, 0xda, 0xb2, 0xb8, 0x31, 0x7e, 0x50, 0xa0, 0xce, 0x89, 0x26, 0xf3, 0x1d, 0xf1, 0x53, 0x59,
+	0x86, 0x9f, 0x8f, 0xa0, 0xc4, 0x3e, 0x64, 0xa2, 0x17, 0x99, 0x09, 0xed, 0xcc, 0x19, 0xfe, 0x55,
+	0x85, 0x8a, 0x64, 0x79, 0xaa, 0x24, 0xcb, 0x8b, 0xa4, 0x30, 0xfb, 0x22, 0x29, 0xce, 0xb9, 0x48,
+	0xb4, 0xf8, 0x45, 0x32, 0xae, 0xfb, 0xa5, 0x89, 0xba, 0x7f, 0x0f, 0xf4, 0x91, 0xe5, 0x91, 0x01,
+	0x03, 0x7b, 0x99, 0xdf, 0x30, 0x5c, 0xc0, 0xb1, 0xde, 0x3f, 0xa7, 0xe2, 0xe2, 0x09, 0x3f, 0x43,
+	0x89, 0xd7, 0xa3, 0xec, 0xc6, 0xa9, 0x9b, 0xe1, 0x67, 0x02, 0x09, 0x30, 0x1f, 0x09, 0xd5, 0x79,
+	0x48, 0xa8, 0x2d, 0x8d, 0x84, 0x5f, 0x14, 0x68, 0x46, 0x75, 0x53, 0x82, 0x61, 0x07, 0x2a, 0xa2,
+	0x82, 0x5e, 0x0b, 0x3c, 0xa4, 0x28, 0xba, 0x91, 0x49, 0xa2, 0x6a, 0xab, 0x59, 0xaa, 0x76, 0x56,
+	0x80, 0x7c, 0xab, 0x80, 0x1e, 0x15, 0xef, 0x1b, 0xa0, 0xe1, 0x7b, 0x50, 0xba, 0xb2, 0xfa, 0x01,
+	0x91, 0x24, 0x7c, 0x6d, 0xe6, 0x3a, 0xa3, 0x55, 0x3d, 0x0d, 0xf5, 0x4d, 0x61, 0x66, 0x7c, 0xaf,
+	0xc2, 0xda, 0xe4, 0xd4, 0xd4, 0xaa, 0xd7, 0x41, 0x63, 0xca, 0x62, 0xd9, 0x7c, 0x80, 0xee, 0x43,
+	0x2d, 0xba, 0x9a, 0x42, 0xe0, 0x15, 0x98, 0x7e, 0x35, 0x92, 0xed, 0x3b, 0x89, 0xad, 0x15, 0xe7,
+	0x6f, 0x4d, 0x4b, 0x6e, 0xed, 0x7d, 0xd0, 0x23, 0x67, 0x0c, 0xf1, 0xd5, 0x8e, 0xb1, 0x78, 0x77,
+	0xe6, 0xd8, 0x08, 0x9d, 0x00, 0x92, 0xd7, 0x40, 0xec, 0x0a, 0x2e, 0x2f, 0x7b, 0x05, 0xdf, 0x1e,
+	0x25, 0x24, 0xbe, 0xf1, 0x93, 0x0a, 0xcd, 0xa4, 0xde, 0xb2, 0xb7, 0x50, 0xbc, 0x2f, 0x2c, 0xcc,
+	0xea, 0x0b, 0x8b, 0xb3, 0xfb, 0x42, 0x2d, 0xd9, 0x17, 0x62, 0x28, 0x3b, 0xe4, 0xdc, 0x0a, 0xfa,
+	0x54, 0x14, 0x08, 0x39, 0x4c, 0x1c, 0x44, 0x79, 0xfe, 0x41, 0x54, 0x92, 0x07, 0x61, 0x42, 0x73,
+	0x7c, 0xd2, 0x02, 0x6d, 0xfa, 0x72, 0x68, 0x6b, 0x58, 0x13, 0x63, 0xdf, 0xf8, 0x5d, 0x81, 0xdb,
+	0xe3, 0x0c, 0x4b, 0xde, 0x4f, 0x1c, 0xb9, 0x92, 0xe5, 0xc8, 0xf7, 0x26, 0xba, 0x2d, 0x4e, 0xfd,
+	0x34, 0x2e, 0x62, 0x56, 0x99, 0xb9, 0xff, 0x9b, 0x02, 0x1b, 0x89, 0x7d, 0x8f, 0x0b, 0x9a, 0xa0,
+	0x10, 0xdf, 0x54, 0xea, 0xbc, 0x09, 0xae, 0x8d, 0x59, 0xae, 0x66, 0x62, 0x79, 0xe6, 0x2d, 0x7d,
+	0xa5, 0x02, 0x9e, 0xe2, 0x83, 0xdc, 0xd4, 0x11, 0x34, 0x93, 0xcc, 0x10, 0xfb, 0x5b, 0x82, 0x5c,
+	0x53, 0x2e, 0xd0, 0x31, 0x4c, 0x13, 0x4e, 0xec, 0xfb, 0x3f, 0x91, 0x36, 0x6b, 0x12, 0x3a, 0x7f,
+	0x17, 0x60, 0x4d, 0xf8, 0xff, 0x88, 0x2b, 0xa2, 0x03, 0x28, 0x3d, 0x66, 0xf4, 0x41, 0x0b, 0xef,
+	0xba, 0xd6, 0xec, 0x9b, 0x47, 0x66, 0xd2, 0xb8, 0x15, 0x3a, 0x7c, 0x42, 0xfa, 0x24, 0x57, 0x87,
+	0x47, 0x8c, 0xc1, 0x79, 0x39, 0xfc, 0x10, 0x0a, 0x5d, 0x42, 0xf3, 0xf2, 0x66, 0x82, 0xde, 0x25,
+	0xf4, 0x09, 0xa1, 0x96, 0xdb, 0xcf, 0x71, 0xcb, 0x5d, 0x42, 0x77, 0xfb, 0xf3, 0x1c, 0x8a, 0xf7,
+	0x53, 0x2a, 0x87, 0x9d, 0x3f, 0x0a, 0x50, 0x63, 0x9d, 0xb9, 0x3c, 0xf6, 0x4f, 0xa2, 0x63, 0x4f,
+	0xd7, 0xd1, 0xb7, 0x5e, 0x9d, 0xa9, 0x36, 0xf1, 0xda, 0x30, 0x6e, 0x85, 0xae, 0x05, 0x00, 0x56,
+	0xe1, 0x5a, 0x40, 0x21, 0x77, 0xd7, 0x4f, 0x39, 0x28, 0x72, 0xf7, 0xfb, 0x29, 0xd4, 0xba, 0x84,
+	0xee, 0x5d, 0xcb, 0x1f, 0x78, 0x16, 0x23, 0x24, 0xb5, 0xef, 0xce, 0xd7, 0x45, 0xa8, 0xb1, 0xd7,
+	0x80, 0x3c, 0x55, 0x33, 0x3a, 0xd5, 0x05, 0xcf, 0x87, 0x39, 0x41, 0x26, 0x1e, 0x33, 0x0c, 0xdf,
+	0xf2, 0x38, 0x73, 0xf5, 0x29, 0xce, 0x31, 0x3f, 0x9f, 0x07, 0xfc, 0x00, 0xf3, 0x73, 0xf8, 0xf1,
+	0x12, 0x24, 0x4c, 0xef, 0xf5, 0x33, 0x68, 0x74, 0x09, 0x3d, 0x76, 0xe9, 0xc5, 0xa1, 0xfc, 0xe9,
+	0x21, 0xb7, 0x25, 0x77, 0xbe, 0x2b, 0x42, 0x43, 0x3e, 0x02, 0x24, 0x26, 0x4e, 0x22, 0x4c, 0x2c,
+	0x7e, 0x38, 0xb4, 0x1e, 0x2c, 0x7e, 0x5b, 0x8c, 0xb7, 0x72, 0x12, 0x21, 0x63, 0x05, 0x9e, 0x05,
+	0x3e, 0xf2, 0xf6, 0x7c, 0xc4, 0x51, 0x92, 0xb7, 0xdb, 0xe3, 0x25, 0xb0, 0xb2, 0x94, 0x63, 0x6b,
+	0x1a, 0x2e, 0x39, 0xaf, 0xbd, 0xf3, 0x67, 0x0d, 0x9a, 0x51, 0x6f, 0x21, 0x51, 0x63, 0x43, 0x83,
+	0xa3, 0x66, 0xdc, 0xcd, 0xa4, 0x68, 0x3e, 0x5b, 0xaf, 0xa7, 0x68, 0x50, 0xc7, 0x9b, 0xb3, 0xa1,
+	0xc1, 0x01, 0xb4, 0xe2, 0x20, 0x1c, 0x4b, 0xab, 0x0c, 0xe2, 0x42, 0x95, 0xa7, 0x8b, 0xbf, 0x3b,
+	0xd3, 0x76, 0xb5, 0xad, 0x87, 0x69, 0xdb, 0xdf, 0x89, 0x50, 0x3c, 0x69, 0x37, 0x12, 0x8a, 0xa7,
+	0x6e, 0xf5, 0xa1, 0xbe, 0x84, 0x0d, 0x9e, 0xc0, 0xa9, 0xb7, 0x68, 0xfa, 0x4e, 0xb9, 0xf5, 0x46,
+	0xfa, 0xa6, 0x7a, 0x22, 0x32, 0xcf, 0xe7, 0xff, 0x11, 0x99, 0xa7, 0xf7, 0xc6, 0x23, 0x7f, 0xce,
+	0x9a, 0x92, 0x55, 0x12, 0xe2, 0x14, 0xea, 0xf1, 0x08, 0x7e, 0x8a, 0xba, 0xb8, 0x5c, 0x80, 0x73,
+	0xa8, 0x74, 0x09, 0x5d, 0x3d, 0x30, 0xcf, 0x58, 0x7b, 0xcf, 0xdf, 0xfa, 0xa9, 0xf2, 0x94, 0x21,
+	0x46, 0x00, 0x77, 0xba, 0x84, 0xde, 0x38, 0x0a, 0x2e, 0x61, 0xfd, 0x5f, 0xc2, 0xfa, 0x29, 0x5a,
+	0xd4, 0x2c, 0xe1, 0xce, 0x4a, 0xec, 0xdf, 0xa0, 0x6f, 0xfe, 0x13, 0x00, 0x00, 0xff, 0xff, 0x27,
+	0xb7, 0x2f, 0x86, 0x25, 0x1d, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -399,6 +1343,7 @@ type ProductServiceClient interface {
 	Delete(ctx context.Context, in *Product, opts ...client.CallOption) (*Response, error)
 	Update(ctx context.Context, in *Product, opts ...client.CallOption) (*Response, error)
 	Get(ctx context.Context, in *Product, opts ...client.CallOption) (*Response, error)
+	GetDetail(ctx context.Context, in *Product, opts ...client.CallOption) (*Response, error)
 	GetAll(ctx context.Context, in *Request, opts ...client.CallOption) (*Response, error)
 }
 
@@ -460,6 +1405,16 @@ func (c *productServiceClient) Get(ctx context.Context, in *Product, opts ...cli
 	return out, nil
 }
 
+func (c *productServiceClient) GetDetail(ctx context.Context, in *Product, opts ...client.CallOption) (*Response, error) {
+	req := c.c.NewRequest(c.serviceName, "ProductService.GetDetail", in)
+	out := new(Response)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *productServiceClient) GetAll(ctx context.Context, in *Request, opts ...client.CallOption) (*Response, error) {
 	req := c.c.NewRequest(c.serviceName, "ProductService.GetAll", in)
 	out := new(Response)
@@ -477,6 +1432,7 @@ type ProductServiceHandler interface {
 	Delete(context.Context, *Product, *Response) error
 	Update(context.Context, *Product, *Response) error
 	Get(context.Context, *Product, *Response) error
+	GetDetail(context.Context, *Product, *Response) error
 	GetAll(context.Context, *Request, *Response) error
 }
 
@@ -504,6 +1460,666 @@ func (h *ProductService) Get(ctx context.Context, in *Product, out *Response) er
 	return h.ProductServiceHandler.Get(ctx, in, out)
 }
 
+func (h *ProductService) GetDetail(ctx context.Context, in *Product, out *Response) error {
+	return h.ProductServiceHandler.GetDetail(ctx, in, out)
+}
+
 func (h *ProductService) GetAll(ctx context.Context, in *Request, out *Response) error {
 	return h.ProductServiceHandler.GetAll(ctx, in, out)
+}
+
+// Client API for ImageService service
+
+type ImageServiceClient interface {
+	Create(ctx context.Context, in *ProductImage, opts ...client.CallOption) (*ImageResponse, error)
+	Delete(ctx context.Context, in *ProductImage, opts ...client.CallOption) (*ImageResponse, error)
+	Update(ctx context.Context, in *ProductImage, opts ...client.CallOption) (*ImageResponse, error)
+	Get(ctx context.Context, in *ProductImage, opts ...client.CallOption) (*ImageResponse, error)
+	GetByProduct(ctx context.Context, in *Product, opts ...client.CallOption) (*ImageResponse, error)
+}
+
+type imageServiceClient struct {
+	c           client.Client
+	serviceName string
+}
+
+func NewImageServiceClient(serviceName string, c client.Client) ImageServiceClient {
+	if c == nil {
+		c = client.NewClient()
+	}
+	if len(serviceName) == 0 {
+		serviceName = "laracom.service.product"
+	}
+	return &imageServiceClient{
+		c:           c,
+		serviceName: serviceName,
+	}
+}
+
+func (c *imageServiceClient) Create(ctx context.Context, in *ProductImage, opts ...client.CallOption) (*ImageResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "ImageService.Create", in)
+	out := new(ImageResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *imageServiceClient) Delete(ctx context.Context, in *ProductImage, opts ...client.CallOption) (*ImageResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "ImageService.Delete", in)
+	out := new(ImageResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *imageServiceClient) Update(ctx context.Context, in *ProductImage, opts ...client.CallOption) (*ImageResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "ImageService.Update", in)
+	out := new(ImageResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *imageServiceClient) Get(ctx context.Context, in *ProductImage, opts ...client.CallOption) (*ImageResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "ImageService.Get", in)
+	out := new(ImageResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *imageServiceClient) GetByProduct(ctx context.Context, in *Product, opts ...client.CallOption) (*ImageResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "ImageService.GetByProduct", in)
+	out := new(ImageResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Server API for ImageService service
+
+type ImageServiceHandler interface {
+	Create(context.Context, *ProductImage, *ImageResponse) error
+	Delete(context.Context, *ProductImage, *ImageResponse) error
+	Update(context.Context, *ProductImage, *ImageResponse) error
+	Get(context.Context, *ProductImage, *ImageResponse) error
+	GetByProduct(context.Context, *Product, *ImageResponse) error
+}
+
+func RegisterImageServiceHandler(s server.Server, hdlr ImageServiceHandler, opts ...server.HandlerOption) {
+	s.Handle(s.NewHandler(&ImageService{hdlr}, opts...))
+}
+
+type ImageService struct {
+	ImageServiceHandler
+}
+
+func (h *ImageService) Create(ctx context.Context, in *ProductImage, out *ImageResponse) error {
+	return h.ImageServiceHandler.Create(ctx, in, out)
+}
+
+func (h *ImageService) Delete(ctx context.Context, in *ProductImage, out *ImageResponse) error {
+	return h.ImageServiceHandler.Delete(ctx, in, out)
+}
+
+func (h *ImageService) Update(ctx context.Context, in *ProductImage, out *ImageResponse) error {
+	return h.ImageServiceHandler.Update(ctx, in, out)
+}
+
+func (h *ImageService) Get(ctx context.Context, in *ProductImage, out *ImageResponse) error {
+	return h.ImageServiceHandler.Get(ctx, in, out)
+}
+
+func (h *ImageService) GetByProduct(ctx context.Context, in *Product, out *ImageResponse) error {
+	return h.ImageServiceHandler.GetByProduct(ctx, in, out)
+}
+
+// Client API for BrandService service
+
+type BrandServiceClient interface {
+	Create(ctx context.Context, in *Brand, opts ...client.CallOption) (*BrandResponse, error)
+	Delete(ctx context.Context, in *Brand, opts ...client.CallOption) (*BrandResponse, error)
+	Update(ctx context.Context, in *Brand, opts ...client.CallOption) (*BrandResponse, error)
+	Get(ctx context.Context, in *Brand, opts ...client.CallOption) (*BrandResponse, error)
+	GetAll(ctx context.Context, in *Request, opts ...client.CallOption) (*BrandResponse, error)
+	GetWithProducts(ctx context.Context, in *Brand, opts ...client.CallOption) (*BrandResponse, error)
+}
+
+type brandServiceClient struct {
+	c           client.Client
+	serviceName string
+}
+
+func NewBrandServiceClient(serviceName string, c client.Client) BrandServiceClient {
+	if c == nil {
+		c = client.NewClient()
+	}
+	if len(serviceName) == 0 {
+		serviceName = "laracom.service.product"
+	}
+	return &brandServiceClient{
+		c:           c,
+		serviceName: serviceName,
+	}
+}
+
+func (c *brandServiceClient) Create(ctx context.Context, in *Brand, opts ...client.CallOption) (*BrandResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "BrandService.Create", in)
+	out := new(BrandResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *brandServiceClient) Delete(ctx context.Context, in *Brand, opts ...client.CallOption) (*BrandResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "BrandService.Delete", in)
+	out := new(BrandResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *brandServiceClient) Update(ctx context.Context, in *Brand, opts ...client.CallOption) (*BrandResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "BrandService.Update", in)
+	out := new(BrandResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *brandServiceClient) Get(ctx context.Context, in *Brand, opts ...client.CallOption) (*BrandResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "BrandService.Get", in)
+	out := new(BrandResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *brandServiceClient) GetAll(ctx context.Context, in *Request, opts ...client.CallOption) (*BrandResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "BrandService.GetAll", in)
+	out := new(BrandResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *brandServiceClient) GetWithProducts(ctx context.Context, in *Brand, opts ...client.CallOption) (*BrandResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "BrandService.GetWithProducts", in)
+	out := new(BrandResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Server API for BrandService service
+
+type BrandServiceHandler interface {
+	Create(context.Context, *Brand, *BrandResponse) error
+	Delete(context.Context, *Brand, *BrandResponse) error
+	Update(context.Context, *Brand, *BrandResponse) error
+	Get(context.Context, *Brand, *BrandResponse) error
+	GetAll(context.Context, *Request, *BrandResponse) error
+	GetWithProducts(context.Context, *Brand, *BrandResponse) error
+}
+
+func RegisterBrandServiceHandler(s server.Server, hdlr BrandServiceHandler, opts ...server.HandlerOption) {
+	s.Handle(s.NewHandler(&BrandService{hdlr}, opts...))
+}
+
+type BrandService struct {
+	BrandServiceHandler
+}
+
+func (h *BrandService) Create(ctx context.Context, in *Brand, out *BrandResponse) error {
+	return h.BrandServiceHandler.Create(ctx, in, out)
+}
+
+func (h *BrandService) Delete(ctx context.Context, in *Brand, out *BrandResponse) error {
+	return h.BrandServiceHandler.Delete(ctx, in, out)
+}
+
+func (h *BrandService) Update(ctx context.Context, in *Brand, out *BrandResponse) error {
+	return h.BrandServiceHandler.Update(ctx, in, out)
+}
+
+func (h *BrandService) Get(ctx context.Context, in *Brand, out *BrandResponse) error {
+	return h.BrandServiceHandler.Get(ctx, in, out)
+}
+
+func (h *BrandService) GetAll(ctx context.Context, in *Request, out *BrandResponse) error {
+	return h.BrandServiceHandler.GetAll(ctx, in, out)
+}
+
+func (h *BrandService) GetWithProducts(ctx context.Context, in *Brand, out *BrandResponse) error {
+	return h.BrandServiceHandler.GetWithProducts(ctx, in, out)
+}
+
+// Client API for CategoryService service
+
+type CategoryServiceClient interface {
+	Create(ctx context.Context, in *Category, opts ...client.CallOption) (*CategoryResponse, error)
+	Delete(ctx context.Context, in *Category, opts ...client.CallOption) (*CategoryResponse, error)
+	Update(ctx context.Context, in *Category, opts ...client.CallOption) (*CategoryResponse, error)
+	Get(ctx context.Context, in *Category, opts ...client.CallOption) (*CategoryResponse, error)
+	GetAll(ctx context.Context, in *Request, opts ...client.CallOption) (*CategoryResponse, error)
+	GetWithProducts(ctx context.Context, in *Category, opts ...client.CallOption) (*CategoryResponse, error)
+}
+
+type categoryServiceClient struct {
+	c           client.Client
+	serviceName string
+}
+
+func NewCategoryServiceClient(serviceName string, c client.Client) CategoryServiceClient {
+	if c == nil {
+		c = client.NewClient()
+	}
+	if len(serviceName) == 0 {
+		serviceName = "laracom.service.product"
+	}
+	return &categoryServiceClient{
+		c:           c,
+		serviceName: serviceName,
+	}
+}
+
+func (c *categoryServiceClient) Create(ctx context.Context, in *Category, opts ...client.CallOption) (*CategoryResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "CategoryService.Create", in)
+	out := new(CategoryResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *categoryServiceClient) Delete(ctx context.Context, in *Category, opts ...client.CallOption) (*CategoryResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "CategoryService.Delete", in)
+	out := new(CategoryResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *categoryServiceClient) Update(ctx context.Context, in *Category, opts ...client.CallOption) (*CategoryResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "CategoryService.Update", in)
+	out := new(CategoryResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *categoryServiceClient) Get(ctx context.Context, in *Category, opts ...client.CallOption) (*CategoryResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "CategoryService.Get", in)
+	out := new(CategoryResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *categoryServiceClient) GetAll(ctx context.Context, in *Request, opts ...client.CallOption) (*CategoryResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "CategoryService.GetAll", in)
+	out := new(CategoryResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *categoryServiceClient) GetWithProducts(ctx context.Context, in *Category, opts ...client.CallOption) (*CategoryResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "CategoryService.GetWithProducts", in)
+	out := new(CategoryResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Server API for CategoryService service
+
+type CategoryServiceHandler interface {
+	Create(context.Context, *Category, *CategoryResponse) error
+	Delete(context.Context, *Category, *CategoryResponse) error
+	Update(context.Context, *Category, *CategoryResponse) error
+	Get(context.Context, *Category, *CategoryResponse) error
+	GetAll(context.Context, *Request, *CategoryResponse) error
+	GetWithProducts(context.Context, *Category, *CategoryResponse) error
+}
+
+func RegisterCategoryServiceHandler(s server.Server, hdlr CategoryServiceHandler, opts ...server.HandlerOption) {
+	s.Handle(s.NewHandler(&CategoryService{hdlr}, opts...))
+}
+
+type CategoryService struct {
+	CategoryServiceHandler
+}
+
+func (h *CategoryService) Create(ctx context.Context, in *Category, out *CategoryResponse) error {
+	return h.CategoryServiceHandler.Create(ctx, in, out)
+}
+
+func (h *CategoryService) Delete(ctx context.Context, in *Category, out *CategoryResponse) error {
+	return h.CategoryServiceHandler.Delete(ctx, in, out)
+}
+
+func (h *CategoryService) Update(ctx context.Context, in *Category, out *CategoryResponse) error {
+	return h.CategoryServiceHandler.Update(ctx, in, out)
+}
+
+func (h *CategoryService) Get(ctx context.Context, in *Category, out *CategoryResponse) error {
+	return h.CategoryServiceHandler.Get(ctx, in, out)
+}
+
+func (h *CategoryService) GetAll(ctx context.Context, in *Request, out *CategoryResponse) error {
+	return h.CategoryServiceHandler.GetAll(ctx, in, out)
+}
+
+func (h *CategoryService) GetWithProducts(ctx context.Context, in *Category, out *CategoryResponse) error {
+	return h.CategoryServiceHandler.GetWithProducts(ctx, in, out)
+}
+
+// Client API for AttributeService service
+
+type AttributeServiceClient interface {
+	CreateAttribute(ctx context.Context, in *Attribute, opts ...client.CallOption) (*AttributeResponse, error)
+	DeleteAttribute(ctx context.Context, in *Attribute, opts ...client.CallOption) (*AttributeResponse, error)
+	UpdateAttribute(ctx context.Context, in *Attribute, opts ...client.CallOption) (*AttributeResponse, error)
+	CreateValue(ctx context.Context, in *AttributeValue, opts ...client.CallOption) (*AttributeValueResponse, error)
+	DeleteValue(ctx context.Context, in *AttributeValue, opts ...client.CallOption) (*AttributeValueResponse, error)
+	UpdateValue(ctx context.Context, in *AttributeValue, opts ...client.CallOption) (*AttributeValueResponse, error)
+	CreateProductAttribute(ctx context.Context, in *ProductAttribute, opts ...client.CallOption) (*ProductAttributeResponse, error)
+	DeleteProductAttribute(ctx context.Context, in *ProductAttribute, opts ...client.CallOption) (*ProductAttributeResponse, error)
+	UpdateProductAttribute(ctx context.Context, in *ProductAttribute, opts ...client.CallOption) (*ProductAttributeResponse, error)
+	GetAttribute(ctx context.Context, in *Attribute, opts ...client.CallOption) (*AttributeResponse, error)
+	GetAttributes(ctx context.Context, in *Request, opts ...client.CallOption) (*AttributeResponse, error)
+	GetValue(ctx context.Context, in *AttributeValue, opts ...client.CallOption) (*AttributeValueResponse, error)
+	GetValues(ctx context.Context, in *Attribute, opts ...client.CallOption) (*AttributeValueResponse, error)
+	GetProductAttribute(ctx context.Context, in *ProductAttribute, opts ...client.CallOption) (*ProductAttributeResponse, error)
+	GetProductAttributes(ctx context.Context, in *Product, opts ...client.CallOption) (*ProductAttributeResponse, error)
+}
+
+type attributeServiceClient struct {
+	c           client.Client
+	serviceName string
+}
+
+func NewAttributeServiceClient(serviceName string, c client.Client) AttributeServiceClient {
+	if c == nil {
+		c = client.NewClient()
+	}
+	if len(serviceName) == 0 {
+		serviceName = "laracom.service.product"
+	}
+	return &attributeServiceClient{
+		c:           c,
+		serviceName: serviceName,
+	}
+}
+
+func (c *attributeServiceClient) CreateAttribute(ctx context.Context, in *Attribute, opts ...client.CallOption) (*AttributeResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "AttributeService.CreateAttribute", in)
+	out := new(AttributeResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *attributeServiceClient) DeleteAttribute(ctx context.Context, in *Attribute, opts ...client.CallOption) (*AttributeResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "AttributeService.DeleteAttribute", in)
+	out := new(AttributeResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *attributeServiceClient) UpdateAttribute(ctx context.Context, in *Attribute, opts ...client.CallOption) (*AttributeResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "AttributeService.UpdateAttribute", in)
+	out := new(AttributeResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *attributeServiceClient) CreateValue(ctx context.Context, in *AttributeValue, opts ...client.CallOption) (*AttributeValueResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "AttributeService.CreateValue", in)
+	out := new(AttributeValueResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *attributeServiceClient) DeleteValue(ctx context.Context, in *AttributeValue, opts ...client.CallOption) (*AttributeValueResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "AttributeService.DeleteValue", in)
+	out := new(AttributeValueResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *attributeServiceClient) UpdateValue(ctx context.Context, in *AttributeValue, opts ...client.CallOption) (*AttributeValueResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "AttributeService.UpdateValue", in)
+	out := new(AttributeValueResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *attributeServiceClient) CreateProductAttribute(ctx context.Context, in *ProductAttribute, opts ...client.CallOption) (*ProductAttributeResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "AttributeService.CreateProductAttribute", in)
+	out := new(ProductAttributeResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *attributeServiceClient) DeleteProductAttribute(ctx context.Context, in *ProductAttribute, opts ...client.CallOption) (*ProductAttributeResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "AttributeService.DeleteProductAttribute", in)
+	out := new(ProductAttributeResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *attributeServiceClient) UpdateProductAttribute(ctx context.Context, in *ProductAttribute, opts ...client.CallOption) (*ProductAttributeResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "AttributeService.UpdateProductAttribute", in)
+	out := new(ProductAttributeResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *attributeServiceClient) GetAttribute(ctx context.Context, in *Attribute, opts ...client.CallOption) (*AttributeResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "AttributeService.GetAttribute", in)
+	out := new(AttributeResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *attributeServiceClient) GetAttributes(ctx context.Context, in *Request, opts ...client.CallOption) (*AttributeResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "AttributeService.GetAttributes", in)
+	out := new(AttributeResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *attributeServiceClient) GetValue(ctx context.Context, in *AttributeValue, opts ...client.CallOption) (*AttributeValueResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "AttributeService.GetValue", in)
+	out := new(AttributeValueResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *attributeServiceClient) GetValues(ctx context.Context, in *Attribute, opts ...client.CallOption) (*AttributeValueResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "AttributeService.GetValues", in)
+	out := new(AttributeValueResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *attributeServiceClient) GetProductAttribute(ctx context.Context, in *ProductAttribute, opts ...client.CallOption) (*ProductAttributeResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "AttributeService.GetProductAttribute", in)
+	out := new(ProductAttributeResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *attributeServiceClient) GetProductAttributes(ctx context.Context, in *Product, opts ...client.CallOption) (*ProductAttributeResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "AttributeService.GetProductAttributes", in)
+	out := new(ProductAttributeResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Server API for AttributeService service
+
+type AttributeServiceHandler interface {
+	CreateAttribute(context.Context, *Attribute, *AttributeResponse) error
+	DeleteAttribute(context.Context, *Attribute, *AttributeResponse) error
+	UpdateAttribute(context.Context, *Attribute, *AttributeResponse) error
+	CreateValue(context.Context, *AttributeValue, *AttributeValueResponse) error
+	DeleteValue(context.Context, *AttributeValue, *AttributeValueResponse) error
+	UpdateValue(context.Context, *AttributeValue, *AttributeValueResponse) error
+	CreateProductAttribute(context.Context, *ProductAttribute, *ProductAttributeResponse) error
+	DeleteProductAttribute(context.Context, *ProductAttribute, *ProductAttributeResponse) error
+	UpdateProductAttribute(context.Context, *ProductAttribute, *ProductAttributeResponse) error
+	GetAttribute(context.Context, *Attribute, *AttributeResponse) error
+	GetAttributes(context.Context, *Request, *AttributeResponse) error
+	GetValue(context.Context, *AttributeValue, *AttributeValueResponse) error
+	GetValues(context.Context, *Attribute, *AttributeValueResponse) error
+	GetProductAttribute(context.Context, *ProductAttribute, *ProductAttributeResponse) error
+	GetProductAttributes(context.Context, *Product, *ProductAttributeResponse) error
+}
+
+func RegisterAttributeServiceHandler(s server.Server, hdlr AttributeServiceHandler, opts ...server.HandlerOption) {
+	s.Handle(s.NewHandler(&AttributeService{hdlr}, opts...))
+}
+
+type AttributeService struct {
+	AttributeServiceHandler
+}
+
+func (h *AttributeService) CreateAttribute(ctx context.Context, in *Attribute, out *AttributeResponse) error {
+	return h.AttributeServiceHandler.CreateAttribute(ctx, in, out)
+}
+
+func (h *AttributeService) DeleteAttribute(ctx context.Context, in *Attribute, out *AttributeResponse) error {
+	return h.AttributeServiceHandler.DeleteAttribute(ctx, in, out)
+}
+
+func (h *AttributeService) UpdateAttribute(ctx context.Context, in *Attribute, out *AttributeResponse) error {
+	return h.AttributeServiceHandler.UpdateAttribute(ctx, in, out)
+}
+
+func (h *AttributeService) CreateValue(ctx context.Context, in *AttributeValue, out *AttributeValueResponse) error {
+	return h.AttributeServiceHandler.CreateValue(ctx, in, out)
+}
+
+func (h *AttributeService) DeleteValue(ctx context.Context, in *AttributeValue, out *AttributeValueResponse) error {
+	return h.AttributeServiceHandler.DeleteValue(ctx, in, out)
+}
+
+func (h *AttributeService) UpdateValue(ctx context.Context, in *AttributeValue, out *AttributeValueResponse) error {
+	return h.AttributeServiceHandler.UpdateValue(ctx, in, out)
+}
+
+func (h *AttributeService) CreateProductAttribute(ctx context.Context, in *ProductAttribute, out *ProductAttributeResponse) error {
+	return h.AttributeServiceHandler.CreateProductAttribute(ctx, in, out)
+}
+
+func (h *AttributeService) DeleteProductAttribute(ctx context.Context, in *ProductAttribute, out *ProductAttributeResponse) error {
+	return h.AttributeServiceHandler.DeleteProductAttribute(ctx, in, out)
+}
+
+func (h *AttributeService) UpdateProductAttribute(ctx context.Context, in *ProductAttribute, out *ProductAttributeResponse) error {
+	return h.AttributeServiceHandler.UpdateProductAttribute(ctx, in, out)
+}
+
+func (h *AttributeService) GetAttribute(ctx context.Context, in *Attribute, out *AttributeResponse) error {
+	return h.AttributeServiceHandler.GetAttribute(ctx, in, out)
+}
+
+func (h *AttributeService) GetAttributes(ctx context.Context, in *Request, out *AttributeResponse) error {
+	return h.AttributeServiceHandler.GetAttributes(ctx, in, out)
+}
+
+func (h *AttributeService) GetValue(ctx context.Context, in *AttributeValue, out *AttributeValueResponse) error {
+	return h.AttributeServiceHandler.GetValue(ctx, in, out)
+}
+
+func (h *AttributeService) GetValues(ctx context.Context, in *Attribute, out *AttributeValueResponse) error {
+	return h.AttributeServiceHandler.GetValues(ctx, in, out)
+}
+
+func (h *AttributeService) GetProductAttribute(ctx context.Context, in *ProductAttribute, out *ProductAttributeResponse) error {
+	return h.AttributeServiceHandler.GetProductAttribute(ctx, in, out)
+}
+
+func (h *AttributeService) GetProductAttributes(ctx context.Context, in *Product, out *ProductAttributeResponse) error {
+	return h.AttributeServiceHandler.GetProductAttributes(ctx, in, out)
 }

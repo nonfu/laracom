@@ -11,6 +11,7 @@ type ProductRepositoryInterface interface {
     Delete(product *model.Product) error
     GetById(id uint) (*model.Product, error)
     GetBySlug(slug string) (*model.Product, error)
+    GetDetailById(id uint) (*model.Product, error)
     GetAll() ([]*model.Product, error)
 }
 
@@ -61,4 +62,13 @@ func (repo *ProductRepository) GetAll() ([]*model.Product, error) {
         return nil, err
     }
     return products, nil
+}
+
+func (repo *ProductRepository) GetDetailById(id uint) (*model.Product, error)  {
+    product := &model.Product{}
+    // 获取所有关联关系
+    if err := repo.Db.Where("id = ?", id).Preload("Brand").Preload("Categories").Preload("Images").Preload("Attributes.AttributeValues").First(&product).Error; err != nil {
+        return nil, err
+    }
+    return product, nil
 }

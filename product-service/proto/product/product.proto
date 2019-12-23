@@ -2,11 +2,13 @@ syntax = "proto3";
 
 package laracom.service.product;
 
+// 1、商品服务
 service ProductService {
     rpc Create(Product) returns (Response) {}
 	rpc Delete(Product) returns (Response) {}
 	rpc Update(Product) returns (Response) {}
     rpc Get(Product) returns (Response) {}
+    rpc GetDetail(Product) returns (Response) {}
     rpc GetAll(Request) returns (Response) {}
 }
 
@@ -30,6 +32,10 @@ message Product {
     string mass_unit = 17;
     string created_at = 18;
     string updated_at = 19;
+    repeated ProductImage images = 20;
+    Brand brand = 21;
+    repeated Category categories = 22;
+    repeated ProductAttribute attributes = 23;
 }
 
 message Request {}
@@ -43,4 +49,147 @@ message Response {
 message Error {
     int32 code = 1;
     string description = 2;
+}
+
+// 2、图片服务
+service ImageService {
+    rpc Create(ProductImage) returns (ImageResponse) {}
+	rpc Delete(ProductImage) returns (ImageResponse) {}
+	rpc Update(ProductImage) returns (ImageResponse) {}
+    rpc Get(ProductImage) returns (ImageResponse) {}
+    rpc GetByProduct(Product) returns (ImageResponse) {}
+}
+
+message ProductImage {
+	uint32 id = 1;
+	uint32 product_id = 2;
+	string src = 3;
+}
+
+message ImageResponse {
+    ProductImage image = 1;
+    repeated ProductImage images = 2;
+    repeated Error errors = 3;
+}
+
+// 3、品牌服务
+service BrandService {
+    rpc Create(Brand) returns (BrandResponse) {}
+	rpc Delete(Brand) returns (BrandResponse) {}
+	rpc Update(Brand) returns (BrandResponse) {}
+    rpc Get(Brand) returns (BrandResponse) {}
+    rpc GetAll(Request) returns (BrandResponse) {}
+    rpc GetWithProducts(Brand) returns (BrandResponse) {}
+}
+
+message Brand {
+	uint32 id = 1;
+	string name = 2;
+	string created_at = 3;
+    string updated_at = 4;
+    repeated Product products = 5;
+}
+
+message BrandResponse {
+    Brand brand = 1;
+    repeated Brand brands = 2;
+    repeated Error errors = 3;
+}
+
+// 4、类目服务
+service CategoryService {
+    rpc Create(Category) returns (CategoryResponse) {}
+	rpc Delete(Category) returns (CategoryResponse) {}
+	rpc Update(Category) returns (CategoryResponse) {}
+    rpc Get(Category) returns (CategoryResponse) {}
+    rpc GetAll(Request) returns (CategoryResponse) {}
+    rpc GetWithProducts(Category) returns (CategoryResponse) {}
+}
+
+message Category {
+	uint32 id = 1;
+	string name = 2;
+	string slug = 3;
+	string description = 4;
+	string cover = 5;
+	uint32 status = 6;
+	uint32 parent_id = 7;
+	uint32 lft = 8;
+	uint32 rgt = 9;
+	string created_at = 10;
+	string updated_at = 11;
+	repeated Product products = 12;
+}
+
+message CategoryResponse {
+    Category category = 1;
+    repeated Category categories = 2;
+    repeated Error errors = 3;
+}
+
+// 5、属性服务
+service AttributeService {
+    rpc CreateAttribute(Attribute) returns (AttributeResponse) {}
+	rpc DeleteAttribute(Attribute) returns (AttributeResponse) {}
+	rpc UpdateAttribute(Attribute) returns (AttributeResponse) {}
+	rpc CreateValue(AttributeValue) returns (AttributeValueResponse) {}
+    rpc DeleteValue(AttributeValue) returns (AttributeValueResponse) {}
+    rpc UpdateValue(AttributeValue) returns (AttributeValueResponse) {}
+    rpc CreateProductAttribute(ProductAttribute) returns (ProductAttributeResponse) {}
+    rpc DeleteProductAttribute(ProductAttribute) returns (ProductAttributeResponse) {}
+    rpc UpdateProductAttribute(ProductAttribute) returns (ProductAttributeResponse) {}
+    rpc GetAttribute(Attribute) returns (AttributeResponse) {}
+    rpc GetAttributes(Request) returns (AttributeResponse) {}
+    rpc GetValue(AttributeValue) returns (AttributeValueResponse) {}
+    rpc GetValues(Attribute) returns (AttributeValueResponse) {}
+    rpc GetProductAttribute(ProductAttribute) returns (ProductAttributeResponse) {}
+    rpc GetProductAttributes(Product) returns (ProductAttributeResponse) {}
+}
+
+message Attribute {
+	uint32 id = 1;
+	string name = 2;
+	string created_at = 3;
+    string updated_at = 4;
+    repeated AttributeValue values = 5;
+}
+
+message AttributeValue {
+    uint32 id = 1;
+    string value = 2;
+    uint32 attribute_id = 3;
+    string created_at = 4;
+    string updated_at = 5;
+    Attribute attribute = 6;
+    repeated ProductAttribute product_attributes = 7;
+}
+
+message ProductAttribute {
+	uint32 id = 1;
+	uint32 product_id = 2;
+	uint32 quantity = 3;
+	float price = 4;
+	float sale_price = 5;
+	uint32 default = 6;
+	string created_at = 7;
+	string updated_at = 8;
+	repeated AttributeValue attribute_values = 9;
+}
+
+message AttributeResponse {
+    Attribute attribute = 1;
+    repeated Attribute attributes = 2;
+    repeated Error errors = 3;
+}
+
+message AttributeValueResponse {
+    AttributeValue value = 1;
+    repeated AttributeValue values = 2;
+    repeated Error errors = 3;
+}
+
+message ProductAttributeResponse {
+    ProductAttribute productAttribute = 1;
+    repeated ProductAttribute productAttributes = 2;
+    repeated Error errors = 3;
 }

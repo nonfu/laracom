@@ -23,6 +23,10 @@ type Product struct {
     Weight float32 `gorm:"type:decimal(8,2)"`
     DistanceUnit string `gorm:"type:varchar(255)"`
     MassUnit string `gorm:"type:varchar(255)"`
+    Brand Brand
+    Attributes []*ProductAttribute
+    Images []*ProductImage
+    Categories []*Category `gorm:"many2many:category_product;"`
 }
 
 func (model *Product) ToORM(req *pb.Product) (*Product, error) {
@@ -101,5 +105,32 @@ func (model *Product) ToProtobuf() (*pb.Product, error) {
     product.MassUnit = model.MassUnit
     product.CreatedAt = model.CreatedAt.Format("2006-01-02 15:04:05")
     product.UpdatedAt = model.UpdatedAt.Format("2006-01-02 15:04:05")
+    if model.Images != nil {
+        images := make([]*pb.ProductImage, len(model.Images))
+        for index, value := range model.Images {
+            image, _ := value.ToProtobuf()
+            images[index] = image
+        }
+        product.Images = images
+    }
+    if model.Brand.ID != 0 {
+        product.Brand, _ = model.Brand.ToProtobuf()
+    }
+    if model.Categories != nil {
+        categories := make([]*pb.Category, len(model.Categories))
+        for index, value := range model.Categories {
+            category, _ := value.ToProtobuf()
+            categories[index] = category
+        }
+        product.Categories = categories
+    }
+    if model.Attributes != nil {
+        attributes := make([]*pb.ProductAttribute, len(model.Attributes))
+        for index, value := range model.Attributes {
+            attribute, _ := value.ToProtobuf()
+            attributes[index] = attribute
+        }
+        product.Attributes = attributes
+    }
     return product, nil
 }

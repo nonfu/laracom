@@ -33,6 +33,20 @@ func (srv *ProductService) Get(ctx context.Context, req *pb.Product, res *pb.Res
     return nil
 }
 
+func (srv *ProductService) GetDetail(ctx context.Context, req *pb.Product, res *pb.Response) error {
+    if req.Id == 0 {
+        return errors.New("商品 ID 不能为空")
+    }
+    productModel, err := srv.ProductRepo.GetDetailById(uint(req.Id))
+    if err != nil && err != gorm.ErrRecordNotFound {
+        return err
+    }
+    if productModel != nil {
+        res.Product, _ = productModel.ToProtobuf()
+    }
+    return nil
+}
+
 func (srv *ProductService) GetAll(ctx context.Context, req *pb.Request, res *pb.Response) error {
     products, err := srv.ProductRepo.GetAll()
     if err != nil && err != gorm.ErrRecordNotFound {
