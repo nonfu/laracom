@@ -92,7 +92,7 @@ func (repo *AttributeRepository) DeleteProductAttribute(attribute *model.Product
 
 func (repo *AttributeRepository) GetAttribute(id uint) (*model.Attribute, error) {
     attribute := &model.Attribute{}
-    if err := repo.Db.First(&attribute, id).Error; err != nil {
+    if err := repo.Db.First(attribute, id).Error; err != nil {
         return nil, err
     }
     return attribute, nil
@@ -108,7 +108,7 @@ func (repo *AttributeRepository) GetAttributes() ([]*model.Attribute, error) {
 
 func (repo *AttributeRepository) GetAttributeValue(id uint) (*model.AttributeValue, error) {
     value := &model.AttributeValue{}
-    if err := repo.Db.First(&value, id).Error; err != nil {
+    if err := repo.Db.First(value, id).Error; err != nil {
         return nil, err
     }
     return value, nil
@@ -125,7 +125,7 @@ func (repo *AttributeRepository) GetAttributeValues(attributeId uint) ([]*model.
 
 func (repo *AttributeRepository) GetProductAttribute(id uint) (*model.ProductAttribute, error) {
     attribute := &model.ProductAttribute{}
-    if err := repo.Db.First(&attribute, id).Error; err != nil {
+    if err := repo.Db.First(attribute, id).Error; err != nil {
         return nil, err
     }
     return attribute, nil
@@ -134,7 +134,7 @@ func (repo *AttributeRepository) GetProductAttribute(id uint) (*model.ProductAtt
 func (repo *AttributeRepository) GetProductAttributes(productId uint) ([]*model.ProductAttribute, error) {
     var productAttributes []*model.ProductAttribute
     // 获取嵌套的关联关系
-    if err := repo.Db.Preload("AttributeValues.Attribute").Find(&productAttributes, "product_id = ?", productId).Error; err != nil {
+    if err := repo.Db.Where("product_id = ?", productId).Preload("AttributeValues.Attribute").Find(&productAttributes).Error; err != nil {
         return nil, err
     }
     return productAttributes, nil

@@ -58,7 +58,7 @@ func (repo *CategoryRepository) GetAll() ([]*model.Category, error) {
 func (repo *CategoryRepository) GetWithProducts(categoryId uint) (*model.Category, error) {
     category := &model.Category{}
     // 获取与之关联的所有商品
-    if err := repo.Db.Preload("Products").First(category, categoryId).Error; err != nil {
+    if err := repo.Db.Where("id = ?", categoryId).Preload("Products").First(category).Error; err != nil {
         return nil, err
     }
     return category, nil

@@ -58,7 +58,7 @@ func (repo *BrandRepository) GetAll() ([]*model.Brand, error) {
 func (repo *BrandRepository) GetWithProducts(brandId uint) (*model.Brand, error) {
     brand  := &model.Brand{}
     // 获取与之关联的所有商品
-    if err := repo.Db.Where("id = ?", brandId).Preload("Products").First(&brand).Error; err != nil {
+    if err := repo.Db.Where("id = ?", brandId).Preload("Products").First(brand).Error; err != nil {
         return nil, err
     }
     return brand, nil

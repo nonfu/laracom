@@ -42,7 +42,7 @@ func (repo *ProductRepository) Delete(product *model.Product) error {
 
 func (repo *ProductRepository) GetById(id uint) (*model.Product, error) {
     product := &model.Product{}
-    if err := repo.Db.First(&product, id).Error; err != nil {
+    if err := repo.Db.First(product, id).Error; err != nil {
         return nil, err
     }
     return product, nil
@@ -50,7 +50,7 @@ func (repo *ProductRepository) GetById(id uint) (*model.Product, error) {
 
 func (repo *ProductRepository) GetBySlug(slug string) (*model.Product, error) {
     product := &model.Product{}
-    if err := repo.Db.Where("slug = ?", slug).First(&product).Error; err != nil {
+    if err := repo.Db.Where("slug = ?", slug).First(product).Error; err != nil {
         return nil, err
     }
     return product, nil
@@ -67,7 +67,7 @@ func (repo *ProductRepository) GetAll() ([]*model.Product, error) {
 func (repo *ProductRepository) GetDetailById(id uint) (*model.Product, error)  {
     product := &model.Product{}
     // 获取所有关联关系
-    if err := repo.Db.Where("id = ?", id).Preload("Brand").Preload("Categories").Preload("Images").Preload("Attributes.AttributeValues").First(&product).Error; err != nil {
+    if err := repo.Db.Where("id = ?", id).Preload("Brand").Preload("Categories").Preload("Images").Preload("Attributes.AttributeValues").First(product).Error; err != nil {
         return nil, err
     }
     return product, nil
