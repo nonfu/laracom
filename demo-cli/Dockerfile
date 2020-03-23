@@ -1,7 +1,6 @@
-FROM golang:1.12-alpine as builder
+FROM golang:alpine as builder
 
 ENV GO111MODULE on
-ENV GOPROXY https://goproxy.cn
 
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 
@@ -11,7 +10,7 @@ WORKDIR /app/laracom-demo-cli
 
 COPY . .
 
-RUN go mod download
+RUN go env -w GOPROXY=https://goproxy.io,direct && go mod tidy
 
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o laracom-demo-cli
 

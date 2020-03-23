@@ -32,7 +32,7 @@ FROM alpine:latest
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 
 # 安装相关软件
-RUN apk update && apk add --no-cache bash supervisor ca-certificates
+RUN apk update && apk add --no-cache bash ca-certificates curl
 
 # 和上个阶段一样设置工作目录
 RUN mkdir /app
@@ -41,7 +41,7 @@ WORKDIR /app
 # 这一步不再从宿主机拷贝二进制文件，而是从上一个阶段构建的 builder 容器中拉取，神奇吧
 COPY --from=builder /app/laracom-demo-service/laracom-demo-service .
 
-ADD supervisord.conf /etc/supervisord.conf
+# HEALTHCHECK --interval=3s --timeout=3s CMD curl -fs http://healthchecker:8081/health || exit 1
 
-# 和之前一样通过 Supervisor 管理服务
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
+# 启动演示服务
+CMD ["./laracom-demo-service", "--server_address=:9091"]

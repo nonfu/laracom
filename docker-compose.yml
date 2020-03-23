@@ -4,18 +4,22 @@ version: '3.3'
 services:
   laracom-demo-cli:
     build: ./demo-cli
+    depends_on:
+      - etcd1
     environment:
-      MICRO_REGISTRY: "consul"
-      MICRO_REGISTRY_ADDRESS: "laracom-consul:2379"
+      MICRO_REGISTRY: "etcd"
+      MICRO_REGISTRY_ADDRESS: "etcd1:2379"
 
   laracom-demo-service:
     build: ./demo-service
+    depends_on:
+      - etcd1
     ports:
       - 9091:9091
     environment:
       MICRO_SERVER_ADDRESS: ":9091"
-      MICRO_REGISTRY: "consul"
-      MICRO_REGISTRY_ADDRESS: "laracom-consul:2379"
+      MICRO_REGISTRY: "etcd"
+      MICRO_REGISTRY_ADDRESS: "etcd1:2379"
 
   laracom-user-service:
     depends_on:
@@ -46,6 +50,7 @@ services:
       - etcd1
       - etcd2
       - etcd3
+      - jaeger
     build: ./product-service
     ports:
       - 9093:9091
@@ -306,6 +311,22 @@ services:
     networks:
       - microservice
     restart: always
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.6
+    container_name: jaeger
+    environment:
+      COLLECTOR_ZIPKIN_HTTP_PORT: "9411"
+    ports:
+      - "5775:5775/udp"
+      - "5778:5778"
+      - "6831:6831/udp"
+      - "6832:6832/udp"
+      - "9411:9411"
+      - "14268:14268"
+      - "16686:16686"
+    networks:
+      - microservice
 
 volumes:
   db_user_data: {}

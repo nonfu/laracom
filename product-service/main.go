@@ -4,11 +4,14 @@ import (
     "fmt"
     "github.com/micro/go-micro"
     "github.com/micro/go-plugins/wrapper/monitoring/prometheus"
+    traceplugin "github.com/micro/go-plugins/wrapper/trace/opentracing"
     "github.com/nonfu/laracom/product-service/db"
     "github.com/nonfu/laracom/product-service/handler"
     "github.com/nonfu/laracom/product-service/model"
     pb "github.com/nonfu/laracom/product-service/proto/product"
     "github.com/nonfu/laracom/product-service/repo"
+    "github.com/nonfu/laracom/product-service/trace"
+    "github.com/opentracing/opentracing-go"
     "github.com/prometheus/client_golang/prometheus/promhttp"
     "log"
     "net/http"
@@ -51,11 +54,22 @@ func main()  {
     categoryRepo := &repo.CategoryRepository{database}
     attributeRepo := &repo.AttributeRepository{database}
 
+    var name = "laracom.service.product"
+
+    // 初始化全局服务追踪
+    t, io, err := trace.NewTracer(name, ":6831")
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer io.Close()
+    opentracing.SetGlobalTracer(t)
+
     // 以下是 Micro 创建微服务流程
     srv := micro.NewService(
-        micro.Name("laracom.service.product"),
+        micro.Name(name),
         micro.Version("latest"),  // 新增接口版本参数
         micro.WrapHandler(prometheus.NewHandlerWrapper()), // 基于 prometheus 采集监控指标数据
+        micro.WrapHandler(traceplugin.NewHandlerWrapper(opentracing.GlobalTracer())), // 基于 jaeger 采集追踪数据
     )
     srv.Init()
 

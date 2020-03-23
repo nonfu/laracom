@@ -4,7 +4,7 @@ go 1.12
 
 require (
 	github.com/micro/go-micro v1.16.0
-	github.com/nonfu/laracom/demo-service v0.0.0-00010101000000-000000000000
+	github.com/micro/go-plugins v1.5.1
+	github.com/nonfu/laracom/demo-service v0.0.0-20200110020022-caa481a02cf8
+	github.com/smartystreets/goconvey v1.6.4 // indirect
 )
-
-replace github.com/nonfu/laracom/demo-service => /Users/sunqiang/Development/go/src/laracom/demo-service

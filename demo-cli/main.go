@@ -3,21 +3,15 @@ package main
 import (
 	"context"
 	"github.com/micro/go-micro"
-	"github.com/micro/go-micro/registry"
-	"github.com/micro/go-plugins/registry/consul"
 	pb "github.com/nonfu/laracom/demo-service/proto/demo"
+	"github.com/micro/go-plugins/wrapper/breaker/hystrix"
 	"log"
 )
 
 func main() {
-	reg := consul.NewRegistry(func(op *registry.Options){
-		op.Addrs = []string{
-			"http://laracom-consul:8500",
-		}
-	})
 	service := micro.NewService(
 		micro.Name("laracom.demo.cli"),
-		micro.Registry(reg),
+		micro.WrapClient(hystrix.NewClientWrapper()),
 	)
 	service.Init()
 
