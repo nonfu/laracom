@@ -9,6 +9,8 @@ services:
     environment:
       MICRO_REGISTRY: "etcd"
       MICRO_REGISTRY_ADDRESS: "etcd1:2379"
+    networks:
+      - microservice
 
   laracom-demo-service:
     build: ./demo-service
@@ -20,6 +22,8 @@ services:
       MICRO_SERVER_ADDRESS: ":9091"
       MICRO_REGISTRY: "etcd"
       MICRO_REGISTRY_ADDRESS: "etcd1:2379"
+    networks:
+      - microservice
 
   laracom-user-service:
     depends_on:

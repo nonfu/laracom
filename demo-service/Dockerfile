@@ -1,11 +1,10 @@
 # demo-service/Dockerfile
 
 # 使用 golang 官方镜像提供 Go 运行环境，并且命名为 buidler 以便后续引用
-FROM golang:1.12-alpine as builder
+FROM golang:alpine as builder
 
-# 启用 Go Modules 并设置 GOPROXY
+# 启用 Go Modules
 ENV GO111MODULE on
-ENV GOPROXY https://goproxy.cn
 
 # 更新安装源
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
@@ -20,7 +19,7 @@ WORKDIR /app/laracom-demo-service
 COPY . .
 
 # 下载依赖
-RUN go mod download
+RUN go env -w GOPROXY=https://goproxy.io,direct && go mod tidy
 
 # 构建二进制文件，添加来一些额外参数以便可以在 Alpine 中运行它
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o laracom-demo-service
