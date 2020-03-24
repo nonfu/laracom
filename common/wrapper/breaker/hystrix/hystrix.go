@@ -1,11 +1,9 @@
 package hystrix
 
 import (
-    "fmt"
     "github.com/afex/hystrix-go/hystrix"
     "github.com/eapache/go-resiliency/retrier"
     "github.com/micro/go-micro/client"
-    "io/ioutil"
     "log"
     "net"
     "net/http"
