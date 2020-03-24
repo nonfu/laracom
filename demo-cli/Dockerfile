@@ -26,3 +26,5 @@ WORKDIR /app
 COPY --from=builder /app/laracom-demo-cli/laracom-demo-cli .
 
 CMD ["./laracom-demo-cli"]
+
+EXPOSE 8181
