@@ -14,6 +14,7 @@ import (
 )
 
 func main() {
+	hystrix.Configure([]string{"laracom.service.demo.DemoService.SayHello"})
 	service := micro.NewService(
 		micro.Name("laracom.demo.cli"),
 		micro.WrapClient(hystrix.NewClientWrapper()),
