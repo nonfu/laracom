@@ -1,6 +1,7 @@
 package hystrix
 
 import (
+    "context"
     "github.com/afex/hystrix-go/hystrix"
     "github.com/eapache/go-resiliency/retrier"
     "github.com/micro/go-micro/client"
@@ -8,7 +9,6 @@ import (
     "net"
     "net/http"
     "time"
-    "context"
 )
 
 type clientWrapper struct {
