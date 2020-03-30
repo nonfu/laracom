@@ -39,5 +39,7 @@ WORKDIR /app
 # 这一步不再从宿主机拷贝二进制文件，而是从上一个阶段构建的 builder 容器中拉取，神奇吧
 COPY --from=builder /app/laracom-product-service/laracom-product-service .
 
+EXPOSE 9091
+
 # 启动商品服务
 CMD ["./laracom-product-service"]
