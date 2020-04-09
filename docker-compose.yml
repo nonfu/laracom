@@ -1,6 +1,16 @@
 # docker-compose.yml
 version: '3.3'
 
+networks:
+  laracom_network:
+    external: true
+
+volumes:
+  db_user_data: {}
+  db_product_data: {}
+  grafana_data: {}
+  prometheus_data: {}
+
 services:
   laracom-demo-service:
     image: laracom/demoservice
@@ -12,12 +22,8 @@ services:
       MICRO_SERVER_ADDRESS: ":9091"
       MICRO_REGISTRY: "etcd"
       MICRO_REGISTRY_ADDRESS: "etcd1:2379,etcd2:2379,etcd3:2379"
-    ports:
-      - 9091:9091
     networks:
-      laracom_network:
-        aliases:
-          - "laracom-demo-service"
+      - laracom_network
     deploy:
       mode: replicated
       replicas: 1
@@ -30,8 +36,6 @@ services:
       - etcd1
       - etcd2
       - etcd3
-    ports:
-      - 9092:9091
     environment:
       MICRO_SERVER_ADDRESS: ":9091"
       MICRO_REGISTRY: "etcd"
@@ -43,9 +47,7 @@ services:
       DB_USER: "test"
       DB_PASSWORD: "test"
     networks:
-      laracom_network:
-        aliases:
-          - "laracom-user-service"
+      - laracom_network
     deploy:
       mode: replicated
       replicas: 3
@@ -58,8 +60,6 @@ services:
       - etcd2
       - etcd3
       - jaeger
-    ports:
-      - 9093:9091
     environment:
       MICRO_SERVER_ADDRESS: ":9091"
       MICRO_REGISTRY: "etcd"
@@ -70,9 +70,7 @@ services:
       DB_PASSWORD: "test"
       MICRO_LOG_LEVEL: "debug"
     networks:
-      laracom_network:
-        aliases:
-          - "laracom-product-service"
+      - laracom_network
     deploy:
       mode: replicated
       replicas: 3
@@ -343,13 +341,3 @@ services:
     deploy:
       placement:
         constraints: [node.role == manager]
-
-volumes:
-  db_user_data: {}
-  db_product_data: {}
-  grafana_data: {}
-  prometheus_data: {}
-
-networks:
-  laracom_network:
-    driver: overlay

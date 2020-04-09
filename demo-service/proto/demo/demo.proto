@@ -4,12 +4,17 @@ package laracom.service.demo;
 
 service DemoService {
   rpc SayHello(DemoRequest) returns (DemoResponse) {}
+  rpc SayHelloByUserId(HelloRequest) returns (DemoResponse) {}
 }
 
 message DemoRequest {
     string name = 1;
 }
 
+message HelloRequest {
+	string id = 1;
+}
+
 message DemoResponse {
-    string text = 2;
+    string text = 1;
 }

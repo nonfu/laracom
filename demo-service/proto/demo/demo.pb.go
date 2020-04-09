@@ -65,8 +65,47 @@ func (m *DemoRequest) GetName() string {
 	return ""
 }
 
+type HelloRequest struct {
+	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *HelloRequest) Reset()         { *m = HelloRequest{} }
+func (m *HelloRequest) String() string { return proto.CompactTextString(m) }
+func (*HelloRequest) ProtoMessage()    {}
+func (*HelloRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_08b73fb6bfa52be9, []int{1}
+}
+
+func (m *HelloRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_HelloRequest.Unmarshal(m, b)
+}
+func (m *HelloRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_HelloRequest.Marshal(b, m, deterministic)
+}
+func (m *HelloRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_HelloRequest.Merge(m, src)
+}
+func (m *HelloRequest) XXX_Size() int {
+	return xxx_messageInfo_HelloRequest.Size(m)
+}
+func (m *HelloRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_HelloRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_HelloRequest proto.InternalMessageInfo
+
+func (m *HelloRequest) GetId() string {
+	if m != nil {
+		return m.Id
+	}
+	return ""
+}
+
 type DemoResponse struct {
-	Text                 string   `protobuf:"bytes,2,opt,name=text,proto3" json:"text,omitempty"`
+	Text                 string   `protobuf:"bytes,1,opt,name=text,proto3" json:"text,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -76,7 +115,7 @@ func (m *DemoResponse) Reset()         { *m = DemoResponse{} }
 func (m *DemoResponse) String() string { return proto.CompactTextString(m) }
 func (*DemoResponse) ProtoMessage()    {}
 func (*DemoResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_08b73fb6bfa52be9, []int{1}
+	return fileDescriptor_08b73fb6bfa52be9, []int{2}
 }
 
 func (m *DemoResponse) XXX_Unmarshal(b []byte) error {
@@ -106,23 +145,27 @@ func (m *DemoResponse) GetText() string {
 
 func init() {
 	proto.RegisterType((*DemoRequest)(nil), "laracom.service.demo.DemoRequest")
+	proto.RegisterType((*HelloRequest)(nil), "laracom.service.demo.HelloRequest")
 	proto.RegisterType((*DemoResponse)(nil), "laracom.service.demo.DemoResponse")
 }
 
 func init() { proto.RegisterFile("proto/demo/demo.proto", fileDescriptor_08b73fb6bfa52be9) }
 
 var fileDescriptor_08b73fb6bfa52be9 = []byte{
-	// 156 bytes of a gzipped FileDescriptorProto
+	// 196 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x2d, 0x28, 0xca, 0x2f,
 	0xc9, 0xd7, 0x4f, 0x49, 0xcd, 0x85, 0x10, 0x7a, 0x60, 0xbe, 0x90, 0x48, 0x4e, 0x62, 0x51, 0x62,
 	0x72, 0x7e, 0xae, 0x5e, 0x71, 0x6a, 0x51, 0x59, 0x66, 0x72, 0xaa, 0x1e, 0x48, 0x4e, 0x49, 0x91,
 	0x8b, 0xdb, 0x25, 0x35, 0x37, 0x3f, 0x28, 0xb5, 0xb0, 0x34, 0xb5, 0xb8, 0x44, 0x48, 0x88, 0x8b,
-	0x25, 0x2f, 0x31, 0x37, 0x55, 0x82, 0x51, 0x81, 0x51, 0x83, 0x33, 0x08, 0xcc, 0x56, 0x52, 0xe2,
-	0xe2, 0x81, 0x28, 0x29, 0x2e, 0xc8, 0xcf, 0x2b, 0x4e, 0x05, 0xa9, 0x29, 0x49, 0xad, 0x28, 0x91,
-	0x60, 0x82, 0xa8, 0x01, 0xb1, 0x8d, 0x92, 0x20, 0xc6, 0x04, 0x43, 0x8c, 0x16, 0x0a, 0xe6, 0xe2,
-	0x08, 0x4e, 0xac, 0xf4, 0x48, 0xcd, 0xc9, 0xc9, 0x17, 0x52, 0xd4, 0xc3, 0x66, 0xb1, 0x1e, 0x92,
-	0xad, 0x52, 0x4a, 0xf8, 0x94, 0x40, 0x6c, 0x55, 0x62, 0x48, 0x62, 0x03, 0xfb, 0xc3, 0x18, 0x10,
-	0x00, 0x00, 0xff, 0xff, 0x6c, 0x07, 0x42, 0x0c, 0xe0, 0x00, 0x00, 0x00,
+	0x25, 0x2f, 0x31, 0x37, 0x55, 0x82, 0x51, 0x81, 0x51, 0x83, 0x33, 0x08, 0xcc, 0x56, 0x92, 0xe3,
+	0xe2, 0xf1, 0x48, 0xcd, 0xc9, 0x81, 0xab, 0xe1, 0xe3, 0x62, 0xca, 0x4c, 0x81, 0xaa, 0x60, 0xca,
+	0x4c, 0x51, 0x52, 0xe2, 0xe2, 0x81, 0x18, 0x51, 0x5c, 0x90, 0x9f, 0x57, 0x9c, 0x0a, 0x32, 0xa3,
+	0x24, 0xb5, 0xa2, 0x04, 0x66, 0x06, 0x88, 0x6d, 0x74, 0x80, 0x11, 0x62, 0x4f, 0x30, 0xc4, 0x6e,
+	0xa1, 0x60, 0x2e, 0x8e, 0xe0, 0xc4, 0x4a, 0xb0, 0xb1, 0x42, 0x8a, 0x7a, 0xd8, 0x5c, 0xa6, 0x87,
+	0xe4, 0x2c, 0x29, 0x25, 0x7c, 0x4a, 0x20, 0xd6, 0x2a, 0x31, 0x08, 0xc5, 0x70, 0x09, 0xc0, 0x0c,
+	0x75, 0xaa, 0x0c, 0x2d, 0x4e, 0x2d, 0xf2, 0x4c, 0x11, 0xc2, 0xa1, 0x13, 0xd9, 0x43, 0xc4, 0x99,
+	0x9e, 0xc4, 0x06, 0x0e, 0x46, 0x63, 0x40, 0x00, 0x00, 0x00, 0xff, 0xff, 0x77, 0x0e, 0xf4, 0xd5,
+	0x5f, 0x01, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -134,6 +177,7 @@ var _ server.Option
 
 type DemoServiceClient interface {
 	SayHello(ctx context.Context, in *DemoRequest, opts ...client.CallOption) (*DemoResponse, error)
+	SayHelloByUserId(ctx context.Context, in *HelloRequest, opts ...client.CallOption) (*DemoResponse, error)
 }
 
 type demoServiceClient struct {
@@ -164,10 +208,21 @@ func (c *demoServiceClient) SayHello(ctx context.Context, in *DemoRequest, opts 
 	return out, nil
 }
 
+func (c *demoServiceClient) SayHelloByUserId(ctx context.Context, in *HelloRequest, opts ...client.CallOption) (*DemoResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "DemoService.SayHelloByUserId", in)
+	out := new(DemoResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for DemoService service
 
 type DemoServiceHandler interface {
 	SayHello(context.Context, *DemoRequest, *DemoResponse) error
+	SayHelloByUserId(context.Context, *HelloRequest, *DemoResponse) error
 }
 
 func RegisterDemoServiceHandler(s server.Server, hdlr DemoServiceHandler, opts ...server.HandlerOption) {
@@ -180,4 +235,8 @@ type DemoService struct {
 
 func (h *DemoService) SayHello(ctx context.Context, in *DemoRequest, out *DemoResponse) error {
 	return h.DemoServiceHandler.SayHello(ctx, in, out)
+}
+
+func (h *DemoService) SayHelloByUserId(ctx context.Context, in *HelloRequest, out *DemoResponse) error {
+	return h.DemoServiceHandler.SayHelloByUserId(ctx, in, out)
 }
