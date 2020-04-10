@@ -42,6 +42,12 @@ func (srv *UserService) Get(ctx context.Context, req *pb.User, res *pb.Response)
     return nil
 }
 
+func (srv *UserService) GetById(ctx context.Context, req *pb.User, res *pb.Response) error {
+    name := "test" + req.Id
+    res.User = &pb.User{Id: req.Id, Name: name}
+    return nil
+}
+
 func (srv *UserService) GetAll(ctx context.Context, req *pb.Request, res *pb.Response) error {
     users, err := srv.Repo.GetAll()
     if err != nil && err != gorm.ErrRecordNotFound {

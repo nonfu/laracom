@@ -5,6 +5,7 @@ package laracom.service.user;
 service UserService {
     rpc Create(User) returns (Response) {}
     rpc Get(User) returns (Response) {}
+    rpc GetById(User) returns (Response) {}
     rpc GetAll(Request) returns (Response) {}
     rpc Auth(User) returns (Token) {}
     rpc ValidateToken(Token) returns (Token) {}
