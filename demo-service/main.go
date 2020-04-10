@@ -13,7 +13,7 @@ import (
 const QPS = 1000
 
 type DemoServiceHandler struct {
-
+	Service micro.Service
 }
 
 func (s *DemoServiceHandler) SayHello(ctx context.Context, req *pb.DemoRequest, rsp *pb.DemoResponse) error {
@@ -22,9 +22,7 @@ func (s *DemoServiceHandler) SayHello(ctx context.Context, req *pb.DemoRequest, 
 }
 
 func (s *DemoServiceHandler) SayHelloByUserId(ctx context.Context, req *pb.HelloRequest, rsp *pb.DemoResponse) error {
-	service := micro.NewService()
-	service.Init()
-	client := userpb.NewUserServiceClient("laracom.service.user", service.Client())
+	client := userpb.NewUserServiceClient("laracom.service.user", s.Service.Client())
 	resp, err := client.Get(context.TODO(), &userpb.User{Id: req.Id})
 	if err != nil {
 		return err
@@ -43,7 +41,7 @@ func main()  {
 	)
 	service.Init()
 
-	pb.RegisterDemoServiceHandler(service.Server(), &DemoServiceHandler{})
+	pb.RegisterDemoServiceHandler(service.Server(), &DemoServiceHandler{service})
 	if err := service.Run(); err != nil {
 		log.Fatalf("服务启动失败: %v", err)
 	}
