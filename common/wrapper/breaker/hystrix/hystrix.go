@@ -42,7 +42,7 @@ func Configure(names []string) {
     // Hystrix 有默认的参数配置，这里可以针对某些 API 进行自定义配置
     config := hystrix.CommandConfig{
         Timeout:               3000,
-        MaxConcurrentRequests: 1000,
+        MaxConcurrentRequests: 1500,
         ErrorPercentThreshold: 25,
     }
     configs := make(map[string]hystrix.CommandConfig)
