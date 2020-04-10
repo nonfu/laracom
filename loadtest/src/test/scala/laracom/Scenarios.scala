@@ -20,4 +20,15 @@ object Scenarios {
             	.headers(Headers.http_header)
             	.body(StringBody("""{ "name": "${name}" }""")))
 		}
+
+	// SayHelloByUserId
+    val ids = csv("userids.csv").circular
+    val scn_SayHelloByUserId = scenario("SayHelloByUserId")
+        .during(Conf.duration) {
+            feed(ids)
+            .exec(http("SayHelloByUserId")
+                .post("/demo/DemoService/SayHelloByUserId")
+                .headers(Headers.http_header)
+                .body(StringBody("""{ "id": "${id}" }""")))
+        }
 }

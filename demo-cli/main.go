@@ -3,15 +3,16 @@ package main
 import (
 	"context"
 	"github.com/micro/go-micro"
+	"github.com/nonfu/laracom/common/wrapper/breaker/hystrix"
 	pb "github.com/nonfu/laracom/demo-service/proto/demo"
 	"log"
 )
 
 func main() {
-	//hystrix.Configure([]string{"laracom.service.demo.DemoService.SayHello"})
+	hystrix.Configure([]string{"laracom.service.demo.DemoService.SayHello"})
 	service := micro.NewService(
 		micro.Name("laracom.demo.cli"),
-		//micro.WrapClient(hystrix.NewClientWrapper()),
+		micro.WrapClient(hystrix.NewClientWrapper()),
 	)
 	service.Init()
 

@@ -2,15 +2,12 @@ package main
 
 import (
 	"context"
-	ratelimit "github.com/juju/ratelimit"
 	"github.com/micro/go-micro"
-	ratelimiter "github.com/micro/go-plugins/wrapper/ratelimiter/ratelimit"
+	"github.com/nonfu/laracom/common/wrapper/breaker/hystrix"
 	pb "github.com/nonfu/laracom/demo-service/proto/demo"
 	userpb "github.com/nonfu/laracom/user-service/proto/user"
 	"log"
 )
-
-const QPS = 1000
 
 type DemoServiceHandler struct {
 	Service micro.Service
@@ -22,7 +19,13 @@ func (s *DemoServiceHandler) SayHello(ctx context.Context, req *pb.DemoRequest, 
 }
 
 func (s *DemoServiceHandler) SayHelloByUserId(ctx context.Context, req *pb.HelloRequest, rsp *pb.DemoResponse) error {
-	client := userpb.NewUserServiceClient("laracom.service.user", s.Service.Client())
+	// 使用断路器
+	hystrix.Configure([]string{"laracom.service.user.UserService.Get"})
+	service := s.Service
+	service.Init(
+		micro.WrapClient(hystrix.NewClientWrapper()),
+	)
+	client := userpb.NewUserServiceClient("laracom.service.user", service.Client())
 	resp, err := client.Get(context.TODO(), &userpb.User{Id: req.Id})
 	if err != nil {
 		return err
@@ -32,12 +35,9 @@ func (s *DemoServiceHandler) SayHelloByUserId(ctx context.Context, req *pb.Hello
 }
 
 func main()  {
-	bucket := ratelimit.NewBucketWithRate(float64(QPS), int64(QPS))
-
 	// 注册服务名必须和 demo.proto 中的 package 声明一致
 	service := micro.NewService(
 		micro.Name("laracom.service.demo"),
-		micro.WrapHandler(ratelimiter.NewHandlerWrapper(bucket, false)),
 	)
 	service.Init()
 
