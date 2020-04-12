@@ -502,10 +502,10 @@ github.com/nats-io/nuid v1.0.1/go.mod h1:19wcPz3Ph3q0Jbyiqsd0kePYG7A95tJPxeL+1OS
 github.com/nats-io/stan.go v0.5.0/go.mod h1:dYqB+vMN3C2F9pT1FRQpg9eHbjPj6mP0yYuyBNuXHZE=
 github.com/nbio/st v0.0.0-20140626010706-e9e8d9816f32/go.mod h1:9wM+0iRr9ahx58uYLpLIr5fm8diHn0JbqRycJi6w0Ms=
 github.com/nlopes/slack v0.6.0/go.mod h1:JzQ9m3PMAqcpeCam7UaHSuBuupz7CmpjehYMayT6YOk=
-github.com/nonfu/laracom/common v0.0.0-20200330162608-0fb9f2e7f859 h1:24qwFLPUu3h8dM+UII+h25MOXc6CbbPR1cq/xJ3+3CI=
-github.com/nonfu/laracom/common v0.0.0-20200330162608-0fb9f2e7f859/go.mod h1:zs5RKUKOuOa7R5Ei1owXkchHS9EQ0Vg/79sBd/yZ4q4=
-github.com/nonfu/laracom/user-service v0.0.0-20200330162608-0fb9f2e7f859 h1:Qv143LhNyOe3H8urX9/bCI6t8Yw/WKl8J6kwMHN1D/U=
-github.com/nonfu/laracom/user-service v0.0.0-20200330162608-0fb9f2e7f859/go.mod h1:tdQCNm0I5ErwiDhod/3IfjBWyaO+6HvCFrnNbQqLu8c=
+github.com/nonfu/laracom/common v0.0.0-20200410172524-f1f9cd8a345a h1:JABWx+xdCq4G29HhWhAqWwmcorgT20UBHZQzMc+8Q10=
+github.com/nonfu/laracom/common v0.0.0-20200410172524-f1f9cd8a345a/go.mod h1:zs5RKUKOuOa7R5Ei1owXkchHS9EQ0Vg/79sBd/yZ4q4=
+github.com/nonfu/laracom/user-service v0.0.0-20200410143932-a6f4d5f4b264 h1:93aazxWiycyDOe9BHtEf4cEMDVyG2YHrQGXG7/+85hA=
+github.com/nonfu/laracom/user-service v0.0.0-20200410143932-a6f4d5f4b264/go.mod h1:tdQCNm0I5ErwiDhod/3IfjBWyaO+6HvCFrnNbQqLu8c=
 github.com/nrdcg/auroradns v1.0.0/go.mod h1:6JPXKzIRzZzMqtTDgueIhTi6rFf1QvYE/HzqidhOhjw=
 github.com/nrdcg/goinwx v0.6.1/go.mod h1:XPiut7enlbEdntAqalBIqcYcTEVhpv/dKWgDCX2SwKQ=
 github.com/nrdcg/namesilo v0.2.1/go.mod h1:lwMvfQTyYq+BbjJd30ylEG4GPSS6PII0Tia4rRpRiyw=

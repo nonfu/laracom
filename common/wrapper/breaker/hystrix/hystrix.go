@@ -13,7 +13,7 @@ type clientWrapper struct {
 
 func (c *clientWrapper) Call(ctx context.Context, req client.Request, rsp interface{}, opts ...client.CallOption) error {
     return hystrix.Do(req.Service()+"."+req.Endpoint(), func() error {
-        // 初始化retrier，每隔100ms重试一次，总共重试3次
+        // 初始化retrier，每隔100ms重试一次，总共重试3次（Micro自身提供了服务重试机制，所以不必再额外实现）
         /*r := retrier.New(retrier.ConstantBackoff(3, 100 * time.Millisecond), nil)
         // retrier 工作模式和 hystrix 类似，在 Run 方法中将待执行的业务逻辑封装到匿名函数传入即可
         err := r.Run(func() error {

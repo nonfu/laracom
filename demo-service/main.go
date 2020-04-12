@@ -10,7 +10,7 @@ import (
 )
 
 type DemoServiceHandler struct {
-	Service micro.Service
+
 }
 
 func (s *DemoServiceHandler) SayHello(ctx context.Context, req *pb.DemoRequest, rsp *pb.DemoResponse) error {
@@ -20,13 +20,12 @@ func (s *DemoServiceHandler) SayHello(ctx context.Context, req *pb.DemoRequest, 
 
 func (s *DemoServiceHandler) SayHelloByUserId(ctx context.Context, req *pb.HelloRequest, rsp *pb.DemoResponse) error {
 	// 使用断路器
-	hystrix.Configure([]string{"laracom.service.user.UserService.Get"})
-	service := s.Service
-	service.Init(
+	hystrix.Configure([]string{"laracom.service.user.UserService.GetById"})
+	service := micro.NewService(
 		micro.WrapClient(hystrix.NewClientWrapper()),
 	)
 	client := userpb.NewUserServiceClient("laracom.service.user", service.Client())
-	resp, err := client.Get(context.TODO(), &userpb.User{Id: req.Id})
+	resp, err := client.GetById(context.TODO(), &userpb.User{Id: req.Id})
 	if err != nil {
 		return err
 	}
@@ -41,7 +40,7 @@ func main()  {
 	)
 	service.Init()
 
-	pb.RegisterDemoServiceHandler(service.Server(), &DemoServiceHandler{service})
+	pb.RegisterDemoServiceHandler(service.Server(), &DemoServiceHandler{})
 	if err := service.Run(); err != nil {
 		log.Fatalf("服务启动失败: %v", err)
 	}
