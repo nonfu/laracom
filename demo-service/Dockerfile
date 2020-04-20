@@ -39,6 +39,7 @@ WORKDIR /app
 
 # 这一步不再从宿主机拷贝二进制文件，而是从上一个阶段构建的 builder 容器中拉取，神奇吧
 COPY --from=builder /app/laracom-demo-service/laracom-demo-service .
+COPY --from=builder /app/laracom-demo-service/demo.json .
 
 # HEALTHCHECK --interval=3s --timeout=3s CMD curl -fs http://healthchecker:8081/health || exit 1
 

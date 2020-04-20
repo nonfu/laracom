@@ -25,9 +25,12 @@ services:
       MICRO_SERVER_ADDRESS: ":9091"
       MICRO_REGISTRY: "etcd"
       MICRO_REGISTRY_ADDRESS: "etcd1:2379,etcd2:2379,etcd3:2379"
-      ENABLE_REMOTE_CONFIG: "true"
+      MICRO_CONFIG_PATH: "laracom/demo.json"
     networks:
       - laracom_network
+    deploy:
+      mode: replicated
+      replicas: 1
 
   laracom-user-service:
     image: laracom/userservice
@@ -49,6 +52,9 @@ services:
       DB_PASSWORD: "test"
     networks:
       - laracom_network
+    deploy:
+      mode: replicated
+      replicas: 3
 
   laracom-product-service:
     image: laracom/productservice
@@ -69,6 +75,9 @@ services:
       MICRO_LOG_LEVEL: "debug"
     networks:
       - laracom_network
+    deploy:
+      mode: replicated
+      replicas: 3
 
   laracom-micro-api:
     image: microhq/micro:latest
@@ -80,11 +89,12 @@ services:
     networks:
       - laracom_network
     command: api --handler=rpc --namespace=laracom.service
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 
   laracom-web-dashboard:
     image: microhq/micro:latest
-    links:
-      - laracom-demo-service
     environment:
       MICRO_REGISTRY: "etcd"
       MICRO_REGISTRY_ADDRESS: "etcd1:2379,etcd2:2379,etcd3:2379"
@@ -93,6 +103,9 @@ services:
     networks:
       - laracom_network
     command: web
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 
   laracom-user-db:
     image: mysql:5.7
@@ -107,6 +120,9 @@ services:
       MYSQL_ROOT_PASSWORD: "root"
     networks:
       - laracom_network
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 
   laracom-product-db:
     image: mysql:5.7
@@ -121,6 +137,9 @@ services:
       MYSQL_ROOT_PASSWORD: "root"
     networks:
       - laracom_network
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 
   laracom-nats:
     image: nats:latest
@@ -130,6 +149,9 @@ services:
       - 6222:6222
     networks:
       - laracom_network
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 
   etcd1:
     image: bitnami/etcd:latest
@@ -150,6 +172,9 @@ services:
       - laracom_network
     volumes:
       - etcd_data_1:/bitnami/etcd
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 
   etcd2:
     image: bitnami/etcd:latest
@@ -170,6 +195,9 @@ services:
       - laracom_network
     volumes:
       - etcd_data_2:/bitnami/etcd
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 
   etcd3:
     image: bitnami/etcd:latest
@@ -190,6 +218,9 @@ services:
       - laracom_network
     volumes:
       - etcd_data_3:/bitnami/etcd
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 
   e3w:
     image: soyking/e3w:latest
@@ -199,6 +230,9 @@ services:
       - ./conf/e3w/config.ini:/app/conf/config.default.ini
     networks:
       - laracom_network
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 
   prometheus:
     image: prom/prometheus:v2.1.0
@@ -216,6 +250,9 @@ services:
       - cadvisor
     networks:
       - laracom_network
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 
   node-exporter:
     image: prom/node-exporter
@@ -232,6 +269,9 @@ services:
       - 9100:9100
     networks:
       - laracom_network
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 
   alertmanager:
     image: prom/alertmanager
@@ -244,6 +284,9 @@ services:
     command:
       - '--config.file=/etc/alertmanager/config.yml'
       - '--storage.path=/alertmanager'
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 
   cadvisor:
     image: google/cadvisor
@@ -256,6 +299,9 @@ services:
       - 8083:8080
     networks:
       - laracom_network
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 
   grafana:
     image: grafana/grafana
@@ -271,6 +317,9 @@ services:
       - ./conf/grafana/config.monitoring
     networks:
       - laracom_network
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 
   jaeger:
     image: jaegertracing/all-in-one:1.6
@@ -286,6 +335,9 @@ services:
       - "16686:16686"
     networks:
       - laracom_network
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 
   visualizer:
     image: dockersamples/visualizer:stable
@@ -296,3 +348,6 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock"
     networks:
       - laracom_network
+    deploy:
+      placement:
+        constraints: [node.role == manager]

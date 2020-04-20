@@ -45,8 +45,7 @@
 - [服务治理对系统性能影响（上）：在一个微服务中调用另一个微服务的接口](https://xueyuanjun.com/post/21577)
 - [服务治理对系统性能影响（下）：负载测试对比分析](https://xueyuanjun.com/post/21580)
 - [基于 GoConvey 实现 BDD 风格的单元测试 & 数据库模拟测试](https://xueyuanjun.com/post/21592)
-- 分布式配置实现（上）—— Viper
-- 分布式配置实现（下）—— Go Config
+- [基于 Go Config + Etcd 实现集中化配置管理](https://xueyuanjun.com/post/21594)
 - 分布式日志存储
 - 分布式数据库与数据一致性
 - CI/CD

@@ -1,0 +1,10 @@
+{
+  "laracom": {
+    "demo": {
+      "app": {
+        "service_name": "laracom.service.demo",
+        "user_name": "学院君"
+      }
+    }
+  }
+}
