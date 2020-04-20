@@ -6,10 +6,20 @@ import (
 	"github.com/nonfu/laracom/common/wrapper/breaker/hystrix"
 	pb "github.com/nonfu/laracom/demo-service/proto/demo"
 	"log"
+	"os"
+	"github.com/nonfu/laracom/demo-service/trace"
 )
 
 func main() {
 	hystrix.Configure([]string{"laracom.service.demo.DemoService.SayHello"})
+
+	// 初始化追踪器
+	t, io, err := tracer.NewTracer("laracom.demo.cli", os.Getenv("MICRO_TRACE_SERVER"))
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer io.Close()
+
 	service := micro.NewService(
 		micro.Name("laracom.demo.cli"),
 		micro.WrapClient(hystrix.NewClientWrapper()),

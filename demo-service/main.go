@@ -8,9 +8,13 @@ import (
 	"github.com/micro/go-micro/config/source"
 	"github.com/micro/go-micro/config/source/etcd"
 	"github.com/micro/go-micro/config/source/file"
+	"github.com/micro/go-micro/metadata"
+	traceplugin "github.com/micro/go-plugins/wrapper/trace/opentracing"
 	"github.com/nonfu/laracom/common/wrapper/breaker/hystrix"
 	pb "github.com/nonfu/laracom/demo-service/proto/demo"
+	"github.com/nonfu/laracom/demo-service/trace"
 	userpb "github.com/nonfu/laracom/user-service/proto/user"
+	"github.com/opentracing/opentracing-go"
 	"log"
 	"os"
 	"strings"
@@ -22,6 +26,25 @@ type DemoServiceHandler struct {
 }
 
 func (s *DemoServiceHandler) SayHello(ctx context.Context, req *pb.DemoRequest, rsp *pb.DemoResponse) error {
+	// 从微服务上下文中获取追踪信息
+	md, ok := metadata.FromContext(ctx)
+	if !ok {
+		md = make(map[string]string)
+	}
+	var sp opentracing.Span
+	wireContext, _ := opentracing.GlobalTracer().Extract(opentracing.TextMap, opentracing.TextMapCarrier(md))
+	// 创建新的 Span 并将其绑定到微服务上下文
+	sp = opentracing.StartSpan("SayHello", opentracing.ChildOf(wireContext))
+	// 记录请求
+	sp.SetTag("req", req)
+	defer func() {
+		// 记录响应
+		sp.SetTag("res", rsp)
+		// 在函数返回 stop span 之前，统计函数执行时间
+		sp.Finish()
+	}()
+
+	// 如果参数为空设置默认值
 	if req.Name == "" {
 		req.Name = s.appConfig.UserName
 	}
@@ -30,6 +53,7 @@ func (s *DemoServiceHandler) SayHello(ctx context.Context, req *pb.DemoRequest, 
 }
 
 func (s *DemoServiceHandler) SayHelloByUserId(ctx context.Context, req *pb.HelloRequest, rsp *pb.DemoResponse) error {
+
 	// 使用断路器
 	hystrix.Configure([]string{"laracom.service.user.UserService.GetById"})
 	service := micro.NewService(
@@ -48,9 +72,18 @@ func main()  {
 	// 获取viper配置实例
 	appConfig := initAppConfig()
 
+	// 初始化全局服务追踪
+	t, io, err := trace.NewTracer(appConfig.ServiceName, os.Getenv("MICRO_TRACE_SERVER"))
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer io.Close()
+	opentracing.SetGlobalTracer(t)
+
 	// 注册服务名必须和 demo.proto 中的 package 声明一致
 	service := micro.NewService(
 		micro.Name(appConfig.ServiceName),
+		micro.WrapHandler(traceplugin.NewHandlerWrapper(opentracing.GlobalTracer())), // 基于 jaeger 采集追踪数据
 	)
 	service.Init()
 
