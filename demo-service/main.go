@@ -12,7 +12,7 @@ import (
 	traceplugin "github.com/micro/go-plugins/wrapper/trace/opentracing"
 	"github.com/nonfu/laracom/common/wrapper/breaker/hystrix"
 	pb "github.com/nonfu/laracom/demo-service/proto/demo"
-	"github.com/nonfu/laracom/demo-service/trace"
+	"github.com/nonfu/laracom/common/tracer"
 	userpb "github.com/nonfu/laracom/user-service/proto/user"
 	"github.com/opentracing/opentracing-go"
 	"log"
@@ -73,7 +73,7 @@ func main()  {
 	appConfig := initAppConfig()
 
 	// 初始化全局服务追踪
-	t, io, err := trace.NewTracer(appConfig.ServiceName, os.Getenv("MICRO_TRACE_SERVER"))
+	t, io, err := tracer.NewTracer(appConfig.ServiceName, os.Getenv("MICRO_TRACE_SERVER"))
 	if err != nil {
 		log.Fatal(err)
 	}

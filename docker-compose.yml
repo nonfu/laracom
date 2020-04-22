@@ -2,7 +2,7 @@
 version: '3.3'
 
 networks:
-  laracom_network:
+  microservice:
     external: true
 
 volumes:
@@ -15,20 +15,43 @@ volumes:
   etcd_data_3: {}
 
 services:
+  laracom-demo-cli:
+    build: ./demo-cli
+    depends_on:
+      - laracom-demo-service
+    environment:
+      MICRO_REGISTRY: "etcd"
+      MICRO_REGISTRY_ADDRESS: "etcd1:2379,etcd2:2379,etcd3:2379"
+      MICRO_TRACE_SERVER: "jaeger:6831"
+    networks:
+      - microservice
+
   laracom-demo-service:
-    image: laracom/demoservice
+    build: ./demo-service
     depends_on:
       - etcd1
       - etcd2
       - etcd3
+      - jaeger
     environment:
       MICRO_SERVER_ADDRESS: ":9091"
       MICRO_REGISTRY: "etcd"
       MICRO_REGISTRY_ADDRESS: "etcd1:2379,etcd2:2379,etcd3:2379"
-      ENABLE_REMOTE_CONFIG: "true"
-      MICRO_TRACE_SERVER: "jaeger:6381"
+      ENABLE_REMOTE_CONFIG: "false"
+      MICRO_TRACE_SERVER: "jaeger:6831"
     networks:
-      - laracom_network
+      - microservice
+
+  laracom-demo-api:
+    build: ./demo-api
+    depends_on:
+      - laracom-demo-service
+    environment:
+      MICRO_REGISTRY: "etcd"
+      MICRO_REGISTRY_ADDRESS: "etcd1:2379,etcd2:2379,etcd3:2379"
+      MICRO_TRACE_SERVER: "jaeger:6831"
+    networks:
+      - microservice
 
   laracom-user-service:
     image: laracom/userservice
@@ -49,7 +72,7 @@ services:
       DB_USER: "test"
       DB_PASSWORD: "test"
     networks:
-      - laracom_network
+      - microservice
 
   laracom-product-service:
     image: laracom/productservice
@@ -69,18 +92,20 @@ services:
       DB_PASSWORD: "test"
       MICRO_LOG_LEVEL: "debug"
     networks:
-      - laracom_network
+      - microservice
 
   laracom-micro-api:
     image: microhq/micro:latest
+    links:
+      - laracom-demo-api
     environment:
       MICRO_REGISTRY: "etcd"
       MICRO_REGISTRY_ADDRESS: "etcd1:2379,etcd2:2379,etcd3:2379"
     ports:
       - 8080:8080
     networks:
-      - laracom_network
-    command: api --handler=rpc --namespace=laracom.service
+      - microservice
+    command: api --handler=api --namespace=laracom.api
 
   laracom-web-dashboard:
     image: microhq/micro:latest
@@ -92,7 +117,7 @@ services:
     ports:
       - 8082:8082
     networks:
-      - laracom_network
+      - microservice
     command: web
 
   laracom-user-db:
@@ -107,7 +132,7 @@ services:
       MYSQL_DATABASE: "laracom_user"
       MYSQL_ROOT_PASSWORD: "root"
     networks:
-      - laracom_network
+      - microservice
 
   laracom-product-db:
     image: mysql:5.7
@@ -121,7 +146,7 @@ services:
       MYSQL_DATABASE: "laracom_product"
       MYSQL_ROOT_PASSWORD: "root"
     networks:
-      - laracom_network
+      - microservice
 
   laracom-nats:
     image: nats:latest
@@ -130,7 +155,7 @@ services:
       - 8222:8222
       - 6222:6222
     networks:
-      - laracom_network
+      - microservice
 
   etcd1:
     image: bitnami/etcd:latest
@@ -148,7 +173,7 @@ services:
       - 23791:2379
       - 23801:2380
     networks:
-      - laracom_network
+      - microservice
     volumes:
       - etcd_data_1:/bitnami/etcd
 
@@ -168,7 +193,7 @@ services:
       - 23792:2379
       - 23802:2380
     networks:
-      - laracom_network
+      - microservice
     volumes:
       - etcd_data_2:/bitnami/etcd
 
@@ -188,7 +213,7 @@ services:
       - 23793:2379
       - 23803:2380
     networks:
-      - laracom_network
+      - microservice
     volumes:
       - etcd_data_3:/bitnami/etcd
 
@@ -199,7 +224,7 @@ services:
     volumes:
       - ./conf/e3w/config.ini:/app/conf/config.default.ini
     networks:
-      - laracom_network
+      - microservice
 
   prometheus:
     image: prom/prometheus:v2.1.0
@@ -216,7 +241,7 @@ services:
     depends_on:
       - cadvisor
     networks:
-      - laracom_network
+      - microservice
 
   node-exporter:
     image: prom/node-exporter
@@ -232,7 +257,7 @@ services:
     ports:
       - 9100:9100
     networks:
-      - laracom_network
+      - microservice
 
   alertmanager:
     image: prom/alertmanager
@@ -241,7 +266,7 @@ services:
     volumes:
       - ./conf/alertmanager/:/etc/alertmanager/
     networks:
-      - laracom_network
+      - microservice
     command:
       - '--config.file=/etc/alertmanager/config.yml'
       - '--storage.path=/alertmanager'
@@ -256,7 +281,7 @@ services:
     ports:
       - 8083:8080
     networks:
-      - laracom_network
+      - microservice
 
   grafana:
     image: grafana/grafana
@@ -271,7 +296,7 @@ services:
     env_file:
       - ./conf/grafana/config.monitoring
     networks:
-      - laracom_network
+      - microservice
 
   jaeger:
     image: jaegertracing/all-in-one:1.6
@@ -286,7 +311,7 @@ services:
       - "14268:14268"
       - "16686:16686"
     networks:
-      - laracom_network
+      - microservice
 
   visualizer:
     image: dockersamples/visualizer:stable
@@ -296,4 +321,4 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
     networks:
-      - laracom_network
+      - microservice
