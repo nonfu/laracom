@@ -534,6 +534,8 @@ github.com/nbio/st v0.0.0-20140626010706-e9e8d9816f32/go.mod h1:9wM+0iRr9ahx58uY
 github.com/nlopes/slack v0.6.0/go.mod h1:JzQ9m3PMAqcpeCam7UaHSuBuupz7CmpjehYMayT6YOk=
 github.com/nonfu/laracom/common v0.0.0-20200410172524-f1f9cd8a345a h1:JABWx+xdCq4G29HhWhAqWwmcorgT20UBHZQzMc+8Q10=
 github.com/nonfu/laracom/common v0.0.0-20200410172524-f1f9cd8a345a/go.mod h1:zs5RKUKOuOa7R5Ei1owXkchHS9EQ0Vg/79sBd/yZ4q4=
+github.com/nonfu/laracom/common v0.0.0-20200422074139-c68e2b3d4434 h1:nsgJOsbD7rM89udjwVXfrEmAtk8RyOEu9+vtmpEiCV4=
+github.com/nonfu/laracom/common v0.0.0-20200422074139-c68e2b3d4434/go.mod h1:luSHe9DClf7vgShB5OygxZn6IgDqQnhELMqP2H3bAK8=
 github.com/nonfu/laracom/demo-service v0.0.0-20200420164645-fee8b63eddb6 h1:xQJBnKhhYcMRK3WzULWMhzn+fIUwOnWxcDbcPtTkYFI=
 github.com/nonfu/laracom/demo-service v0.0.0-20200420164645-fee8b63eddb6/go.mod h1:FLg85cN7s4KMEaVIdLRCD4HhdvGZ+gLmA4LHbLmWl5A=
 github.com/nonfu/laracom/user-service v0.0.0-20200410143932-a6f4d5f4b264/go.mod h1:tdQCNm0I5ErwiDhod/3IfjBWyaO+6HvCFrnNbQqLu8c=

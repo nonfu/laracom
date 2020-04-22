@@ -8,7 +8,6 @@ import (
 	"github.com/nonfu/laracom/common/wrapper/breaker/hystrix"
 	pb "github.com/nonfu/laracom/demo-service/proto/demo"
 	"github.com/nonfu/laracom/common/tracer"
-	"github.com/nonfu/laracom/demo-service/trace"
 	"github.com/opentracing/opentracing-go"
 	"log"
 	"os"

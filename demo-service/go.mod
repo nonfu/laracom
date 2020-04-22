@@ -3,7 +3,6 @@ module github.com/nonfu/laracom/demo-service
 go 1.12
 
 require (
-	github.com/codahale/hdrhistogram v0.0.0-20161010025455-3a0bb77429bd // indirect
 	github.com/coreos/etcd v3.3.18+incompatible // indirect
 	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
 	github.com/golang/protobuf v1.3.5
@@ -16,15 +15,13 @@ require (
 	github.com/micro/go-plugins v1.5.1
 	github.com/miekg/dns v1.1.27 // indirect
 	github.com/nats-io/nats-server/v2 v2.1.6 // indirect
-	github.com/nonfu/laracom/common v0.0.0-20200410172524-f1f9cd8a345a
+	github.com/nonfu/laracom/common v0.0.0-20200422074139-c68e2b3d4434
 	github.com/nonfu/laracom/user-service v0.0.0-20200410143932-a6f4d5f4b264
 	github.com/opentracing/opentracing-go v1.1.0
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/smartystreets/assertions v1.0.1 // indirect
 	github.com/smartystreets/goconvey v1.6.4
 	github.com/tmc/grpc-websocket-proxy v0.0.0-20200122045848-3419fae592fc // indirect
-	github.com/uber/jaeger-client-go v2.22.1+incompatible // indirect
-	github.com/uber/jaeger-lib v2.2.0+incompatible // indirect
 	go.etcd.io/bbolt v1.3.4 // indirect
 	go.uber.org/zap v1.13.0 // indirect
 	golang.org/x/lint v0.0.0-20191125180803-fdd1cda4f05f // indirect
