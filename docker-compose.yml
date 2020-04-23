@@ -105,7 +105,7 @@ services:
       - 8080:8080
     networks:
       - microservice
-    command: api --handler=api --namespace=laracom.api
+    command: api --handler=web --namespace=laracom.api
 
   laracom-web-dashboard:
     image: microhq/micro:latest
