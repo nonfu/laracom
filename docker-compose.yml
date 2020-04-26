@@ -42,6 +42,7 @@ services:
     networks:
       - microservice
 
+
   laracom-demo-api:
     build: ./demo-api
     depends_on:

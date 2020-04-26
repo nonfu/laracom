@@ -506,12 +506,13 @@ github.com/nats-io/nuid v1.0.1/go.mod h1:19wcPz3Ph3q0Jbyiqsd0kePYG7A95tJPxeL+1OS
 github.com/nats-io/stan.go v0.5.0/go.mod h1:dYqB+vMN3C2F9pT1FRQpg9eHbjPj6mP0yYuyBNuXHZE=
 github.com/nbio/st v0.0.0-20140626010706-e9e8d9816f32/go.mod h1:9wM+0iRr9ahx58uYLpLIr5fm8diHn0JbqRycJi6w0Ms=
 github.com/nlopes/slack v0.6.0/go.mod h1:JzQ9m3PMAqcpeCam7UaHSuBuupz7CmpjehYMayT6YOk=
-github.com/nonfu/laracom/common v0.0.0-20200410172524-f1f9cd8a345a h1:JABWx+xdCq4G29HhWhAqWwmcorgT20UBHZQzMc+8Q10=
 github.com/nonfu/laracom/common v0.0.0-20200410172524-f1f9cd8a345a/go.mod h1:zs5RKUKOuOa7R5Ei1owXkchHS9EQ0Vg/79sBd/yZ4q4=
+github.com/nonfu/laracom/common v0.0.0-20200422074139-c68e2b3d4434/go.mod h1:luSHe9DClf7vgShB5OygxZn6IgDqQnhELMqP2H3bAK8=
 github.com/nonfu/laracom/common v0.0.0-20200426051241-f74ec06b51dd h1:gV+RBf7EThwqgNARhrVK94OIJDOijXJZSx2Q81PdiE0=
 github.com/nonfu/laracom/common v0.0.0-20200426051241-f74ec06b51dd/go.mod h1:IVYtAq2fg9vK7Xve3mxcjrtlu3Lhklu0wgyMrgjfcis=
-github.com/nonfu/laracom/demo-service v0.0.0-20200420164645-fee8b63eddb6 h1:xQJBnKhhYcMRK3WzULWMhzn+fIUwOnWxcDbcPtTkYFI=
-github.com/nonfu/laracom/demo-service v0.0.0-20200420164645-fee8b63eddb6/go.mod h1:FLg85cN7s4KMEaVIdLRCD4HhdvGZ+gLmA4LHbLmWl5A=
+github.com/nonfu/laracom/demo-service v0.0.0-20200420093426-33af9509b0cd/go.mod h1:geyyW/iBFPVpjD8xL76J2mwisNC+ZBQWuEhK7s9ZE6A=
+github.com/nonfu/laracom/demo-service v0.0.0-20200422085202-4a43021dd383 h1:AeJ75kK5+vOvL7thIDm7e2RkzkPn11RDM3vDV0BQl/M=
+github.com/nonfu/laracom/demo-service v0.0.0-20200422085202-4a43021dd383/go.mod h1:W0tcoJC6RifR2EvdYOVUMzdB6RFY0+QNaco4KRoWKc0=
 github.com/nonfu/laracom/user-service v0.0.0-20200410143932-a6f4d5f4b264/go.mod h1:tdQCNm0I5ErwiDhod/3IfjBWyaO+6HvCFrnNbQqLu8c=
 github.com/nrdcg/auroradns v1.0.0/go.mod h1:6JPXKzIRzZzMqtTDgueIhTi6rFf1QvYE/HzqidhOhjw=
 github.com/nrdcg/goinwx v0.6.1/go.mod h1:XPiut7enlbEdntAqalBIqcYcTEVhpv/dKWgDCX2SwKQ=

@@ -6,7 +6,7 @@ require (
 	github.com/gin-gonic/gin v1.6.2
 	github.com/micro/go-micro v1.18.0
 	github.com/nonfu/laracom/common v0.0.0-20200426051241-f74ec06b51dd
-	github.com/nonfu/laracom/demo-service v0.0.0-20200420164645-fee8b63eddb6
+	github.com/nonfu/laracom/demo-service v0.0.0-20200420093426-33af9509b0cd
 	github.com/opentracing/opentracing-go v1.1.0
 	github.com/sirupsen/logrus v1.4.2
 )
