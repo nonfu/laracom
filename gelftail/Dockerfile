@@ -24,5 +24,6 @@ RUN mkdir /app
 WORKDIR /app
 
 COPY --from=builder /app/laracom-gelftail/laracom-gelftail .
+COPY --from=builder /app/laracom-gelftail/token.txt .
 
 CMD ["./laracom-gelftail", "-port=12202"]

@@ -35,15 +35,13 @@ services:
     logging:
       driver: gelf
       options:
-        gelf-address: "udp://192.168.99.100:12202"
+        gelf-address: "udp://192.168.99.104:12202"
         gelf-compression-type: "none"
 
   laracom-demo-api:
-    image: laracom/apiservice
+    image: laracom/demoapi
     depends_on:
-      - etcd1
-      - etcd2
-      - etcd3
+      - laracom-demo-service
     environment:
       MICRO_REGISTRY: "etcd"
       MICRO_REGISTRY_ADDRESS: "etcd1:2379,etcd2:2379,etcd3:2379"
@@ -56,8 +54,18 @@ services:
     logging:
       driver: gelf
       options:
-        gelf-address: "udp://192.168.99.100:12202"
+        gelf-address: "udp://192.168.99.104:12202"
         gelf-compression-type: "none"
+
+  laracom-gelftail:
+    image: laracom/gelftail
+    networks:
+      - laracom_network
+    ports:
+      - 12202:12202/udp
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 
   laracom-user-service:
     image: laracom/userservice

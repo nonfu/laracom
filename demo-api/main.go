@@ -20,14 +20,14 @@ var (
 )
 
 func (s *Say) Anything(c *gin.Context) {
-    logrus.Infoln("Received Say.Anything API request")
+    logrus.Println("Received Say.Anything API request")
     c.JSON(200, map[string]string{
         "text": "你好，学院君",
     })
 }
 
 func (s *Say) Hello(c *gin.Context) {
-    logrus.Infoln("Received Say.Hello API request")
+    logrus.Println("Received Say.Hello API request")
 
     name := c.Param("name")
     ctx, ok := gin2micro.ContextWithSpan(c)
