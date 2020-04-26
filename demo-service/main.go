@@ -16,6 +16,7 @@ import (
 	userpb "github.com/nonfu/laracom/user-service/proto/user"
 	"github.com/opentracing/opentracing-go"
 	"github.com/sirupsen/logrus"
+	_ "github.com/nonfu/laracom/common/log"
 	"os"
 	"strings"
 	"time"

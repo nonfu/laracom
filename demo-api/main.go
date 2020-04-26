@@ -9,7 +9,7 @@ import (
     pb "github.com/nonfu/laracom/demo-service/proto/demo"
     "github.com/opentracing/opentracing-go"
     "github.com/sirupsen/logrus"
-    "log"
+    _ "github.com/nonfu/laracom/common/log"
     "os"
 )
 
@@ -20,7 +20,7 @@ var (
 )
 
 func (s *Say) Anything(c *gin.Context) {
-    log.Print("Received Say.Anything API request")
+    logrus.Infoln("Received Say.Anything API request")
     c.JSON(200, map[string]string{
         "text": "你好，学院君",
     })
