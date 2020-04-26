@@ -8,6 +8,7 @@ import (
     "github.com/nonfu/laracom/common/wrapper/tracer/opentracing/gin2micro"
     pb "github.com/nonfu/laracom/demo-service/proto/demo"
     "github.com/opentracing/opentracing-go"
+    "github.com/sirupsen/logrus"
     "log"
     "os"
 )
@@ -26,12 +27,12 @@ func (s *Say) Anything(c *gin.Context) {
 }
 
 func (s *Say) Hello(c *gin.Context) {
-    log.Println("Received Say.Hello API request")
+    logrus.Infoln("Received Say.Hello API request")
 
     name := c.Param("name")
     ctx, ok := gin2micro.ContextWithSpan(c)
     if ok == false {
-        log.Println("get context err")
+        logrus.Errorln("get context err")
     }
     response, err := cli.SayHello(ctx, &pb.DemoRequest{
         Name: name,
@@ -50,7 +51,7 @@ func main() {
     gin2micro.SetSamplingFrequency(50)
     t, io, err := tracer.NewTracer(name, os.Getenv("MICRO_TRACE_SERVER"))
     if err != nil {
-        log.Fatal(err)
+        logrus.Fatal(err)
     }
     defer io.Close()
     opentracing.SetGlobalTracer(t)
@@ -78,6 +79,6 @@ func main() {
 
     // Run server
     if err := service.Run(); err != nil {
-        log.Fatal(err)
+        logrus.Fatal(err)
     }
 }

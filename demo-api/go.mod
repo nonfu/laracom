@@ -8,4 +8,5 @@ require (
 	github.com/nonfu/laracom/common v0.0.0-20200422085202-4a43021dd383
 	github.com/nonfu/laracom/demo-service v0.0.0-20200420164645-fee8b63eddb6
 	github.com/opentracing/opentracing-go v1.1.0
+	github.com/sirupsen/logrus v1.4.2
 )

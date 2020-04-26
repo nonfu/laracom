@@ -2,12 +2,12 @@ package gin2micro
 
 import (
     "context"
+    "github.com/sirupsen/logrus"
     "math/rand"
     "net/http"
     "time"
 
     "github.com/gin-gonic/gin"
-    "github.com/go-log/log"
     "github.com/micro/go-micro/metadata"
     opentracing "github.com/opentracing/opentracing-go"
     "github.com/opentracing/opentracing-go/ext"
@@ -45,7 +45,7 @@ func TracerWrapper(c *gin.Context) {
     if err := tracer.Inject(sp.Context(),
         opentracing.TextMap,
         opentracing.TextMapCarrier(md)); err != nil {
-        log.Log(err)
+        logrus.Error(err)
     }
 
     ctx := context.TODO()
@@ -66,7 +66,7 @@ func TracerWrapper(c *gin.Context) {
     }
 }
 
-// ContextWithSpan 返回context
+// ContextWithSpan 返回 context
 func ContextWithSpan(c *gin.Context) (ctx context.Context, ok bool) {
     v, exist := c.Get(contextTracerKey)
     if exist == false {

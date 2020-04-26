@@ -4,7 +4,7 @@ import (
     "context"
     "github.com/afex/hystrix-go/hystrix"
     "github.com/micro/go-micro/client"
-    "log"
+    "github.com/sirupsen/logrus"
 )
 
 type clientWrapper struct {
@@ -23,7 +23,7 @@ func (c *clientWrapper) Call(ctx context.Context, req client.Request, rsp interf
         return c.Client.Call(ctx, req, rsp, opts...)
     }, func(err error) error {
         // 你可以在这里自定义更复杂的服务降级逻辑作为服务熔断的兜底
-        log.Printf("hystrix fallback error: %v", err)
+        logrus.Printf("hystrix fallback error: %v", err)
         return err
     })
 }

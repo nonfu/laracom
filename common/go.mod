@@ -9,6 +9,7 @@ require (
 	github.com/go-log/log v0.1.0
 	github.com/micro/go-micro v1.18.0
 	github.com/opentracing/opentracing-go v1.1.0
+	github.com/sirupsen/logrus v1.4.2
 	github.com/uber/jaeger-client-go v2.22.1+incompatible
 	github.com/uber/jaeger-lib v2.2.0+incompatible // indirect
 )

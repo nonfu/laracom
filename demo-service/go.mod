@@ -19,6 +19,7 @@ require (
 	github.com/nonfu/laracom/user-service v0.0.0-20200410143932-a6f4d5f4b264
 	github.com/opentracing/opentracing-go v1.1.0
 	github.com/pkg/errors v0.9.1 // indirect
+	github.com/sirupsen/logrus v1.5.0 // indirect
 	github.com/smartystreets/assertions v1.0.1 // indirect
 	github.com/smartystreets/goconvey v1.6.4
 	github.com/tmc/grpc-websocket-proxy v0.0.0-20200122045848-3419fae592fc // indirect

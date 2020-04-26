@@ -10,12 +10,12 @@ import (
 	"github.com/micro/go-micro/config/source/file"
 	"github.com/micro/go-micro/metadata"
 	traceplugin "github.com/micro/go-plugins/wrapper/trace/opentracing"
+	"github.com/nonfu/laracom/common/tracer"
 	"github.com/nonfu/laracom/common/wrapper/breaker/hystrix"
 	pb "github.com/nonfu/laracom/demo-service/proto/demo"
-	"github.com/nonfu/laracom/common/tracer"
 	userpb "github.com/nonfu/laracom/user-service/proto/user"
 	"github.com/opentracing/opentracing-go"
-	"log"
+	"github.com/sirupsen/logrus"
 	"os"
 	"strings"
 	"time"
@@ -75,7 +75,7 @@ func main()  {
 	// 初始化全局服务追踪
 	t, io, err := tracer.NewTracer(appConfig.ServiceName, os.Getenv("MICRO_TRACE_SERVER"))
 	if err != nil {
-		log.Fatal(err)
+		logrus.Fatal(err)
 	}
 	defer io.Close()
 	opentracing.SetGlobalTracer(t)
@@ -89,7 +89,7 @@ func main()  {
 
 	pb.RegisterDemoServiceHandler(service.Server(), &DemoServiceHandler{appConfig: appConfig})
 	if err := service.Run(); err != nil {
-		log.Fatalf("服务启动失败: %v", err)
+		logrus.Fatalf("服务启动失败: %v", err)
 	}
 }
 
@@ -114,16 +114,16 @@ func initAppConfig() *AppConfig {
 	}
 	if err != nil {
 		// 加载数据源失败
-		log.Fatalf("读取配置失败: %v", err)
+		logrus.Fatalf("读取配置失败: %v", err)
 	}
 	var appConfig AppConfig
 	err = conf.Get("laracom", "demo", "app").Scan(&appConfig)
 	if err != nil {
 		// 读取远程配置失败
-		log.Fatalf("读取配置失败: %v", err)
+		logrus.Fatalf("读取配置失败: %v", err)
 	}
-	log.Printf("初始化配置：%v", appConfig)
-	log.Printf("初始化配置：%v", conf.Map())
+	logrus.Printf("初始化配置：%v", appConfig)
+	logrus.Printf("初始化配置：%v", conf.Map())
 
 	// 开启协程监听配置变更
 	go func(){
@@ -132,19 +132,19 @@ func initAppConfig() *AppConfig {
 
 			w, err := conf.Watch("laracom", "demo", "app")
 			if err != nil {
-				log.Printf("监听配置变更失败: %v", err)
+				logrus.Printf("监听配置变更失败: %v", err)
 				continue
 			}
 
 			// wait for next value
 			value, err := w.Next()
 			if err != nil {
-				log.Printf("读取配置变更失败: %v", err)
+				logrus.Printf("读取配置变更失败: %v", err)
 				continue
 			}
 
 			value.Scan(&appConfig)
-			log.Printf("配置值变更：%s", &appConfig)
+			logrus.Printf("配置值变更：%s", &appConfig)
 		}
 	}()
 
