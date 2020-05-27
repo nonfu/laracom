@@ -6,7 +6,9 @@ networks:
     external: true
 
 volumes:
-  db_user_data: {}
+  userdb_data_1: {}
+  userdb_data_2: {}
+  userdb_data_3: {}
   db_product_data: {}
   grafana_data: {}
   prometheus_data: {}
@@ -42,7 +44,6 @@ services:
     networks:
       - microservice
 
-
   laracom-demo-api:
     build: ./demo-api
     depends_on:
@@ -55,9 +56,9 @@ services:
       - microservice
 
   laracom-user-service:
-    image: laracom/userservice
+    build: ./user-service
     depends_on:
-      - laracom-user-db
+      - kingshard
       - laracom-nats
       - etcd1
       - etcd2
@@ -68,10 +69,10 @@ services:
       MICRO_REGISTRY_ADDRESS: "etcd1:2379,etcd2:2379,etcd3:2379"
       MICRO_BROKER: "nats"
       MICRO_BROKER_ADDRESS: "laracom-nats:4222"
-      DB_HOST: "laracom-user-db:3306"
+      DB_HOST: "kingshard:9696"
       DB_NAME: "laracom_user"
-      DB_USER: "test"
-      DB_PASSWORD: "test"
+      DB_USER: "kingshard"
+      DB_PASSWORD: "kingshard"
     networks:
       - microservice
 
@@ -111,7 +112,7 @@ services:
   laracom-web-dashboard:
     image: microhq/micro:latest
     links:
-      - laracom-demo-service
+      - laracom-demo-api
     environment:
       MICRO_REGISTRY: "etcd"
       MICRO_REGISTRY_ADDRESS: "etcd1:2379,etcd2:2379,etcd3:2379"
@@ -121,17 +122,56 @@ services:
       - microservice
     command: web
 
-  laracom-user-db:
-    image: mysql:5.7
-    ports:
-      - 33061:3306
+  user-db-master:
+    env_file:
+      - mysql-cluster/user/db.env
+    image: mysql/mysql-server:5.7
     volumes:
-      - db_user_data:/var/lib/mysql
-    environment:
-      MYSQL_USER: "test"
-      MYSQL_PASSWORD: "test"
-      MYSQL_DATABASE: "laracom_user"
-      MYSQL_ROOT_PASSWORD: "root"
+      - userdb_data_1:/var/lib/mysql
+    ports:
+      - "3301:3306"
+    command: ["mysqld","--server_id=1","--binlog_checksum=NONE","--gtid_mode=ON","--enforce_gtid_consistency=ON","--log_bin=replicas-mysql-bin","--log_slave_updates=ON","--master_info_repository=TABLE","--relay_log_info_repository=TABLE","--transaction_write_set_extraction=XXHASH64","--user=mysql","--skip-host-cache","--skip-name-resolve", "--default_authentication_plugin=mysql_native_password"]
+    depends_on:
+      - user-db-slave-1
+      - user-db-slave-2
+    networks:
+      - microservice
+
+  user-db-slave-1:
+    env_file:
+      - mysql-cluster/user/db.env
+    image: mysql/mysql-server:5.7
+    volumes:
+      - userdb_data_2:/var/lib/mysql
+    ports:
+      - "3302:3306"
+    command: ["mysqld","--server_id=2","--binlog_checksum=NONE","--gtid_mode=ON","--enforce_gtid_consistency=ON","--log_bin","--log_slave_updates=ON","--master_info_repository=TABLE","--relay_log_info_repository=TABLE","--transaction_write_set_extraction=XXHASH64","--user=mysql","--skip-host-cache","--skip-name-resolve", "--default_authentication_plugin=mysql_native_password"]
+    networks:
+      - microservice
+
+  user-db-slave-2:
+    env_file:
+      - mysql-cluster/user/db.env
+    image: mysql/mysql-server:5.7
+    volumes:
+      - userdb_data_3:/var/lib/mysql
+    ports:
+      - "3303:3306"
+    command: ["mysqld","--server_id=3","--binlog_checksum=NONE","--gtid_mode=ON","--enforce_gtid_consistency=ON","--log_bin","--log_slave_updates=ON","--master_info_repository=TABLE","--relay_log_info_repository=TABLE","--transaction_write_set_extraction=XXHASH64","--user=mysql","--skip-host-cache","--skip-name-resolve", "--default_authentication_plugin=mysql_native_password"]
+    networks:
+      - microservice
+
+  kingshard:
+    image: matjazmav/kingshard
+    volumes:
+      - ./mysql-cluster/user/ks.yaml:/etc/ks.yaml
+    ports:
+      - "9696:9696"
+    expose:
+      - "9696"
+    depends_on:
+      - user-db-master
+    restart: always
     networks:
       - microservice
 

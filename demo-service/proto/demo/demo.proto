@@ -1,20 +1,39 @@
+/**
+ * Demo Service
+ *
+ * 示例微服务
+ */
 syntax = "proto3";
 
 package laracom.service.demo;
 
+/**
+ * 处理演示服务的 RPC 接口
+ */
 service DemoService {
+  /// 问候服务接口1，通过客户端传入用户名返回对应的问候文本
   rpc SayHello(DemoRequest) returns (DemoResponse) {}
+  /// 问候服务接口2，根据客户端传入用户ID返回对应的问候文本
   rpc SayHelloByUserId(HelloRequest) returns (DemoResponse) {}
 }
 
+/**
+ * 示例请求对象1
+ */
 message DemoRequest {
-    string name = 1;
+    string name = 1;  /// 用户名
 }
 
+/**
+ * 示例请求对象2
+ */
 message HelloRequest {
-	string id = 1;
+	string id = 1; /// 用户 ID
 }
 
+/**
+ * 示例响应对象
+ */
 message DemoResponse {
-    string text = 1;
+    string text = 1;  /// 问候文本
 }

@@ -6,7 +6,9 @@ networks:
     external: true
 
 volumes:
-  db_user_data: {}
+  db_user_data_1: {}
+  db_user_data_2: {}
+  db_user_data_3: {}
   db_product_data: {}
   grafana_data: {}
   prometheus_data: {}
@@ -70,7 +72,7 @@ services:
   laracom-user-service:
     image: laracom/userservice
     depends_on:
-      - laracom-user-db
+      - mysql-router-user
       - laracom-nats
       - etcd1
       - etcd2
@@ -81,7 +83,7 @@ services:
       MICRO_REGISTRY_ADDRESS: "etcd1:2379,etcd2:2379,etcd3:2379"
       MICRO_BROKER: "nats"
       MICRO_BROKER_ADDRESS: "laracom-nats:4222"
-      DB_HOST: "laracom-user-db:3306"
+      DB_HOST: "mysql-router-user:6446"
       DB_NAME: "laracom_user"
       DB_USER: "test"
       DB_PASSWORD: "test"
@@ -142,17 +144,78 @@ services:
       placement:
         constraints: [node.role == manager]
 
-  laracom-user-db:
-    image: mysql:5.7
-    ports:
-      - 33061:3306
+  laracom-user-db-1:
+    env_file:
+      - mysql-cluster/user/mysql-server.env
+    image: mysql/mysql-server
     volumes:
-      - db_user_data:/var/lib/mysql
-    environment:
-      MYSQL_USER: "test"
-      MYSQL_PASSWORD: "test"
-      MYSQL_DATABASE: "laracom_user"
-      MYSQL_ROOT_PASSWORD: "root"
+      - db_user_data_1:/var/lib/mysql
+    ports:
+      - "3301:3306"
+    command: ["mysqld","--server_id=1","--binlog_checksum=NONE","--gtid_mode=ON","--enforce_gtid_consistency=ON","--log_bin","--log_slave_updates=ON","--master_info_repository=TABLE","--relay_log_info_repository=TABLE","--transaction_write_set_extraction=XXHASH64","--user=mysql","--skip-host-cache","--skip-name-resolve", "--default_authentication_plugin=mysql_native_password"]
+    networks:
+      - laracom_network
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
+  laracom-user-db-2:
+    env_file:
+      - mysql-cluster/user/mysql-server.env
+    image: mysql/mysql-server
+    volumes:
+      - db_user_data_2:/var/lib/mysql
+    command: ["mysqld","--server_id=2","--binlog_checksum=NONE","--gtid_mode=ON","--enforce_gtid_consistency=ON","--log_bin","--log_slave_updates=ON","--master_info_repository=TABLE","--relay_log_info_repository=TABLE","--transaction_write_set_extraction=XXHASH64","--user=mysql","--skip-host-cache","--skip-name-resolve", "--default_authentication_plugin=mysql_native_password"]
+    ports:
+      - "3302:3306"
+    networks:
+      - laracom_network
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
+  laracom-user-db-3:
+    env_file:
+      - mysql-cluster/user/mysql-server.env
+    image: mysql/mysql-server
+    volumes:
+      - db_user_data_3:/var/lib/mysql
+    command: ["mysqld","--server_id=3","--binlog_checksum=NONE","--gtid_mode=ON","--enforce_gtid_consistency=ON","--log_bin","--log_slave_updates=ON","--master_info_repository=TABLE","--relay_log_info_repository=TABLE","--transaction_write_set_extraction=XXHASH64","--user=mysql","--skip-host-cache","--skip-name-resolve", "--default_authentication_plugin=mysql_native_password"]
+    ports:
+      - "3303:3306"
+    networks:
+      - laracom_network
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
+  mysql-shell-user:
+    env_file:
+      - mysql-cluster/user/mysql-shell.env
+    image: neumayer/mysql-shell-batch
+    volumes:
+      - ./mysql-cluster/user/scripts/:/scripts/
+    depends_on:
+      - laracom-user-db-1
+      - laracom-user-db-2
+      - laracom-user-db-3
+    networks:
+      - laracom_network
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
+  mysql-router-user:
+    env_file:
+      - mysql-cluster/user/mysql-router.env
+    image: mysql/mysql-router
+    ports:
+      - 64461:6446
+    depends_on:
+      - laracom-user-db-1
+      - laracom-user-db-2
+      - laracom-user-db-3
+      - mysql-shell-user
     networks:
       - laracom_network
     deploy:

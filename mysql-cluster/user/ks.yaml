@@ -1,0 +1,55 @@
+# server listen addr
+addr: 0.0.0.0:9696
+
+# server user and password
+user:  kingshard
+password: kingshard
+
+# if set log_path, the sql log will write into log_path/sql.log,the system log
+# will write into log_path/sys.log
+#log_path : /Users/flike/log
+
+# log level[debug|info|warn|error],default error
+log_level: info
+
+# if set log_sql(on|off) off,the sql log will not output
+log_sql: on
+
+# only log the query that take more than slow_log_time ms
+#slow_log_time : 100
+
+# the path of blacklist sql file
+# all these sqls in the file will been forbidden by kingshard
+#blacklist_sql_file: /Users/flike/blacklist
+
+# only allow this ip list ip to connect kingshard
+#allow_ips: 127.0.0.1
+
+# the charset of kingshard, if you don't set this item
+# the default charset of kingshard is utf8.
+#proxy_charset: gbk
+
+# node is an agenda for real remote mysql server.
+nodes:
+  - name: user-db-master
+
+    # default max conns for mysql server
+    max_conns_limit: 32
+
+    # all mysql in a node must have the same user and password
+    user:  test
+    password: test
+
+    # master represents a real mysql master server
+    master: user-db-master:3306
+
+    # slave represents a real mysql salve server,and the number after '@' is
+    # read load weight of this slave.
+    slave: user-db-slave-1:3306,user-db-slave-2:3306
+    down_after_noalive: 32
+
+# schema defines sharding rules, the db is the sharding table database.
+schema:
+  db: laracom_user
+  nodes: [user-db-master]
+  default: user-db-master
