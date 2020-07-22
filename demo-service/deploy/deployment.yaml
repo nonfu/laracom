@@ -1,0 +1,26 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  namespace: default
+  name: demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo
+  template:
+    metadata:
+      labels:
+        app: demo
+    spec:
+      containers:
+        - name: demo-service
+          image: xueyuanjun/laracom-demoservice:latest
+          command: [
+            "/laracom-demo-service",
+            "--server_address=:8080"
+          ]
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: greeter-port

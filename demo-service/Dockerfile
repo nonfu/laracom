@@ -43,8 +43,5 @@ COPY --from=builder /app/laracom-demo-service/demo.json .
 
 # HEALTHCHECK --interval=3s --timeout=3s CMD curl -fs http://healthchecker:8081/health || exit 1
 
-EXPOSE 9091
-EXPOSE 8181
-
 # 启动演示服务
-CMD ["./laracom-demo-service", "--server_address=:9091"]
+# CMD ["./laracom-demo-service"]
