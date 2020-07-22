@@ -1,0 +1,73 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a sample demo api.",
+        "title": "Demo API",
+        "contact": {
+            "name": "学院君",
+            "url": "https://xueyuanjun.com",
+            "email": "yaojinbu@outlook.com"
+        },
+        "license": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/demo",
+    "paths": {
+        "/hello": {
+            "get": {
+                "description": "Say Hello With Default Name",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Say Hello",
+                "responses": {
+                    "200": {
+                        "description": "{\"text\": \"你好，学院君\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/hello/{name}": {
+            "get": {
+                "description": "Say Hello By Name",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Say Hello",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User Name",
+                        "name": "name",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"text\": \"你好，学院君\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

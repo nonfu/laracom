@@ -1,0 +1,49 @@
+basePath: /demo
+host: localhost:8080
+info:
+  contact:
+    email: yaojinbu@outlook.com
+    name: 学院君
+    url: https://xueyuanjun.com
+  description: This is a sample demo api.
+  license: {}
+  title: Demo API
+  version: "1.0"
+paths:
+  /hello:
+    get:
+      consumes:
+      - application/json
+      description: Say Hello With Default Name
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"text": "你好，学院君"}'
+          schema:
+            type: string
+      summary: Say Hello
+  /hello/{name}:
+    get:
+      consumes:
+      - application/json
+      description: Say Hello By Name
+      parameters:
+      - description: User Name
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"text": "你好，学院君"}'
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Say Hello
+swagger: "2.0"
