@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"github.com/micro/go-micro"
-	k8s "github.com/micro/kubernetes/go/micro"
+	k8s "github.com/micro/examples/kubernetes/go/micro"
 	pb "github.com/nonfu/laracom/demo-service/proto/demo"
 	userpb "github.com/nonfu/laracom/user-service/proto/user"
 	"log"

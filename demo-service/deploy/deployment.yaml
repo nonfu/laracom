@@ -17,10 +17,10 @@ spec:
         - name: demo-service
           image: xueyuanjun/laracom-demoservice:latest
           command: [
-            "/laracom-demo-service",
+            "./laracom-demo-service",
             "--server_address=:8080"
           ]
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
-              name: greeter-port
+              name: demo-port
