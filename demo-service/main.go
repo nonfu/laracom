@@ -2,8 +2,8 @@ package main
 
 import (
 	"context"
-	"github.com/micro/go-micro"
 	k8s "github.com/micro/examples/kubernetes/go/micro"
+	"github.com/micro/go-micro"
 	pb "github.com/nonfu/laracom/demo-service/proto/demo"
 	userpb "github.com/nonfu/laracom/user-service/proto/user"
 	"log"
@@ -38,7 +38,7 @@ func (s *DemoServiceHandler) SayHelloByUserId(ctx context.Context, req *pb.Hello
 
 func main()  {
 
-	service := micro.NewService(
+	service := k8s.NewService(
 		micro.Name("laracom.service.demo"),
 	)
 	service.Init()

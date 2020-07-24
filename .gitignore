@@ -1,0 +1,3 @@
+/user-service/deploy/data/
+/loadtest/target/gatling/results/
+/deploy/user/data/

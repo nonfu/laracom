@@ -2,6 +2,7 @@ package main
 
 import (
     "fmt"
+    k8s "github.com/micro/examples/kubernetes/go/micro"
     "github.com/micro/go-micro"
     _ "github.com/micro/go-micro/broker/nats"
     database "github.com/nonfu/laracom/user-service/db"
@@ -34,7 +35,7 @@ func main() {
     token := &service.TokenService{repo}
 
     // 以下是 Micro 创建微服务流程
-    srv := micro.NewService(
+    srv := k8s.NewService(
         micro.Name("laracom.service.user"),
         micro.Version("latest"),  // 新增接口版本参数
     )

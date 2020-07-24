@@ -1,0 +1,12 @@
+apiVersion: v1
+data:
+  MYSQL_DATABASE: laracom_user
+  MYSQL_PASSWORD: test
+  MYSQL_ROOT_PASSWORD: root
+  MYSQL_USER: test
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: user-db-master-mysql-cluster-user-db-env
+  name: mysql-cluster-user-db-env

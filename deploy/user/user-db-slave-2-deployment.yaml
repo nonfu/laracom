@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose -f kompose.yaml convert --volumes hostPath
+    kompose.service.type: nodeport
+    kompose.version: 1.21.0 ()
+  creationTimestamp: null
+  labels:
+    io.kompose.service: user-db-slave-2
+  name: user-db-slave-2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: user-db-slave-2
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose -f kompose.yaml convert --volumes hostPath
+        kompose.service.type: nodeport
+        kompose.version: 1.21.0 ()
+      creationTimestamp: null
+      labels:
+        io.kompose.service: user-db-slave-2
+    spec:
+      containers:
+      - args:
+        - mysqld
+        - --server_id=3
+        - --binlog_checksum=NONE
+        - --gtid_mode=ON
+        - --enforce_gtid_consistency=ON
+        - --log_bin
+        - --log_slave_updates=ON
+        - --master_info_repository=TABLE
+        - --relay_log_info_repository=TABLE
+        - --transaction_write_set_extraction=XXHASH64
+        - --user=mysql
+        - --skip-host-cache
+        - --skip-name-resolve
+        - --default_authentication_plugin=mysql_native_password
+        env:
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_DATABASE
+              name: mysql-cluster-user-db-env
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_PASSWORD
+              name: mysql-cluster-user-db-env
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_ROOT_PASSWORD
+              name: mysql-cluster-user-db-env
+        - name: MYSQL_USER
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_USER
+              name: mysql-cluster-user-db-env
+        image: mysql/mysql-server:5.7
+        imagePullPolicy: ""
+        name: user-db-slave-2
+        ports:
+        - containerPort: 3306
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: userdb-data-3
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes:
+      - hostPath:
+          path: /Users/sunqiang/Development/go/src/laracom/deploy/user/data/slave2
+        name: userdb-data-3
+status: {}

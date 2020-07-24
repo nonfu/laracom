@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose -f kompose.yaml convert --volumes hostPath
+    kompose.service.type: nodeport
+    kompose.version: 1.21.0 ()
+  creationTimestamp: null
+  labels:
+    io.kompose.service: kingshard
+  name: kingshard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: kingshard
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose -f kompose.yaml convert --volumes hostPath
+        kompose.service.type: nodeport
+        kompose.version: 1.21.0 ()
+      creationTimestamp: null
+      labels:
+        io.kompose.service: kingshard
+    spec:
+      containers:
+      - image: matjazmav/kingshard
+        imagePullPolicy: ""
+        name: kingshard
+        ports:
+        - containerPort: 9696
+        resources: {}
+        volumeMounts:
+        - mountPath: /etc/ks.yaml
+          name: kingshard-hostpath0
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes:
+      - hostPath:
+          path: /Users/sunqiang/Development/go/src/laracom/mysql-cluster/user/ks.yaml
+        name: kingshard-hostpath0
+status: {}

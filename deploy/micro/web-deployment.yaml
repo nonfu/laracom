@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: micro-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: micro-web
+  template:
+    metadata:
+      labels:
+        app: micro-web
+    spec:
+      containers:
+        - name: micro-web
+          image: microhq/micro:kubernetes
+          args:
+            - "web"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8082
+              name: web-port

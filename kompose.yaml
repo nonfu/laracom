@@ -1,0 +1,86 @@
+# docker-compose.yml
+version: '3.3'
+
+volumes:
+  userdb_data_1: {}
+  userdb_data_2: {}
+  userdb_data_3: {}
+
+services:
+  user-service:
+    image: xueyuanjun/laracom-userservice:latest
+    depends_on:
+      - kingshard
+      - nats
+    environment:
+      MICRO_SERVER_ADDRESS: ":8080"
+      MICRO_BROKER: "nats"
+      MICRO_BROKER_ADDRESS: "nats:4222"
+      DB_HOST: "kingshard:9696"
+      DB_NAME: "laracom_user"
+      DB_USER: "kingshard"
+      DB_PASSWORD: "kingshard"
+    labels:
+      kompose.service.type: nodeport
+    command: ./laracom-user-service --server_address=:8080
+
+  user-db-master:
+    env_file:
+      - mysql-cluster/user/db.env
+    image: mysql/mysql-server:5.7
+    volumes:
+      - userdb_data_1:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    command: ["mysqld","--server_id=1","--binlog_checksum=NONE","--gtid_mode=ON","--enforce_gtid_consistency=ON","--log_bin=replicas-mysql-bin","--log_slave_updates=ON","--master_info_repository=TABLE","--relay_log_info_repository=TABLE","--transaction_write_set_extraction=XXHASH64","--user=mysql","--skip-host-cache","--skip-name-resolve", "--default_authentication_plugin=mysql_native_password"]
+    depends_on:
+      - user-db-slave-1
+      - user-db-slave-2
+    labels:
+      kompose.service.type: nodeport
+
+  user-db-slave-1:
+    env_file:
+      - mysql-cluster/user/db.env
+    image: mysql/mysql-server:5.7
+    volumes:
+      - userdb_data_2:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    command: ["mysqld","--server_id=2","--binlog_checksum=NONE","--gtid_mode=ON","--enforce_gtid_consistency=ON","--log_bin","--log_slave_updates=ON","--master_info_repository=TABLE","--relay_log_info_repository=TABLE","--transaction_write_set_extraction=XXHASH64","--user=mysql","--skip-host-cache","--skip-name-resolve", "--default_authentication_plugin=mysql_native_password"]
+    labels:
+      kompose.service.type: nodeport
+
+  user-db-slave-2:
+    env_file:
+      - mysql-cluster/user/db.env
+    image: mysql/mysql-server:5.7
+    volumes:
+      - userdb_data_3:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    command: ["mysqld","--server_id=3","--binlog_checksum=NONE","--gtid_mode=ON","--enforce_gtid_consistency=ON","--log_bin","--log_slave_updates=ON","--master_info_repository=TABLE","--relay_log_info_repository=TABLE","--transaction_write_set_extraction=XXHASH64","--user=mysql","--skip-host-cache","--skip-name-resolve", "--default_authentication_plugin=mysql_native_password"]
+    labels:
+      kompose.service.type: nodeport
+
+  kingshard:
+    image: matjazmav/kingshard
+    volumes:
+      - ./mysql-cluster/user/ks.yaml:/etc/ks.yaml
+    ports:
+      - "9696:9696"
+    depends_on:
+      - user-db-master
+    restart: always
+    labels:
+      kompose.service.type: nodeport
+
+  nats:
+    image: nats:latest
+    ports:
+      - 4222:4222
+      - 8222:8222
+      - 6222:6222
+    labels:
+      kompose.service.type: nodeport
+
